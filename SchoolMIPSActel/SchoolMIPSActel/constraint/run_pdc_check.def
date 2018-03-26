@@ -1,0 +1,7 @@
+DESIGN=SchoolMIPS
+DESDIR=C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\designer\SchoolMIPS
+TARGET_DIR=C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\designer\SchoolMIPS
+FAM=SmartFusion2
+DIE=PA4M1000_N
+PACKAGE=tq144
+PDC_FILE=C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\constraint\io\user.pdc,,

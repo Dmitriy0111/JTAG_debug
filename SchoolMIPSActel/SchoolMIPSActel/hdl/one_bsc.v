@@ -1,0 +1,29 @@
+module one_bsc(
+	input 	p_data_in,
+	output 	p_data_out,
+	input 	s_data_in,
+	output 	s_data_out,
+	input 	mode,
+	input 	shift_dr,
+	input 	clk_dr,
+	input 	update_dr
+);
+	wire shift_dr_mux;
+	assign shift_dr_mux=shift_dr?s_data_in:p_data_in;	//	MUX witch enable DR
+	reg CAP;
+	reg UPD;
+	assign s_data_out=CAP;
+	assign p_data_out=mode?UPD:p_data_in;
+	
+	always @(posedge clk_dr)
+	begin
+		CAP<=shift_dr_mux;
+	end
+	
+	always @(posedge update_dr)
+	begin
+		UPD<=CAP;
+	end
+	
+endmodule
+	

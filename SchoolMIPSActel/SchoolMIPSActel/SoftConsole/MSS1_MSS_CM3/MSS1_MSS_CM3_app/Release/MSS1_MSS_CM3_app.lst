@@ -1,0 +1,4578 @@
+
+MSS1_MSS_CM3_app:     file format elf32-littlearm
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .vector_table 00000190  00000000  00000000  00008000  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .boot_code    00000330  00000190  00000190  00008190  2**4
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .text         00001590  000004c0  000004c0  000084c0  2**4
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  3 .data         00000030  20000000  00001a50  00010000  2**4
+                  CONTENTS, ALLOC, LOAD, DATA
+  4 .bss          000000b0  20000030  00001a80  00010030  2**4
+                  ALLOC
+  5 .heap         0000ef20  200000e0  00001a80  000100e0  2**4
+                  ALLOC
+  6 .stack        00001000  2000f000  00001a80  00017000  2**4
+                  ALLOC
+  7 .comment      000000d7  00000000  00000000  00010030  2**0
+                  CONTENTS, READONLY
+  8 .debug_aranges 000002b8  00000000  00000000  00010107  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_pubnames 00000776  00000000  00000000  000103bf  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_info   00004e6e  00000000  00000000  00010b35  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_abbrev 000009ab  00000000  00000000  000159a3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_line   000013e6  00000000  00000000  0001634e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 13 .debug_frame  000006e4  00000000  00000000  00017734  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 14 .debug_str    000020ee  00000000  00000000  00017e18  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 15 .debug_loc    00001150  00000000  00000000  00019f06  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 16 .ARM.attributes 00000025  00000000  00000000  0001b056  2**0
+                  CONTENTS, READONLY
+ 17 .debug_ranges 00000e18  00000000  00000000  0001b07b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .vector_table:
+
+00000000 <__vector_table_start>:
+ * Close a file.
+ */
+int _close(int file)
+{
+    return -1;
+}
+   0:	20010000 	.word	0x20010000
+    uint8_t line_config,
+    mss_uart_rzi_polarity_t rxpol,
+    mss_uart_rzi_polarity_t txpol,
+    mss_uart_rzi_pulsewidth_t pw
+)
+{
+   4:	00000191 	.word	0x00000191
+
+    /* Perform generic initialization */
+    global_init(this_uart, baud_rate, line_config);
+
+     /* Enable LIN mode */
+    set_bit_reg8(&this_uart->hw_reg->MM0, ELIN);
+   8:	0000037f 	.word	0x0000037f
+)
+{
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+    ASSERT(MSS_UART_INVALID_IRQ > irq_mask);
+
+    if(((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1)) && 
+   c:	00000381 	.word	0x00000381
+(
+    mss_uart_instance_t * this_uart,
+    const uint8_t * pbuff,
+    uint32_t tx_size
+)
+{
+  10:	00000383 	.word	0x00000383
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+    ASSERT(pbuff != ((uint8_t *)0));
+    ASSERT(tx_size > 0u);
+
+    if((tx_size > 0u) && ( pbuff != ((uint8_t *)0)) &&
+  14:	00000385 	.word	0x00000385
+    {
+        /* Read the Line Status Register and update the sticky record. */
+        status = this_uart->hw_reg->LSR;
+        this_uart->status |= status;
+
+        if((TX_COMPLETE == this_uart->tx_buff_size) &&
+  18:	00000387 	.word	0x00000387
+	...
+  2c:	00000389 	.word	0x00000389
+         * bit 5 - NACK / ERR signal interrupt
+         * bit 6 - PID parity error interrupt 
+         * bit 7 - LIN break detection interrupt
+         * bit 8 - LIN Sync detection interrupt
+         */
+        this_uart->hw_reg->IEM |= (uint8_t)(~(((uint32_t)irq_mask & ~((uint32_t)IIRF_MASK)) >> 8u));
+  30:	0000038b 	.word	0x0000038b
+        this_uart->tx_buffer = pbuff;
+        this_uart->tx_buff_size = tx_size;
+        this_uart->tx_idx = (uint16_t)0;
+
+        /* Clear any previously pended interrupts */
+        NVIC_ClearPendingIRQ(this_uart->irqn);
+  34:	00000000 	.word	0x00000000
+
+    \param [in]      IRQn  External interrupt number. Value cannot be negative.
+ */
+__STATIC_INLINE void NVIC_ClearPendingIRQ(IRQn_Type IRQn)
+{
+  NVIC->ICPR[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F)); /* Clear pending interrupt */
+  38:	0000038d 	.word	0x0000038d
+         * bit 8 - LIN Sync detection interrupt
+         */
+        this_uart->hw_reg->IEM |= (uint8_t)(~(((uint32_t)irq_mask & ~((uint32_t)IIRF_MASK)) >> 8u));
+
+        /* Clear any previously pended interrupts */
+        NVIC_ClearPendingIRQ(this_uart->irqn);
+  3c:	0000038f 	.word	0x0000038f
+  40:	00000391 	.word	0x00000391
+          * has been transferred to the UART.
+          */
+        do {
+            /* Read the Line Status Register and update the sticky record */
+            status = this_uart->hw_reg->LSR;
+            this_uart->status |= status;
+  44:	00000393 	.word	0x00000393
+
+            /* Check if TX FIFO is empty. */
+            if(status & MSS_UART_THRE)
+  48:	00000395 	.word	0x00000395
+          * has been transferred to the UART.
+          */
+        do {
+            /* Read the Line Status Register and update the sticky record */
+            status = this_uart->hw_reg->LSR;
+            this_uart->status |= status;
+  4c:	00000397 	.word	0x00000397
+
+            /* Check if TX FIFO is empty. */
+            if(status & MSS_UART_THRE)
+  50:	00000399 	.word	0x00000399
+  54:	0000039b 	.word	0x0000039b
+
+                /* Fill the TX FIFO with the calculated the number of bytes. */
+                for(size_sent = 0u; size_sent < fill_size; ++size_sent)
+                {
+                    /* Send next character in the buffer. */
+                    this_uart->hw_reg->THR = pbuff[char_idx];
+  58:	0000039d 	.word	0x0000039d
+                {
+                    fill_size = tx_size;
+                }
+
+                /* Fill the TX FIFO with the calculated the number of bytes. */
+                for(size_sent = 0u; size_sent < fill_size; ++size_sent)
+  5c:	0000039f 	.word	0x0000039f
+  60:	000003a1 	.word	0x000003a1
+
+        /* Clear any previously pended interrupts */
+        NVIC_ClearPendingIRQ(this_uart->irqn);
+
+        /* assign default handler for data transfer */
+        this_uart->tx_handler = default_tx_handler;
+  64:	000003a3 	.word	0x000003a3
+                /* Fill the TX FIFO with the calculated the number of bytes. */
+                for(size_sent = 0u; size_sent < fill_size; ++size_sent)
+                {
+                    /* Send next character in the buffer. */
+                    this_uart->hw_reg->THR = pbuff[char_idx];
+                    char_idx++;
+  68:	000011f9 	.word	0x000011f9
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+  6c:	000011d9 	.word	0x000011d9
+
+    \param [in]      IRQn  External interrupt number. Value cannot be negative.
+ */
+__STATIC_INLINE void NVIC_EnableIRQ(IRQn_Type IRQn)
+{
+  NVIC->ISER[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F)); /* enable interrupt */
+  70:	000003a9 	.word	0x000003a9
+
+                /* Fill the TX FIFO with the calculated the number of bytes. */
+                for(size_sent = 0u; size_sent < fill_size; ++size_sent)
+                {
+                    /* Send next character in the buffer. */
+                    this_uart->hw_reg->THR = pbuff[char_idx];
+  74:	000003ab 	.word	0x000003ab
+
+    \param [in]      IRQn  External interrupt number. Value cannot be negative.
+ */
+__STATIC_INLINE void NVIC_ClearPendingIRQ(IRQn_Type IRQn)
+{
+  NVIC->ICPR[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F)); /* Clear pending interrupt */
+  78:	000003ad 	.word	0x000003ad
+                    char_idx++;
+  7c:	000003af 	.word	0x000003af
+                {
+                    fill_size = tx_size;
+                }
+
+                /* Fill the TX FIFO with the calculated the number of bytes. */
+                for(size_sent = 0u; size_sent < fill_size; ++size_sent)
+  80:	000003b1 	.word	0x000003b1
+  84:	000003b3 	.word	0x000003b3
+  88:	000003b5 	.word	0x000003b5
+
+    \param [in]      IRQn  External interrupt number. Value cannot be negative.
+ */
+__STATIC_INLINE void NVIC_EnableIRQ(IRQn_Type IRQn)
+{
+  NVIC->ISER[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F)); /* enable interrupt */
+  8c:	000003b7 	.word	0x000003b7
+                {
+                    /* Send next character in the buffer. */
+                    this_uart->hw_reg->THR = pbuff[char_idx];
+                    char_idx++;
+  90:	000003b9 	.word	0x000003b9
+                {
+                    fill_size = tx_size;
+                }
+
+                /* Fill the TX FIFO with the calculated the number of bytes. */
+                for(size_sent = 0u; size_sent < fill_size; ++size_sent)
+  94:	000003bb 	.word	0x000003bb
+                    this_uart->hw_reg->THR = pbuff[char_idx];
+                    char_idx++;
+                }
+
+                /* Calculate the number of untransmitted bytes remaining. */
+                tx_size -= size_sent;
+  98:	000003bd 	.word	0x000003bd
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+  9c:	000003bf 	.word	0x000003bf
+                {
+                    fill_size = tx_size;
+                }
+
+                /* Fill the TX FIFO with the calculated the number of bytes. */
+                for(size_sent = 0u; size_sent < fill_size; ++size_sent)
+  a0:	000003c1 	.word	0x000003c1
+  a4:	000003c3 	.word	0x000003c3
+                    this_uart->hw_reg->THR = pbuff[char_idx];
+                    char_idx++;
+                }
+
+                /* Calculate the number of untransmitted bytes remaining. */
+                tx_size -= size_sent;
+  a8:	000003c5 	.word	0x000003c5
+  ac:	000003c7 	.word	0x000003c7
+  b0:	000003c9 	.word	0x000003c9
+                                      
+    ((pw == MSS_UART_3_BY_16) ? clear_bit_reg8(&this_uart->hw_reg->MM1,EITP) : 
+                                      set_bit_reg8(&this_uart->hw_reg->MM1,EITP));
+    /* Disable SmartCard Mode */
+    clear_bit_reg8(&this_uart->hw_reg->MM2, EERR);
+}
+  b4:	000003cb 	.word	0x000003cb
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+  b8:	000003cd 	.word	0x000003cd
+  bc:	000003cf 	.word	0x000003cf
+  c0:	000003d1 	.word	0x000003d1
+  c4:	000003d3 	.word	0x000003d3
+  c8:	000003d5 	.word	0x000003d5
+  cc:	000003d7 	.word	0x000003d7
+                                      set_bit_reg8(&this_uart->hw_reg->MM1,EIRX));
+                                      
+    ((txpol == MSS_UART_ACTIVE_LOW) ? clear_bit_reg8(&this_uart->hw_reg->MM1,EITX) : 
+                                      set_bit_reg8(&this_uart->hw_reg->MM1,EITX));
+                                      
+    ((pw == MSS_UART_3_BY_16) ? clear_bit_reg8(&this_uart->hw_reg->MM1,EITP) : 
+  d0:	000003d9 	.word	0x000003d9
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+  d4:	000003db 	.word	0x000003db
+  d8:	000003dd 	.word	0x000003dd
+  dc:	000003df 	.word	0x000003df
+  e0:	000003e1 	.word	0x000003e1
+  e4:	000003e3 	.word	0x000003e3
+  e8:	000003e5 	.word	0x000003e5
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+  ec:	000003e7 	.word	0x000003e7
+  f0:	000003e9 	.word	0x000003e9
+  f4:	000003eb 	.word	0x000003eb
+  f8:	000003ed 	.word	0x000003ed
+  fc:	000003ef 	.word	0x000003ef
+ 100:	000003f1 	.word	0x000003f1
+ 104:	000003f3 	.word	0x000003f3
+ 108:	000003f5 	.word	0x000003f5
+ 10c:	000003f7 	.word	0x000003f7
+ 110:	000003f9 	.word	0x000003f9
+ 114:	000003fb 	.word	0x000003fb
+ 118:	000003fd 	.word	0x000003fd
+ 11c:	000003ff 	.word	0x000003ff
+ 120:	00000401 	.word	0x00000401
+ 124:	00000403 	.word	0x00000403
+ 128:	00000405 	.word	0x00000405
+ 12c:	00000407 	.word	0x00000407
+ 130:	000004f1 	.word	0x000004f1
+ 134:	0000040b 	.word	0x0000040b
+ 138:	0000040d 	.word	0x0000040d
+ 13c:	0000040f 	.word	0x0000040f
+ 140:	00000411 	.word	0x00000411
+ 144:	00000413 	.word	0x00000413
+ 148:	00000415 	.word	0x00000415
+ 14c:	00000417 	.word	0x00000417
+ 150:	00000419 	.word	0x00000419
+ 154:	0000041b 	.word	0x0000041b
+ 158:	0000041d 	.word	0x0000041d
+ 15c:	0000041f 	.word	0x0000041f
+ 160:	00000421 	.word	0x00000421
+ 164:	00000423 	.word	0x00000423
+ 168:	00000425 	.word	0x00000425
+ 16c:	00000427 	.word	0x00000427
+ 170:	00000429 	.word	0x00000429
+ 174:	0000042b 	.word	0x0000042b
+ 178:	0000042d 	.word	0x0000042d
+ 17c:	0000042f 	.word	0x0000042f
+ 180:	00000431 	.word	0x00000431
+ 184:	00000433 	.word	0x00000433
+	...
+
+Disassembly of section .boot_code:
+
+00000190 <Reset_Handler>:
+ 190:	f04f 0b00 	mov.w	fp, #0
+ 194:	f8df 02be 	ldr.w	r0, [pc, #702]	; 456 <SF2_MDDR_MODE_CR>
+ 198:	6800      	ldr	r0, [r0, #0]
+ 19a:	f8df 12b6 	ldr.w	r1, [pc, #694]	; 452 <SF2_EDAC_CR>
+ 19e:	6809      	ldr	r1, [r1, #0]
+ 1a0:	f001 0103 	and.w	r1, r1, #3
+ 1a4:	f000 001c 	and.w	r0, r0, #28
+ 1a8:	2814      	cmp	r0, #20
+ 1aa:	d101      	bne.n	1b0 <check_esram_edac>
+ 1ac:	f04b 0b02 	orr.w	fp, fp, #2
+
+000001b0 <check_esram_edac>:
+ 1b0:	2900      	cmp	r1, #0
+ 1b2:	d001      	beq.n	1b8 <check_stack_init>
+ 1b4:	f04b 0b01 	orr.w	fp, fp, #1
+
+000001b8 <check_stack_init>:
+ 1b8:	f1bb 0f00 	cmp.w	fp, #0
+ 1bc:	d005      	beq.n	1ca <system_init>
+
+000001be <clear_stack>:
+ 1be:	48a7      	ldr	r0, [pc, #668]	; (45c <SF2_MDDR_MODE_CR+0x6>)
+ 1c0:	49a7      	ldr	r1, [pc, #668]	; (460 <SF2_MDDR_MODE_CR+0xa>)
+ 1c2:	f8df 2272 	ldr.w	r2, [pc, #626]	; 436 <RAM_INIT_PATTERN>
+ 1c6:	f000 f89f 	bl	308 <fill_memory>
+
+000001ca <system_init>:
+ 1ca:	48a6      	ldr	r0, [pc, #664]	; (464 <SF2_MDDR_MODE_CR+0xe>)
+ 1cc:	4780      	blx	r0
+ 1ce:	f00b 0a02 	and.w	sl, fp, #2
+ 1d2:	f1ba 0f00 	cmp.w	sl, #0
+ 1d6:	d00c      	beq.n	1f2 <remap_memory>
+ 1d8:	f8df 026e 	ldr.w	r0, [pc, #622]	; 44a <SF2_DDRB_NB_SIZE>
+ 1dc:	f8df 126e 	ldr.w	r1, [pc, #622]	; 44e <SF2_DDRB_CR>
+ 1e0:	6802      	ldr	r2, [r0, #0]
+ 1e2:	680b      	ldr	r3, [r1, #0]
+ 1e4:	b40f      	push	{r0, r1, r2, r3}
+ 1e6:	f04f 0200 	mov.w	r2, #0
+ 1ea:	f04f 03ff 	mov.w	r3, #255	; 0xff
+ 1ee:	6002      	str	r2, [r0, #0]
+ 1f0:	600b      	str	r3, [r1, #0]
+
+000001f2 <remap_memory>:
+ 1f2:	489d      	ldr	r0, [pc, #628]	; (468 <SF2_MDDR_MODE_CR+0x12>)
+ 1f4:	4a9d      	ldr	r2, [pc, #628]	; (46c <SF2_MDDR_MODE_CR+0x16>)
+ 1f6:	4b9e      	ldr	r3, [pc, #632]	; (470 <SF2_MDDR_MODE_CR+0x1a>)
+ 1f8:	2802      	cmp	r0, #2
+ 1fa:	d108      	bne.n	20e <check_esram_remap>
+ 1fc:	f8df 123e 	ldr.w	r1, [pc, #574]	; 43e <SF2_ESRAM_CR>
+ 200:	600a      	str	r2, [r1, #0]
+ 202:	f8df 1242 	ldr.w	r1, [pc, #578]	; 446 <SF2_ENVM_REMAP_CR>
+ 206:	600a      	str	r2, [r1, #0]
+ 208:	f8df 1236 	ldr.w	r1, [pc, #566]	; 442 <SF2_DDR_CR>
+ 20c:	600b      	str	r3, [r1, #0]
+
+0000020e <check_esram_remap>:
+ 20e:	2801      	cmp	r0, #1
+ 210:	d108      	bne.n	224 <check_mirrored_nvm>
+ 212:	f8df 122e 	ldr.w	r1, [pc, #558]	; 442 <SF2_DDR_CR>
+ 216:	600a      	str	r2, [r1, #0]
+ 218:	f8df 122a 	ldr.w	r1, [pc, #554]	; 446 <SF2_ENVM_REMAP_CR>
+ 21c:	600a      	str	r2, [r1, #0]
+ 21e:	f8df 121e 	ldr.w	r1, [pc, #542]	; 43e <SF2_ESRAM_CR>
+ 222:	600b      	str	r3, [r1, #0]
+
+00000224 <check_mirrored_nvm>:
+ 224:	4893      	ldr	r0, [pc, #588]	; (474 <SF2_MDDR_MODE_CR+0x1e>)
+ 226:	2800      	cmp	r0, #0
+ 228:	d109      	bne.n	23e <copy_data>
+ 22a:	4893      	ldr	r0, [pc, #588]	; (478 <SF2_MDDR_MODE_CR+0x22>)
+ 22c:	4993      	ldr	r1, [pc, #588]	; (47c <SF2_MDDR_MODE_CR+0x26>)
+ 22e:	4a94      	ldr	r2, [pc, #592]	; (480 <SF2_MDDR_MODE_CR+0x2a>)
+ 230:	f000 f832 	bl	298 <block_copy>
+
+00000234 <copy_text>:
+ 234:	4893      	ldr	r0, [pc, #588]	; (484 <SF2_MDDR_MODE_CR+0x2e>)
+ 236:	4994      	ldr	r1, [pc, #592]	; (488 <SF2_MDDR_MODE_CR+0x32>)
+ 238:	4a94      	ldr	r2, [pc, #592]	; (48c <SF2_MDDR_MODE_CR+0x36>)
+ 23a:	f000 f82d 	bl	298 <block_copy>
+
+0000023e <copy_data>:
+ 23e:	4894      	ldr	r0, [pc, #592]	; (490 <SF2_MDDR_MODE_CR+0x3a>)
+ 240:	4994      	ldr	r1, [pc, #592]	; (494 <SF2_MDDR_MODE_CR+0x3e>)
+ 242:	4a95      	ldr	r2, [pc, #596]	; (498 <SF2_MDDR_MODE_CR+0x42>)
+ 244:	f000 f828 	bl	298 <block_copy>
+
+00000248 <clear_bss>:
+ 248:	4894      	ldr	r0, [pc, #592]	; (49c <SF2_MDDR_MODE_CR+0x46>)
+ 24a:	4995      	ldr	r1, [pc, #596]	; (4a0 <SF2_MDDR_MODE_CR+0x4a>)
+ 24c:	f8df 21e6 	ldr.w	r2, [pc, #486]	; 436 <RAM_INIT_PATTERN>
+ 250:	f000 f85a 	bl	308 <fill_memory>
+
+00000254 <clear_heap>:
+ 254:	f1bb 0f00 	cmp.w	fp, #0
+ 258:	d012      	beq.n	280 <call_glob_ctor>
+ 25a:	4892      	ldr	r0, [pc, #584]	; (4a4 <SF2_MDDR_MODE_CR+0x4e>)
+ 25c:	4992      	ldr	r1, [pc, #584]	; (4a8 <SF2_MDDR_MODE_CR+0x52>)
+ 25e:	f8df 21da 	ldr.w	r2, [pc, #474]	; 43a <HEAP_INIT_PATTERN>
+ 262:	f000 f851 	bl	308 <fill_memory>
+ 266:	f00b 0a02 	and.w	sl, fp, #2
+ 26a:	f1ba 0f00 	cmp.w	sl, #0
+ 26e:	d007      	beq.n	280 <call_glob_ctor>
+ 270:	bc0f      	pop	{r0, r1, r2, r3}
+ 272:	6002      	str	r2, [r0, #0]
+ 274:	600b      	str	r3, [r1, #0]
+ 276:	bf00      	nop
+ 278:	f3af 8000 	nop.w
+ 27c:	f3af 8000 	nop.w
+
+00000280 <call_glob_ctor>:
+ 280:	f8df 0228 	ldr.w	r0, [pc, #552]	; 4ac <SF2_MDDR_MODE_CR+0x56>
+ 284:	f20f 0e03 	addw	lr, pc, #3
+ 288:	4700      	bx	r0
+
+0000028a <branch_to_main>:
+ 28a:	f04f 0000 	mov.w	r0, #0
+ 28e:	f04f 0100 	mov.w	r1, #0
+ 292:	f8df f21c 	ldr.w	pc, [pc, #540]	; 4b0 <SF2_MDDR_MODE_CR+0x5a>
+
+00000296 <ExitLoop>:
+ 296:	e7fe      	b.n	296 <ExitLoop>
+
+00000298 <block_copy>:
+ 298:	e92d 41f8 	stmdb	sp!, {r3, r4, r5, r6, r7, r8, lr}
+ 29c:	4288      	cmp	r0, r1
+ 29e:	d025      	beq.n	2ec <block_copy_exit>
+ 2a0:	ebb2 0201 	subs.w	r2, r2, r1
+ 2a4:	d500      	bpl.n	2a8 <block_copy_address_ok>
+ 2a6:	e7fe      	b.n	2a6 <block_copy+0xe>
+
+000002a8 <block_copy_address_ok>:
+ 2a8:	ea40 0301 	orr.w	r3, r0, r1
+ 2ac:	f013 0303 	ands.w	r3, r3, #3
+ 2b0:	d002      	beq.n	2b8 <block_copy_continue>
+
+000002b2 <block_copy_byte_copy>:
+ 2b2:	f000 f81d 	bl	2f0 <block_copy_byte>
+ 2b6:	e019      	b.n	2ec <block_copy_exit>
+
+000002b8 <block_copy_continue>:
+ 2b8:	f04f 0300 	mov.w	r3, #0
+ 2bc:	4690      	mov	r8, r2
+ 2be:	1112      	asrs	r2, r2, #4
+ 2c0:	d0f7      	beq.n	2b2 <block_copy_byte_copy>
+
+000002c2 <block_copy_loop>:
+ 2c2:	429a      	cmp	r2, r3
+ 2c4:	bf1c      	itt	ne
+ 2c6:	c8f0      	ldmiane	r0!, {r4, r5, r6, r7}
+ 2c8:	c1f0      	stmiane	r1!, {r4, r5, r6, r7}
+ 2ca:	f103 0301 	add.w	r3, r3, #1
+ 2ce:	d1f8      	bne.n	2c2 <block_copy_loop>
+ 2d0:	f008 080f 	and.w	r8, r8, #15
+ 2d4:	f1b8 0f00 	cmp.w	r8, #0
+ 2d8:	d008      	beq.n	2ec <block_copy_exit>
+
+000002da <copy_spare_bytes>:
+ 2da:	7804      	ldrb	r4, [r0, #0]
+ 2dc:	700c      	strb	r4, [r1, #0]
+ 2de:	f100 0001 	add.w	r0, r0, #1
+ 2e2:	f101 0101 	add.w	r1, r1, #1
+ 2e6:	f1b8 0801 	subs.w	r8, r8, #1
+ 2ea:	d1f6      	bne.n	2da <copy_spare_bytes>
+
+000002ec <block_copy_exit>:
+ 2ec:	e8bd 81f8 	ldmia.w	sp!, {r3, r4, r5, r6, r7, r8, pc}
+
+000002f0 <block_copy_byte>:
+ 2f0:	b508      	push	{r3, lr}
+ 2f2:	f04f 0300 	mov.w	r3, #0
+
+000002f6 <block_copy_byte_loop>:
+ 2f6:	7803      	ldrb	r3, [r0, #0]
+ 2f8:	700b      	strb	r3, [r1, #0]
+ 2fa:	f100 0001 	add.w	r0, r0, #1
+ 2fe:	f101 0101 	add.w	r1, r1, #1
+ 302:	3a01      	subs	r2, #1
+ 304:	d1f7      	bne.n	2f6 <block_copy_byte_loop>
+ 306:	bd08      	pop	{r3, pc}
+
+00000308 <fill_memory>:
+ 308:	4288      	cmp	r0, r1
+ 30a:	d037      	beq.n	37c <fill_memory_exit>
+ 30c:	f000 0603 	and.w	r6, r0, #3
+ 310:	2e00      	cmp	r6, #0
+ 312:	d014      	beq.n	33e <fill_memory_end_start>
+ 314:	f04f 0504 	mov.w	r5, #4
+ 318:	eba5 0406 	sub.w	r4, r5, r6
+ 31c:	f04f 0708 	mov.w	r7, #8
+ 320:	fb07 f806 	mul.w	r8, r7, r6
+ 324:	4691      	mov	r9, r2
+ 326:	fa69 f908 	ror.w	r9, r9, r8
+
+0000032a <fill_memory_spare_bytes_start>:
+ 32a:	2c00      	cmp	r4, #0
+ 32c:	d007      	beq.n	33e <fill_memory_end_start>
+ 32e:	f880 9000 	strb.w	r9, [r0]
+ 332:	fa69 f907 	ror.w	r9, r9, r7
+ 336:	f100 0001 	add.w	r0, r0, #1
+ 33a:	3c01      	subs	r4, #1
+ 33c:	e7f5      	b.n	32a <fill_memory_spare_bytes_start>
+
+0000033e <fill_memory_end_start>:
+ 33e:	f04f 0600 	mov.w	r6, #0
+ 342:	460f      	mov	r7, r1
+ 344:	1a09      	subs	r1, r1, r0
+ 346:	4688      	mov	r8, r1
+ 348:	1109      	asrs	r1, r1, #4
+ 34a:	4691      	mov	r9, r2
+ 34c:	4614      	mov	r4, r2
+ 34e:	4615      	mov	r5, r2
+ 350:	42b1      	cmp	r1, r6
+ 352:	d006      	beq.n	362 <fill_memory_spare_bytes_end>
+
+00000354 <fill_memory_loop>:
+ 354:	bf18      	it	ne
+ 356:	e8a0 0234 	stmiane.w	r0!, {r2, r4, r5, r9}
+ 35a:	f106 0601 	add.w	r6, r6, #1
+ 35e:	42b1      	cmp	r1, r6
+ 360:	d1f8      	bne.n	354 <fill_memory_loop>
+
+00000362 <fill_memory_spare_bytes_end>:
+ 362:	f008 080f 	and.w	r8, r8, #15
+
+00000366 <fill_memory_spare_end_loop>:
+ 366:	f1b8 0f00 	cmp.w	r8, #0
+ 36a:	d007      	beq.n	37c <fill_memory_exit>
+ 36c:	7002      	strb	r2, [r0, #0]
+ 36e:	ea4f 2232 	mov.w	r2, r2, ror #8
+ 372:	f100 0001 	add.w	r0, r0, #1
+ 376:	f1b8 0801 	subs.w	r8, r8, #1
+ 37a:	e7f4      	b.n	366 <fill_memory_spare_end_loop>
+
+0000037c <fill_memory_exit>:
+ 37c:	4770      	bx	lr
+
+0000037e <NMI_Handler>:
+ 37e:	e7fe      	b.n	37e <NMI_Handler>
+
+00000380 <HardFault_Handler>:
+ 380:	e7fe      	b.n	380 <HardFault_Handler>
+
+00000382 <MemManage_Handler>:
+ 382:	e7fe      	b.n	382 <MemManage_Handler>
+
+00000384 <BusFault_Handler>:
+ 384:	e7fe      	b.n	384 <BusFault_Handler>
+
+00000386 <UsageFault_Handler>:
+ 386:	e7fe      	b.n	386 <UsageFault_Handler>
+
+00000388 <SVC_Handler>:
+ 388:	e7fe      	b.n	388 <SVC_Handler>
+
+0000038a <DebugMon_Handler>:
+ 38a:	e7fe      	b.n	38a <DebugMon_Handler>
+
+0000038c <PendSV_Handler>:
+ 38c:	e7fe      	b.n	38c <PendSV_Handler>
+
+0000038e <SysTick_Handler>:
+ 38e:	e7fe      	b.n	38e <SysTick_Handler>
+
+00000390 <WdogWakeup_IRQHandler>:
+ 390:	e7fe      	b.n	390 <WdogWakeup_IRQHandler>
+
+00000392 <RTC_Wakeup_IRQHandler>:
+ 392:	e7fe      	b.n	392 <RTC_Wakeup_IRQHandler>
+
+00000394 <SPI0_IRQHandler>:
+ 394:	e7fe      	b.n	394 <SPI0_IRQHandler>
+
+00000396 <SPI1_IRQHandler>:
+ 396:	e7fe      	b.n	396 <SPI1_IRQHandler>
+
+00000398 <I2C0_IRQHandler>:
+ 398:	e7fe      	b.n	398 <I2C0_IRQHandler>
+
+0000039a <I2C0_SMBAlert_IRQHandler>:
+ 39a:	e7fe      	b.n	39a <I2C0_SMBAlert_IRQHandler>
+
+0000039c <I2C0_SMBus_IRQHandler>:
+ 39c:	e7fe      	b.n	39c <I2C0_SMBus_IRQHandler>
+
+0000039e <I2C1_IRQHandler>:
+ 39e:	e7fe      	b.n	39e <I2C1_IRQHandler>
+
+000003a0 <I2C1_SMBAlert_IRQHandler>:
+ 3a0:	e7fe      	b.n	3a0 <I2C1_SMBAlert_IRQHandler>
+
+000003a2 <I2C1_SMBus_IRQHandler>:
+ 3a2:	e7fe      	b.n	3a2 <I2C1_SMBus_IRQHandler>
+ 3a4:	e7fe      	b.n	3a4 <I2C1_SMBus_IRQHandler+0x2>
+ 3a6:	e7fe      	b.n	3a6 <I2C1_SMBus_IRQHandler+0x4>
+
+000003a8 <EthernetMAC_IRQHandler>:
+ 3a8:	e7fe      	b.n	3a8 <EthernetMAC_IRQHandler>
+
+000003aa <DMA_IRQHandler>:
+ 3aa:	e7fe      	b.n	3aa <DMA_IRQHandler>
+
+000003ac <Timer1_IRQHandler>:
+ 3ac:	e7fe      	b.n	3ac <Timer1_IRQHandler>
+
+000003ae <Timer2_IRQHandler>:
+ 3ae:	e7fe      	b.n	3ae <Timer2_IRQHandler>
+
+000003b0 <CAN_IRQHandler>:
+ 3b0:	e7fe      	b.n	3b0 <CAN_IRQHandler>
+
+000003b2 <ENVM0_IRQHandler>:
+ 3b2:	e7fe      	b.n	3b2 <ENVM0_IRQHandler>
+
+000003b4 <ENVM1_IRQHandler>:
+ 3b4:	e7fe      	b.n	3b4 <ENVM1_IRQHandler>
+
+000003b6 <ComBlk_IRQHandler>:
+ 3b6:	e7fe      	b.n	3b6 <ComBlk_IRQHandler>
+
+000003b8 <USB_IRQHandler>:
+ 3b8:	e7fe      	b.n	3b8 <USB_IRQHandler>
+
+000003ba <USB_DMA_IRQHandler>:
+ 3ba:	e7fe      	b.n	3ba <USB_DMA_IRQHandler>
+
+000003bc <PLL_Lock_IRQHandler>:
+ 3bc:	e7fe      	b.n	3bc <PLL_Lock_IRQHandler>
+
+000003be <PLL_LockLost_IRQHandler>:
+ 3be:	e7fe      	b.n	3be <PLL_LockLost_IRQHandler>
+
+000003c0 <CommSwitchError_IRQHandler>:
+ 3c0:	e7fe      	b.n	3c0 <CommSwitchError_IRQHandler>
+
+000003c2 <CacheError_IRQHandler>:
+ 3c2:	e7fe      	b.n	3c2 <CacheError_IRQHandler>
+
+000003c4 <DDR_IRQHandler>:
+ 3c4:	e7fe      	b.n	3c4 <DDR_IRQHandler>
+
+000003c6 <HPDMA_Complete_IRQHandler>:
+ 3c6:	e7fe      	b.n	3c6 <HPDMA_Complete_IRQHandler>
+
+000003c8 <HPDMA_Error_IRQHandler>:
+ 3c8:	e7fe      	b.n	3c8 <HPDMA_Error_IRQHandler>
+
+000003ca <ECC_Error_IRQHandler>:
+ 3ca:	e7fe      	b.n	3ca <ECC_Error_IRQHandler>
+
+000003cc <MDDR_IOCalib_IRQHandler>:
+ 3cc:	e7fe      	b.n	3cc <MDDR_IOCalib_IRQHandler>
+
+000003ce <FAB_PLL_Lock_IRQHandler>:
+ 3ce:	e7fe      	b.n	3ce <FAB_PLL_Lock_IRQHandler>
+
+000003d0 <FAB_PLL_LockLost_IRQHandler>:
+ 3d0:	e7fe      	b.n	3d0 <FAB_PLL_LockLost_IRQHandler>
+
+000003d2 <FIC64_IRQHandler>:
+ 3d2:	e7fe      	b.n	3d2 <FIC64_IRQHandler>
+
+000003d4 <FabricIrq0_IRQHandler>:
+ 3d4:	e7fe      	b.n	3d4 <FabricIrq0_IRQHandler>
+
+000003d6 <FabricIrq1_IRQHandler>:
+ 3d6:	e7fe      	b.n	3d6 <FabricIrq1_IRQHandler>
+
+000003d8 <FabricIrq2_IRQHandler>:
+ 3d8:	e7fe      	b.n	3d8 <FabricIrq2_IRQHandler>
+
+000003da <FabricIrq3_IRQHandler>:
+ 3da:	e7fe      	b.n	3da <FabricIrq3_IRQHandler>
+
+000003dc <FabricIrq4_IRQHandler>:
+ 3dc:	e7fe      	b.n	3dc <FabricIrq4_IRQHandler>
+
+000003de <FabricIrq5_IRQHandler>:
+ 3de:	e7fe      	b.n	3de <FabricIrq5_IRQHandler>
+
+000003e0 <FabricIrq6_IRQHandler>:
+ 3e0:	e7fe      	b.n	3e0 <FabricIrq6_IRQHandler>
+
+000003e2 <FabricIrq7_IRQHandler>:
+ 3e2:	e7fe      	b.n	3e2 <FabricIrq7_IRQHandler>
+
+000003e4 <FabricIrq8_IRQHandler>:
+ 3e4:	e7fe      	b.n	3e4 <FabricIrq8_IRQHandler>
+
+000003e6 <FabricIrq9_IRQHandler>:
+ 3e6:	e7fe      	b.n	3e6 <FabricIrq9_IRQHandler>
+
+000003e8 <FabricIrq10_IRQHandler>:
+ 3e8:	e7fe      	b.n	3e8 <FabricIrq10_IRQHandler>
+
+000003ea <FabricIrq11_IRQHandler>:
+ 3ea:	e7fe      	b.n	3ea <FabricIrq11_IRQHandler>
+
+000003ec <FabricIrq12_IRQHandler>:
+ 3ec:	e7fe      	b.n	3ec <FabricIrq12_IRQHandler>
+
+000003ee <FabricIrq13_IRQHandler>:
+ 3ee:	e7fe      	b.n	3ee <FabricIrq13_IRQHandler>
+
+000003f0 <FabricIrq14_IRQHandler>:
+ 3f0:	e7fe      	b.n	3f0 <FabricIrq14_IRQHandler>
+
+000003f2 <FabricIrq15_IRQHandler>:
+ 3f2:	e7fe      	b.n	3f2 <FabricIrq15_IRQHandler>
+
+000003f4 <GPIO0_IRQHandler>:
+ 3f4:	e7fe      	b.n	3f4 <GPIO0_IRQHandler>
+
+000003f6 <GPIO1_IRQHandler>:
+ 3f6:	e7fe      	b.n	3f6 <GPIO1_IRQHandler>
+
+000003f8 <GPIO2_IRQHandler>:
+ 3f8:	e7fe      	b.n	3f8 <GPIO2_IRQHandler>
+
+000003fa <GPIO3_IRQHandler>:
+ 3fa:	e7fe      	b.n	3fa <GPIO3_IRQHandler>
+
+000003fc <GPIO4_IRQHandler>:
+ 3fc:	e7fe      	b.n	3fc <GPIO4_IRQHandler>
+
+000003fe <GPIO5_IRQHandler>:
+ 3fe:	e7fe      	b.n	3fe <GPIO5_IRQHandler>
+
+00000400 <GPIO6_IRQHandler>:
+ 400:	e7fe      	b.n	400 <GPIO6_IRQHandler>
+
+00000402 <GPIO7_IRQHandler>:
+ 402:	e7fe      	b.n	402 <GPIO7_IRQHandler>
+
+00000404 <GPIO8_IRQHandler>:
+ 404:	e7fe      	b.n	404 <GPIO8_IRQHandler>
+
+00000406 <GPIO9_IRQHandler>:
+ 406:	e7fe      	b.n	406 <GPIO9_IRQHandler>
+ 408:	e7fe      	b.n	408 <GPIO9_IRQHandler+0x2>
+
+0000040a <GPIO11_IRQHandler>:
+ 40a:	e7fe      	b.n	40a <GPIO11_IRQHandler>
+
+0000040c <GPIO12_IRQHandler>:
+ 40c:	e7fe      	b.n	40c <GPIO12_IRQHandler>
+
+0000040e <GPIO13_IRQHandler>:
+ 40e:	e7fe      	b.n	40e <GPIO13_IRQHandler>
+
+00000410 <GPIO14_IRQHandler>:
+ 410:	e7fe      	b.n	410 <GPIO14_IRQHandler>
+
+00000412 <GPIO15_IRQHandler>:
+ 412:	e7fe      	b.n	412 <GPIO15_IRQHandler>
+
+00000414 <GPIO16_IRQHandler>:
+ 414:	e7fe      	b.n	414 <GPIO16_IRQHandler>
+
+00000416 <GPIO17_IRQHandler>:
+ 416:	e7fe      	b.n	416 <GPIO17_IRQHandler>
+
+00000418 <GPIO18_IRQHandler>:
+ 418:	e7fe      	b.n	418 <GPIO18_IRQHandler>
+
+0000041a <GPIO19_IRQHandler>:
+ 41a:	e7fe      	b.n	41a <GPIO19_IRQHandler>
+
+0000041c <GPIO20_IRQHandler>:
+ 41c:	e7fe      	b.n	41c <GPIO20_IRQHandler>
+
+0000041e <GPIO21_IRQHandler>:
+ 41e:	e7fe      	b.n	41e <GPIO21_IRQHandler>
+
+00000420 <GPIO22_IRQHandler>:
+ 420:	e7fe      	b.n	420 <GPIO22_IRQHandler>
+
+00000422 <GPIO23_IRQHandler>:
+ 422:	e7fe      	b.n	422 <GPIO23_IRQHandler>
+
+00000424 <GPIO24_IRQHandler>:
+ 424:	e7fe      	b.n	424 <GPIO24_IRQHandler>
+
+00000426 <GPIO25_IRQHandler>:
+ 426:	e7fe      	b.n	426 <GPIO25_IRQHandler>
+
+00000428 <GPIO26_IRQHandler>:
+ 428:	e7fe      	b.n	428 <GPIO26_IRQHandler>
+
+0000042a <GPIO27_IRQHandler>:
+ 42a:	e7fe      	b.n	42a <GPIO27_IRQHandler>
+
+0000042c <GPIO28_IRQHandler>:
+ 42c:	e7fe      	b.n	42c <GPIO28_IRQHandler>
+
+0000042e <GPIO29_IRQHandler>:
+ 42e:	e7fe      	b.n	42e <GPIO29_IRQHandler>
+
+00000430 <GPIO30_IRQHandler>:
+ 430:	e7fe      	b.n	430 <GPIO30_IRQHandler>
+
+00000432 <GPIO31_IRQHandler>:
+ 432:	e7fe      	b.n	432 <GPIO31_IRQHandler>
+
+00000434 <mscc_post_hw_cfg_init>:
+ 434:	4770      	bx	lr
+
+00000436 <RAM_INIT_PATTERN>:
+ 436:	0000      	.short	0x0000
+	...
+
+0000043a <HEAP_INIT_PATTERN>:
+ 43a:	a2a2      	.short	0xa2a2
+ 43c:	a2a2      	.short	0xa2a2
+
+0000043e <SF2_ESRAM_CR>:
+ 43e:	8000      	.short	0x8000
+ 440:	4003      	.short	0x4003
+
+00000442 <SF2_DDR_CR>:
+ 442:	8008      	.short	0x8008
+ 444:	4003      	.short	0x4003
+
+00000446 <SF2_ENVM_REMAP_CR>:
+ 446:	8010      	.short	0x8010
+ 448:	4003      	.short	0x4003
+
+0000044a <SF2_DDRB_NB_SIZE>:
+ 44a:	8030      	.short	0x8030
+ 44c:	4003      	.short	0x4003
+
+0000044e <SF2_DDRB_CR>:
+ 44e:	8034      	.short	0x8034
+ 450:	4003      	.short	0x4003
+
+00000452 <SF2_EDAC_CR>:
+ 452:	8038      	.short	0x8038
+ 454:	4003      	.short	0x4003
+
+00000456 <SF2_MDDR_MODE_CR>:
+ 456:	0818      	.short	0x0818
+ 458:	00004002 	.word	0x00004002
+ 45c:	2000f000 	.word	0x2000f000
+ 460:	20010000 	.word	0x20010000
+ 464:	000018e9 	.word	0x000018e9
+	...
+ 470:	00000001 	.word	0x00000001
+	...
+ 480:	00000190 	.word	0x00000190
+ 484:	000004c0 	.word	0x000004c0
+ 488:	000004c0 	.word	0x000004c0
+ 48c:	00001a50 	.word	0x00001a50
+ 490:	00001a50 	.word	0x00001a50
+ 494:	20000000 	.word	0x20000000
+ 498:	20000030 	.word	0x20000030
+ 49c:	20000030 	.word	0x20000030
+ 4a0:	200000e0 	.word	0x200000e0
+ 4a4:	200000e0 	.word	0x200000e0
+ 4a8:	2000f000 	.word	0x2000f000
+ 4ac:	00001929 	.word	0x00001929
+ 4b0:	00000c3d 	.word	0x00000c3d
+ 4b4:	f3af 8000 	nop.w
+ 4b8:	f3af 8000 	nop.w
+ 4bc:	f3af 8000 	nop.w
+
+Disassembly of section .text:
+
+000004c0 <__do_global_dtors_aux>:
+     4c0:	f240 0330 	movw	r3, #48	; 0x30
+     4c4:	f2c2 0300 	movt	r3, #8192	; 0x2000
+     4c8:	781a      	ldrb	r2, [r3, #0]
+     4ca:	b90a      	cbnz	r2, 4d0 <__do_global_dtors_aux+0x10>
+     4cc:	2001      	movs	r0, #1
+     4ce:	7018      	strb	r0, [r3, #0]
+     4d0:	4770      	bx	lr
+     4d2:	bf00      	nop
+
+000004d4 <frame_dummy>:
+     4d4:	f240 0000 	movw	r0, #0
+     4d8:	f2c2 0000 	movt	r0, #8192	; 0x2000
+     4dc:	b508      	push	{r3, lr}
+     4de:	6803      	ldr	r3, [r0, #0]
+     4e0:	b12b      	cbz	r3, 4ee <frame_dummy+0x1a>
+     4e2:	f240 0300 	movw	r3, #0
+     4e6:	f2c0 0300 	movt	r3, #0
+     4ea:	b103      	cbz	r3, 4ee <frame_dummy+0x1a>
+     4ec:	4798      	blx	r3
+     4ee:	bd08      	pop	{r3, pc}
+
+000004f0 <GPIO10_IRQHandler>:
+     4f0:	b570      	push	{r4, r5, r6, lr}
+     4f2:	2015      	movs	r0, #21
+     4f4:	2101      	movs	r1, #1
+     4f6:	f001 f8f3 	bl	16e0 <MSS_GPIO_set_output>
+     4fa:	f243 0600 	movw	r6, #12288	; 0x3000
+     4fe:	2008      	movs	r0, #8
+     500:	2101      	movs	r1, #1
+     502:	f001 f8ed 	bl	16e0 <MSS_GPIO_set_output>
+     506:	f2c4 0601 	movt	r6, #16385	; 0x4001
+     50a:	2009      	movs	r0, #9
+     50c:	2101      	movs	r1, #1
+     50e:	f001 f8e7 	bl	16e0 <MSS_GPIO_set_output>
+     512:	f240 0450 	movw	r4, #80	; 0x50
+     516:	f8d6 2084 	ldr.w	r2, [r6, #132]	; 0x84
+     51a:	f2c2 0400 	movt	r4, #8192	; 0x2000
+     51e:	f240 0534 	movw	r5, #52	; 0x34
+     522:	7022      	strb	r2, [r4, #0]
+     524:	f2c2 0500 	movt	r5, #8192	; 0x2000
+     528:	2008      	movs	r0, #8
+     52a:	2100      	movs	r1, #0
+     52c:	602a      	str	r2, [r5, #0]
+     52e:	f001 f8d7 	bl	16e0 <MSS_GPIO_set_output>
+     532:	2009      	movs	r0, #9
+     534:	2101      	movs	r1, #1
+     536:	f001 f8d3 	bl	16e0 <MSS_GPIO_set_output>
+     53a:	f8d6 3084 	ldr.w	r3, [r6, #132]	; 0x84
+     53e:	2008      	movs	r0, #8
+     540:	7063      	strb	r3, [r4, #1]
+     542:	2101      	movs	r1, #1
+     544:	602b      	str	r3, [r5, #0]
+     546:	f001 f8cb 	bl	16e0 <MSS_GPIO_set_output>
+     54a:	2009      	movs	r0, #9
+     54c:	2100      	movs	r1, #0
+     54e:	f001 f8c7 	bl	16e0 <MSS_GPIO_set_output>
+     552:	f8d6 2084 	ldr.w	r2, [r6, #132]	; 0x84
+     556:	2008      	movs	r0, #8
+     558:	70a2      	strb	r2, [r4, #2]
+     55a:	2100      	movs	r1, #0
+     55c:	602a      	str	r2, [r5, #0]
+     55e:	f001 f8bf 	bl	16e0 <MSS_GPIO_set_output>
+     562:	2009      	movs	r0, #9
+     564:	2100      	movs	r1, #0
+     566:	f001 f8bb 	bl	16e0 <MSS_GPIO_set_output>
+     56a:	f8d6 1084 	ldr.w	r1, [r6, #132]	; 0x84
+     56e:	b2ca      	uxtb	r2, r1
+     570:	f002 000f 	and.w	r0, r2, #15
+     574:	1e43      	subs	r3, r0, #1
+     576:	6029      	str	r1, [r5, #0]
+     578:	70e2      	strb	r2, [r4, #3]
+     57a:	2b0e      	cmp	r3, #14
+     57c:	f200 8188 	bhi.w	890 <GPIO10_IRQHandler+0x3a0>
+     580:	e8df f013 	tbh	[pc, r3, lsl #1]
+     584:	0194018d 	.word	0x0194018d
+     588:	01a2019b 	.word	0x01a2019b
+     58c:	01b001a9 	.word	0x01b001a9
+     590:	01be01b7 	.word	0x01be01b7
+     594:	01cc01c5 	.word	0x01cc01c5
+     598:	01da01d3 	.word	0x01da01d3
+     59c:	000f01e1 	.word	0x000f01e1
+     5a0:	017f      	.short	0x017f
+     5a2:	f240 0304 	movw	r3, #4
+     5a6:	f2c2 0300 	movt	r3, #8192	; 0x2000
+     5aa:	2045      	movs	r0, #69	; 0x45
+     5ac:	71d8      	strb	r0, [r3, #7]
+     5ae:	78a0      	ldrb	r0, [r4, #2]
+     5b0:	f000 010f 	and.w	r1, r0, #15
+     5b4:	3901      	subs	r1, #1
+     5b6:	290e      	cmp	r1, #14
+     5b8:	f200 815d 	bhi.w	876 <GPIO10_IRQHandler+0x386>
+     5bc:	e8df f011 	tbh	[pc, r1, lsl #1]
+     5c0:	01550158 	.word	0x01550158
+     5c4:	014f0152 	.word	0x014f0152
+     5c8:	0149014c 	.word	0x0149014c
+     5cc:	01430146 	.word	0x01430146
+     5d0:	013d0140 	.word	0x013d0140
+     5d4:	0137013a 	.word	0x0137013a
+     5d8:	000f0134 	.word	0x000f0134
+     5dc:	015e      	.short	0x015e
+     5de:	2145      	movs	r1, #69	; 0x45
+     5e0:	7159      	strb	r1, [r3, #5]
+     5e2:	7861      	ldrb	r1, [r4, #1]
+     5e4:	f001 0e0f 	and.w	lr, r1, #15
+     5e8:	f10e 3cff 	add.w	ip, lr, #4294967295
+     5ec:	f1bc 0f0e 	cmp.w	ip, #14
+     5f0:	f200 8110 	bhi.w	814 <GPIO10_IRQHandler+0x324>
+     5f4:	e8df f01c 	tbh	[pc, ip, lsl #1]
+     5f8:	01040109 	.word	0x01040109
+     5fc:	00fa00ff 	.word	0x00fa00ff
+     600:	00f000f5 	.word	0x00f000f5
+     604:	00e600eb 	.word	0x00e600eb
+     608:	00dc00e1 	.word	0x00dc00e1
+     60c:	00d200d7 	.word	0x00d200d7
+     610:	000f00cd 	.word	0x000f00cd
+     614:	0113      	.short	0x0113
+     616:	f04f 0e45 	mov.w	lr, #69	; 0x45
+     61a:	f883 e003 	strb.w	lr, [r3, #3]
+     61e:	f894 c000 	ldrb.w	ip, [r4]
+     622:	f00c 040f 	and.w	r4, ip, #15
+     626:	f104 3eff 	add.w	lr, r4, #4294967295
+     62a:	f1be 0f0e 	cmp.w	lr, #14
+     62e:	f200 80a8 	bhi.w	782 <GPIO10_IRQHandler+0x292>
+     632:	e8df f00e 	tbb	[pc, lr]
+     636:	9ea3      	.short	0x9ea3
+     638:	8e93969b 	.word	0x8e93969b
+     63c:	7e83868b 	.word	0x7e83868b
+     640:	0873767b 	.word	0x0873767b
+     644:	ab          	.byte	0xab
+     645:	00          	.byte	0x00
+     646:	f04f 0e45 	mov.w	lr, #69	; 0x45
+     64a:	f883 e001 	strb.w	lr, [r3, #1]
+     64e:	f002 02f0 	and.w	r2, r2, #240	; 0xf0
+     652:	2a70      	cmp	r2, #112	; 0x70
+     654:	f000 825c 	beq.w	b10 <GPIO10_IRQHandler+0x620>
+     658:	f300 8185 	bgt.w	966 <GPIO10_IRQHandler+0x476>
+     65c:	2a30      	cmp	r2, #48	; 0x30
+     65e:	f000 8227 	beq.w	ab0 <GPIO10_IRQHandler+0x5c0>
+     662:	f300 81fa 	bgt.w	a5a <GPIO10_IRQHandler+0x56a>
+     666:	2a10      	cmp	r2, #16
+     668:	f000 825e 	beq.w	b28 <GPIO10_IRQHandler+0x638>
+     66c:	2a20      	cmp	r2, #32
+     66e:	f000 8258 	beq.w	b22 <GPIO10_IRQHandler+0x632>
+     672:	2a00      	cmp	r2, #0
+     674:	f000 8174 	beq.w	960 <GPIO10_IRQHandler+0x470>
+     678:	f000 00f0 	and.w	r0, r0, #240	; 0xf0
+     67c:	2870      	cmp	r0, #112	; 0x70
+     67e:	f000 824d 	beq.w	b1c <GPIO10_IRQHandler+0x62c>
+     682:	f300 81a0 	bgt.w	9c6 <GPIO10_IRQHandler+0x4d6>
+     686:	2830      	cmp	r0, #48	; 0x30
+     688:	f000 826c 	beq.w	b64 <GPIO10_IRQHandler+0x674>
+     68c:	f300 81b6 	bgt.w	9fc <GPIO10_IRQHandler+0x50c>
+     690:	2810      	cmp	r0, #16
+     692:	f000 826a 	beq.w	b6a <GPIO10_IRQHandler+0x67a>
+     696:	2820      	cmp	r0, #32
+     698:	f000 823d 	beq.w	b16 <GPIO10_IRQHandler+0x626>
+     69c:	2800      	cmp	r0, #0
+     69e:	f000 815c 	beq.w	95a <GPIO10_IRQHandler+0x46a>
+     6a2:	f001 01f0 	and.w	r1, r1, #240	; 0xf0
+     6a6:	2970      	cmp	r1, #112	; 0x70
+     6a8:	f000 8226 	beq.w	af8 <GPIO10_IRQHandler+0x608>
+     6ac:	f300 817b 	bgt.w	9a6 <GPIO10_IRQHandler+0x4b6>
+     6b0:	2930      	cmp	r1, #48	; 0x30
+     6b2:	f000 824e 	beq.w	b52 <GPIO10_IRQHandler+0x662>
+     6b6:	f300 81c6 	bgt.w	a46 <GPIO10_IRQHandler+0x556>
+     6ba:	2910      	cmp	r1, #16
+     6bc:	f000 8246 	beq.w	b4c <GPIO10_IRQHandler+0x65c>
+     6c0:	2920      	cmp	r1, #32
+     6c2:	f000 8240 	beq.w	b46 <GPIO10_IRQHandler+0x656>
+     6c6:	2900      	cmp	r1, #0
+     6c8:	f000 8144 	beq.w	954 <GPIO10_IRQHandler+0x464>
+     6cc:	f00c 02f0 	and.w	r2, ip, #240	; 0xf0
+     6d0:	2a70      	cmp	r2, #112	; 0x70
+     6d2:	f000 8235 	beq.w	b40 <GPIO10_IRQHandler+0x650>
+     6d6:	f300 8156 	bgt.w	986 <GPIO10_IRQHandler+0x496>
+     6da:	2a30      	cmp	r2, #48	; 0x30
+     6dc:	f000 822a 	beq.w	b34 <GPIO10_IRQHandler+0x644>
+     6e0:	f300 81d3 	bgt.w	a8a <GPIO10_IRQHandler+0x59a>
+     6e4:	2a10      	cmp	r2, #16
+     6e6:	f000 824c 	beq.w	b82 <GPIO10_IRQHandler+0x692>
+     6ea:	2a20      	cmp	r2, #32
+     6ec:	f000 8225 	beq.w	b3a <GPIO10_IRQHandler+0x64a>
+     6f0:	b90a      	cbnz	r2, 6f6 <GPIO10_IRQHandler+0x206>
+     6f2:	2130      	movs	r1, #48	; 0x30
+     6f4:	7019      	strb	r1, [r3, #0]
+     6f6:	240a      	movs	r4, #10
+     6f8:	220d      	movs	r2, #13
+     6fa:	f240 0094 	movw	r0, #148	; 0x94
+     6fe:	f240 0104 	movw	r1, #4
+     702:	f2c2 0000 	movt	r0, #8192	; 0x2000
+     706:	f2c2 0100 	movt	r1, #8192	; 0x2000
+     70a:	721a      	strb	r2, [r3, #8]
+     70c:	725c      	strb	r4, [r3, #9]
+     70e:	f000 fbfb 	bl	f08 <MSS_UART_polled_tx_string>
+     712:	4620      	mov	r0, r4
+     714:	e8bd 4070 	ldmia.w	sp!, {r4, r5, r6, lr}
+     718:	f001 b81a 	b.w	1750 <MSS_GPIO_clear_irq>
+     71c:	2444      	movs	r4, #68	; 0x44
+     71e:	705c      	strb	r4, [r3, #1]
+     720:	e795      	b.n	64e <GPIO10_IRQHandler+0x15e>
+     722:	f04f 0e43 	mov.w	lr, #67	; 0x43
+     726:	f883 e001 	strb.w	lr, [r3, #1]
+     72a:	e790      	b.n	64e <GPIO10_IRQHandler+0x15e>
+     72c:	2442      	movs	r4, #66	; 0x42
+     72e:	705c      	strb	r4, [r3, #1]
+     730:	e78d      	b.n	64e <GPIO10_IRQHandler+0x15e>
+     732:	f04f 0e41 	mov.w	lr, #65	; 0x41
+     736:	f883 e001 	strb.w	lr, [r3, #1]
+     73a:	e788      	b.n	64e <GPIO10_IRQHandler+0x15e>
+     73c:	2439      	movs	r4, #57	; 0x39
+     73e:	705c      	strb	r4, [r3, #1]
+     740:	e785      	b.n	64e <GPIO10_IRQHandler+0x15e>
+     742:	f04f 0e38 	mov.w	lr, #56	; 0x38
+     746:	f883 e001 	strb.w	lr, [r3, #1]
+     74a:	e780      	b.n	64e <GPIO10_IRQHandler+0x15e>
+     74c:	2437      	movs	r4, #55	; 0x37
+     74e:	705c      	strb	r4, [r3, #1]
+     750:	e77d      	b.n	64e <GPIO10_IRQHandler+0x15e>
+     752:	f04f 0e36 	mov.w	lr, #54	; 0x36
+     756:	f883 e001 	strb.w	lr, [r3, #1]
+     75a:	e778      	b.n	64e <GPIO10_IRQHandler+0x15e>
+     75c:	2435      	movs	r4, #53	; 0x35
+     75e:	705c      	strb	r4, [r3, #1]
+     760:	e775      	b.n	64e <GPIO10_IRQHandler+0x15e>
+     762:	f04f 0e34 	mov.w	lr, #52	; 0x34
+     766:	f883 e001 	strb.w	lr, [r3, #1]
+     76a:	e770      	b.n	64e <GPIO10_IRQHandler+0x15e>
+     76c:	2433      	movs	r4, #51	; 0x33
+     76e:	705c      	strb	r4, [r3, #1]
+     770:	e76d      	b.n	64e <GPIO10_IRQHandler+0x15e>
+     772:	f04f 0e32 	mov.w	lr, #50	; 0x32
+     776:	f883 e001 	strb.w	lr, [r3, #1]
+     77a:	e768      	b.n	64e <GPIO10_IRQHandler+0x15e>
+     77c:	2431      	movs	r4, #49	; 0x31
+     77e:	705c      	strb	r4, [r3, #1]
+     780:	e765      	b.n	64e <GPIO10_IRQHandler+0x15e>
+     782:	f04f 0e30 	mov.w	lr, #48	; 0x30
+     786:	f883 e001 	strb.w	lr, [r3, #1]
+     78a:	e760      	b.n	64e <GPIO10_IRQHandler+0x15e>
+     78c:	2446      	movs	r4, #70	; 0x46
+     78e:	705c      	strb	r4, [r3, #1]
+     790:	e75d      	b.n	64e <GPIO10_IRQHandler+0x15e>
+     792:	f04f 0c44 	mov.w	ip, #68	; 0x44
+     796:	f883 c003 	strb.w	ip, [r3, #3]
+     79a:	e740      	b.n	61e <GPIO10_IRQHandler+0x12e>
+     79c:	f04f 0e43 	mov.w	lr, #67	; 0x43
+     7a0:	f883 e003 	strb.w	lr, [r3, #3]
+     7a4:	e73b      	b.n	61e <GPIO10_IRQHandler+0x12e>
+     7a6:	f04f 0c42 	mov.w	ip, #66	; 0x42
+     7aa:	f883 c003 	strb.w	ip, [r3, #3]
+     7ae:	e736      	b.n	61e <GPIO10_IRQHandler+0x12e>
+     7b0:	f04f 0e41 	mov.w	lr, #65	; 0x41
+     7b4:	f883 e003 	strb.w	lr, [r3, #3]
+     7b8:	e731      	b.n	61e <GPIO10_IRQHandler+0x12e>
+     7ba:	f04f 0c39 	mov.w	ip, #57	; 0x39
+     7be:	f883 c003 	strb.w	ip, [r3, #3]
+     7c2:	e72c      	b.n	61e <GPIO10_IRQHandler+0x12e>
+     7c4:	f04f 0e38 	mov.w	lr, #56	; 0x38
+     7c8:	f883 e003 	strb.w	lr, [r3, #3]
+     7cc:	e727      	b.n	61e <GPIO10_IRQHandler+0x12e>
+     7ce:	f04f 0c37 	mov.w	ip, #55	; 0x37
+     7d2:	f883 c003 	strb.w	ip, [r3, #3]
+     7d6:	e722      	b.n	61e <GPIO10_IRQHandler+0x12e>
+     7d8:	f04f 0e36 	mov.w	lr, #54	; 0x36
+     7dc:	f883 e003 	strb.w	lr, [r3, #3]
+     7e0:	e71d      	b.n	61e <GPIO10_IRQHandler+0x12e>
+     7e2:	f04f 0c35 	mov.w	ip, #53	; 0x35
+     7e6:	f883 c003 	strb.w	ip, [r3, #3]
+     7ea:	e718      	b.n	61e <GPIO10_IRQHandler+0x12e>
+     7ec:	f04f 0e34 	mov.w	lr, #52	; 0x34
+     7f0:	f883 e003 	strb.w	lr, [r3, #3]
+     7f4:	e713      	b.n	61e <GPIO10_IRQHandler+0x12e>
+     7f6:	f04f 0c33 	mov.w	ip, #51	; 0x33
+     7fa:	f883 c003 	strb.w	ip, [r3, #3]
+     7fe:	e70e      	b.n	61e <GPIO10_IRQHandler+0x12e>
+     800:	f04f 0e32 	mov.w	lr, #50	; 0x32
+     804:	f883 e003 	strb.w	lr, [r3, #3]
+     808:	e709      	b.n	61e <GPIO10_IRQHandler+0x12e>
+     80a:	f04f 0c31 	mov.w	ip, #49	; 0x31
+     80e:	f883 c003 	strb.w	ip, [r3, #3]
+     812:	e704      	b.n	61e <GPIO10_IRQHandler+0x12e>
+     814:	f04f 0e30 	mov.w	lr, #48	; 0x30
+     818:	f883 e003 	strb.w	lr, [r3, #3]
+     81c:	e6ff      	b.n	61e <GPIO10_IRQHandler+0x12e>
+     81e:	f04f 0c46 	mov.w	ip, #70	; 0x46
+     822:	f883 c003 	strb.w	ip, [r3, #3]
+     826:	e6fa      	b.n	61e <GPIO10_IRQHandler+0x12e>
+     828:	2144      	movs	r1, #68	; 0x44
+     82a:	7159      	strb	r1, [r3, #5]
+     82c:	e6d9      	b.n	5e2 <GPIO10_IRQHandler+0xf2>
+     82e:	2143      	movs	r1, #67	; 0x43
+     830:	7159      	strb	r1, [r3, #5]
+     832:	e6d6      	b.n	5e2 <GPIO10_IRQHandler+0xf2>
+     834:	2142      	movs	r1, #66	; 0x42
+     836:	7159      	strb	r1, [r3, #5]
+     838:	e6d3      	b.n	5e2 <GPIO10_IRQHandler+0xf2>
+     83a:	2141      	movs	r1, #65	; 0x41
+     83c:	7159      	strb	r1, [r3, #5]
+     83e:	e6d0      	b.n	5e2 <GPIO10_IRQHandler+0xf2>
+     840:	2139      	movs	r1, #57	; 0x39
+     842:	7159      	strb	r1, [r3, #5]
+     844:	e6cd      	b.n	5e2 <GPIO10_IRQHandler+0xf2>
+     846:	2138      	movs	r1, #56	; 0x38
+     848:	7159      	strb	r1, [r3, #5]
+     84a:	e6ca      	b.n	5e2 <GPIO10_IRQHandler+0xf2>
+     84c:	2137      	movs	r1, #55	; 0x37
+     84e:	7159      	strb	r1, [r3, #5]
+     850:	e6c7      	b.n	5e2 <GPIO10_IRQHandler+0xf2>
+     852:	2136      	movs	r1, #54	; 0x36
+     854:	7159      	strb	r1, [r3, #5]
+     856:	e6c4      	b.n	5e2 <GPIO10_IRQHandler+0xf2>
+     858:	2135      	movs	r1, #53	; 0x35
+     85a:	7159      	strb	r1, [r3, #5]
+     85c:	e6c1      	b.n	5e2 <GPIO10_IRQHandler+0xf2>
+     85e:	2134      	movs	r1, #52	; 0x34
+     860:	7159      	strb	r1, [r3, #5]
+     862:	e6be      	b.n	5e2 <GPIO10_IRQHandler+0xf2>
+     864:	2133      	movs	r1, #51	; 0x33
+     866:	7159      	strb	r1, [r3, #5]
+     868:	e6bb      	b.n	5e2 <GPIO10_IRQHandler+0xf2>
+     86a:	2132      	movs	r1, #50	; 0x32
+     86c:	7159      	strb	r1, [r3, #5]
+     86e:	e6b8      	b.n	5e2 <GPIO10_IRQHandler+0xf2>
+     870:	2131      	movs	r1, #49	; 0x31
+     872:	7159      	strb	r1, [r3, #5]
+     874:	e6b5      	b.n	5e2 <GPIO10_IRQHandler+0xf2>
+     876:	2130      	movs	r1, #48	; 0x30
+     878:	7159      	strb	r1, [r3, #5]
+     87a:	e6b2      	b.n	5e2 <GPIO10_IRQHandler+0xf2>
+     87c:	2146      	movs	r1, #70	; 0x46
+     87e:	7159      	strb	r1, [r3, #5]
+     880:	e6af      	b.n	5e2 <GPIO10_IRQHandler+0xf2>
+     882:	f240 0304 	movw	r3, #4
+     886:	f2c2 0300 	movt	r3, #8192	; 0x2000
+     88a:	2146      	movs	r1, #70	; 0x46
+     88c:	71d9      	strb	r1, [r3, #7]
+     88e:	e68e      	b.n	5ae <GPIO10_IRQHandler+0xbe>
+     890:	f240 0304 	movw	r3, #4
+     894:	f2c2 0300 	movt	r3, #8192	; 0x2000
+     898:	2030      	movs	r0, #48	; 0x30
+     89a:	71d8      	strb	r0, [r3, #7]
+     89c:	e687      	b.n	5ae <GPIO10_IRQHandler+0xbe>
+     89e:	f240 0304 	movw	r3, #4
+     8a2:	f2c2 0300 	movt	r3, #8192	; 0x2000
+     8a6:	2131      	movs	r1, #49	; 0x31
+     8a8:	71d9      	strb	r1, [r3, #7]
+     8aa:	e680      	b.n	5ae <GPIO10_IRQHandler+0xbe>
+     8ac:	f240 0304 	movw	r3, #4
+     8b0:	f2c2 0300 	movt	r3, #8192	; 0x2000
+     8b4:	2032      	movs	r0, #50	; 0x32
+     8b6:	71d8      	strb	r0, [r3, #7]
+     8b8:	e679      	b.n	5ae <GPIO10_IRQHandler+0xbe>
+     8ba:	f240 0304 	movw	r3, #4
+     8be:	f2c2 0300 	movt	r3, #8192	; 0x2000
+     8c2:	2133      	movs	r1, #51	; 0x33
+     8c4:	71d9      	strb	r1, [r3, #7]
+     8c6:	e672      	b.n	5ae <GPIO10_IRQHandler+0xbe>
+     8c8:	f240 0304 	movw	r3, #4
+     8cc:	f2c2 0300 	movt	r3, #8192	; 0x2000
+     8d0:	2034      	movs	r0, #52	; 0x34
+     8d2:	71d8      	strb	r0, [r3, #7]
+     8d4:	e66b      	b.n	5ae <GPIO10_IRQHandler+0xbe>
+     8d6:	f240 0304 	movw	r3, #4
+     8da:	f2c2 0300 	movt	r3, #8192	; 0x2000
+     8de:	2135      	movs	r1, #53	; 0x35
+     8e0:	71d9      	strb	r1, [r3, #7]
+     8e2:	e664      	b.n	5ae <GPIO10_IRQHandler+0xbe>
+     8e4:	f240 0304 	movw	r3, #4
+     8e8:	f2c2 0300 	movt	r3, #8192	; 0x2000
+     8ec:	2036      	movs	r0, #54	; 0x36
+     8ee:	71d8      	strb	r0, [r3, #7]
+     8f0:	e65d      	b.n	5ae <GPIO10_IRQHandler+0xbe>
+     8f2:	f240 0304 	movw	r3, #4
+     8f6:	f2c2 0300 	movt	r3, #8192	; 0x2000
+     8fa:	2137      	movs	r1, #55	; 0x37
+     8fc:	71d9      	strb	r1, [r3, #7]
+     8fe:	e656      	b.n	5ae <GPIO10_IRQHandler+0xbe>
+     900:	f240 0304 	movw	r3, #4
+     904:	f2c2 0300 	movt	r3, #8192	; 0x2000
+     908:	2038      	movs	r0, #56	; 0x38
+     90a:	71d8      	strb	r0, [r3, #7]
+     90c:	e64f      	b.n	5ae <GPIO10_IRQHandler+0xbe>
+     90e:	f240 0304 	movw	r3, #4
+     912:	f2c2 0300 	movt	r3, #8192	; 0x2000
+     916:	2139      	movs	r1, #57	; 0x39
+     918:	71d9      	strb	r1, [r3, #7]
+     91a:	e648      	b.n	5ae <GPIO10_IRQHandler+0xbe>
+     91c:	f240 0304 	movw	r3, #4
+     920:	f2c2 0300 	movt	r3, #8192	; 0x2000
+     924:	2041      	movs	r0, #65	; 0x41
+     926:	71d8      	strb	r0, [r3, #7]
+     928:	e641      	b.n	5ae <GPIO10_IRQHandler+0xbe>
+     92a:	f240 0304 	movw	r3, #4
+     92e:	f2c2 0300 	movt	r3, #8192	; 0x2000
+     932:	2142      	movs	r1, #66	; 0x42
+     934:	71d9      	strb	r1, [r3, #7]
+     936:	e63a      	b.n	5ae <GPIO10_IRQHandler+0xbe>
+     938:	f240 0304 	movw	r3, #4
+     93c:	f2c2 0300 	movt	r3, #8192	; 0x2000
+     940:	2043      	movs	r0, #67	; 0x43
+     942:	71d8      	strb	r0, [r3, #7]
+     944:	e633      	b.n	5ae <GPIO10_IRQHandler+0xbe>
+     946:	f240 0304 	movw	r3, #4
+     94a:	f2c2 0300 	movt	r3, #8192	; 0x2000
+     94e:	2144      	movs	r1, #68	; 0x44
+     950:	71d9      	strb	r1, [r3, #7]
+     952:	e62c      	b.n	5ae <GPIO10_IRQHandler+0xbe>
+     954:	2030      	movs	r0, #48	; 0x30
+     956:	7098      	strb	r0, [r3, #2]
+     958:	e6b8      	b.n	6cc <GPIO10_IRQHandler+0x1dc>
+     95a:	2030      	movs	r0, #48	; 0x30
+     95c:	7118      	strb	r0, [r3, #4]
+     95e:	e6a0      	b.n	6a2 <GPIO10_IRQHandler+0x1b2>
+     960:	2430      	movs	r4, #48	; 0x30
+     962:	719c      	strb	r4, [r3, #6]
+     964:	e688      	b.n	678 <GPIO10_IRQHandler+0x188>
+     966:	2ab0      	cmp	r2, #176	; 0xb0
+     968:	f000 80cf 	beq.w	b0a <GPIO10_IRQHandler+0x61a>
+     96c:	dc7f      	bgt.n	a6e <GPIO10_IRQHandler+0x57e>
+     96e:	2a90      	cmp	r2, #144	; 0x90
+     970:	f000 80b0 	beq.w	ad4 <GPIO10_IRQHandler+0x5e4>
+     974:	2aa0      	cmp	r2, #160	; 0xa0
+     976:	f000 80da 	beq.w	b2e <GPIO10_IRQHandler+0x63e>
+     97a:	2a80      	cmp	r2, #128	; 0x80
+     97c:	f47f ae7c 	bne.w	678 <GPIO10_IRQHandler+0x188>
+     980:	2438      	movs	r4, #56	; 0x38
+     982:	719c      	strb	r4, [r3, #6]
+     984:	e678      	b.n	678 <GPIO10_IRQHandler+0x188>
+     986:	2ab0      	cmp	r2, #176	; 0xb0
+     988:	f000 80a7 	beq.w	ada <GPIO10_IRQHandler+0x5ea>
+     98c:	dc4d      	bgt.n	a2a <GPIO10_IRQHandler+0x53a>
+     98e:	2a90      	cmp	r2, #144	; 0x90
+     990:	f000 80f4 	beq.w	b7c <GPIO10_IRQHandler+0x68c>
+     994:	2aa0      	cmp	r2, #160	; 0xa0
+     996:	f000 80ee 	beq.w	b76 <GPIO10_IRQHandler+0x686>
+     99a:	2a80      	cmp	r2, #128	; 0x80
+     99c:	f47f aeab 	bne.w	6f6 <GPIO10_IRQHandler+0x206>
+     9a0:	2138      	movs	r1, #56	; 0x38
+     9a2:	7019      	strb	r1, [r3, #0]
+     9a4:	e6a7      	b.n	6f6 <GPIO10_IRQHandler+0x206>
+     9a6:	29b0      	cmp	r1, #176	; 0xb0
+     9a8:	f000 80a3 	beq.w	af2 <GPIO10_IRQHandler+0x602>
+     9ac:	dc30      	bgt.n	a10 <GPIO10_IRQHandler+0x520>
+     9ae:	2990      	cmp	r1, #144	; 0x90
+     9b0:	f000 809c 	beq.w	aec <GPIO10_IRQHandler+0x5fc>
+     9b4:	29a0      	cmp	r1, #160	; 0xa0
+     9b6:	f000 80d2 	beq.w	b5e <GPIO10_IRQHandler+0x66e>
+     9ba:	2980      	cmp	r1, #128	; 0x80
+     9bc:	f47f ae86 	bne.w	6cc <GPIO10_IRQHandler+0x1dc>
+     9c0:	2038      	movs	r0, #56	; 0x38
+     9c2:	7098      	strb	r0, [r3, #2]
+     9c4:	e682      	b.n	6cc <GPIO10_IRQHandler+0x1dc>
+     9c6:	28b0      	cmp	r0, #176	; 0xb0
+     9c8:	d078      	beq.n	abc <GPIO10_IRQHandler+0x5cc>
+     9ca:	dc09      	bgt.n	9e0 <GPIO10_IRQHandler+0x4f0>
+     9cc:	2890      	cmp	r0, #144	; 0x90
+     9ce:	d07b      	beq.n	ac8 <GPIO10_IRQHandler+0x5d8>
+     9d0:	28a0      	cmp	r0, #160	; 0xa0
+     9d2:	d076      	beq.n	ac2 <GPIO10_IRQHandler+0x5d2>
+     9d4:	2880      	cmp	r0, #128	; 0x80
+     9d6:	f47f ae64 	bne.w	6a2 <GPIO10_IRQHandler+0x1b2>
+     9da:	2238      	movs	r2, #56	; 0x38
+     9dc:	711a      	strb	r2, [r3, #4]
+     9de:	e660      	b.n	6a2 <GPIO10_IRQHandler+0x1b2>
+     9e0:	28d0      	cmp	r0, #208	; 0xd0
+     9e2:	f000 80c5 	beq.w	b70 <GPIO10_IRQHandler+0x680>
+     9e6:	f340 80e4 	ble.w	bb2 <GPIO10_IRQHandler+0x6c2>
+     9ea:	28e0      	cmp	r0, #224	; 0xe0
+     9ec:	f000 80f0 	beq.w	bd0 <GPIO10_IRQHandler+0x6e0>
+     9f0:	28f0      	cmp	r0, #240	; 0xf0
+     9f2:	f47f ae56 	bne.w	6a2 <GPIO10_IRQHandler+0x1b2>
+     9f6:	2046      	movs	r0, #70	; 0x46
+     9f8:	7118      	strb	r0, [r3, #4]
+     9fa:	e652      	b.n	6a2 <GPIO10_IRQHandler+0x1b2>
+     9fc:	2850      	cmp	r0, #80	; 0x50
+     9fe:	d05a      	beq.n	ab6 <GPIO10_IRQHandler+0x5c6>
+     a00:	2860      	cmp	r0, #96	; 0x60
+     a02:	d070      	beq.n	ae6 <GPIO10_IRQHandler+0x5f6>
+     a04:	2840      	cmp	r0, #64	; 0x40
+     a06:	f47f ae4c 	bne.w	6a2 <GPIO10_IRQHandler+0x1b2>
+     a0a:	2434      	movs	r4, #52	; 0x34
+     a0c:	711c      	strb	r4, [r3, #4]
+     a0e:	e648      	b.n	6a2 <GPIO10_IRQHandler+0x1b2>
+     a10:	29d0      	cmp	r1, #208	; 0xd0
+     a12:	d065      	beq.n	ae0 <GPIO10_IRQHandler+0x5f0>
+     a14:	f340 80c7 	ble.w	ba6 <GPIO10_IRQHandler+0x6b6>
+     a18:	29e0      	cmp	r1, #224	; 0xe0
+     a1a:	f000 80d3 	beq.w	bc4 <GPIO10_IRQHandler+0x6d4>
+     a1e:	29f0      	cmp	r1, #240	; 0xf0
+     a20:	f47f ae54 	bne.w	6cc <GPIO10_IRQHandler+0x1dc>
+     a24:	2146      	movs	r1, #70	; 0x46
+     a26:	7099      	strb	r1, [r3, #2]
+     a28:	e650      	b.n	6cc <GPIO10_IRQHandler+0x1dc>
+     a2a:	2ad0      	cmp	r2, #208	; 0xd0
+     a2c:	f000 8094 	beq.w	b58 <GPIO10_IRQHandler+0x668>
+     a30:	f340 80b3 	ble.w	b9a <GPIO10_IRQHandler+0x6aa>
+     a34:	2ae0      	cmp	r2, #224	; 0xe0
+     a36:	f000 80c8 	beq.w	bca <GPIO10_IRQHandler+0x6da>
+     a3a:	2af0      	cmp	r2, #240	; 0xf0
+     a3c:	f47f ae5b 	bne.w	6f6 <GPIO10_IRQHandler+0x206>
+     a40:	2046      	movs	r0, #70	; 0x46
+     a42:	7018      	strb	r0, [r3, #0]
+     a44:	e657      	b.n	6f6 <GPIO10_IRQHandler+0x206>
+     a46:	2950      	cmp	r1, #80	; 0x50
+     a48:	d05c      	beq.n	b04 <GPIO10_IRQHandler+0x614>
+     a4a:	2960      	cmp	r1, #96	; 0x60
+     a4c:	d057      	beq.n	afe <GPIO10_IRQHandler+0x60e>
+     a4e:	2940      	cmp	r1, #64	; 0x40
+     a50:	f47f ae3c 	bne.w	6cc <GPIO10_IRQHandler+0x1dc>
+     a54:	2034      	movs	r0, #52	; 0x34
+     a56:	7098      	strb	r0, [r3, #2]
+     a58:	e638      	b.n	6cc <GPIO10_IRQHandler+0x1dc>
+     a5a:	2a50      	cmp	r2, #80	; 0x50
+     a5c:	d025      	beq.n	aaa <GPIO10_IRQHandler+0x5ba>
+     a5e:	2a60      	cmp	r2, #96	; 0x60
+     a60:	d035      	beq.n	ace <GPIO10_IRQHandler+0x5de>
+     a62:	2a40      	cmp	r2, #64	; 0x40
+     a64:	f47f ae08 	bne.w	678 <GPIO10_IRQHandler+0x188>
+     a68:	2434      	movs	r4, #52	; 0x34
+     a6a:	719c      	strb	r4, [r3, #6]
+     a6c:	e604      	b.n	678 <GPIO10_IRQHandler+0x188>
+     a6e:	2ad0      	cmp	r2, #208	; 0xd0
+     a70:	f000 808a 	beq.w	b88 <GPIO10_IRQHandler+0x698>
+     a74:	f340 808b 	ble.w	b8e <GPIO10_IRQHandler+0x69e>
+     a78:	2ae0      	cmp	r2, #224	; 0xe0
+     a7a:	f000 80a0 	beq.w	bbe <GPIO10_IRQHandler+0x6ce>
+     a7e:	2af0      	cmp	r2, #240	; 0xf0
+     a80:	f47f adfa 	bne.w	678 <GPIO10_IRQHandler+0x188>
+     a84:	2246      	movs	r2, #70	; 0x46
+     a86:	719a      	strb	r2, [r3, #6]
+     a88:	e5f6      	b.n	678 <GPIO10_IRQHandler+0x188>
+     a8a:	2a50      	cmp	r2, #80	; 0x50
+     a8c:	d00a      	beq.n	aa4 <GPIO10_IRQHandler+0x5b4>
+     a8e:	2a60      	cmp	r2, #96	; 0x60
+     a90:	d005      	beq.n	a9e <GPIO10_IRQHandler+0x5ae>
+     a92:	2a40      	cmp	r2, #64	; 0x40
+     a94:	f47f ae2f 	bne.w	6f6 <GPIO10_IRQHandler+0x206>
+     a98:	2134      	movs	r1, #52	; 0x34
+     a9a:	7019      	strb	r1, [r3, #0]
+     a9c:	e62b      	b.n	6f6 <GPIO10_IRQHandler+0x206>
+     a9e:	2436      	movs	r4, #54	; 0x36
+     aa0:	701c      	strb	r4, [r3, #0]
+     aa2:	e628      	b.n	6f6 <GPIO10_IRQHandler+0x206>
+     aa4:	2235      	movs	r2, #53	; 0x35
+     aa6:	701a      	strb	r2, [r3, #0]
+     aa8:	e625      	b.n	6f6 <GPIO10_IRQHandler+0x206>
+     aaa:	2235      	movs	r2, #53	; 0x35
+     aac:	719a      	strb	r2, [r3, #6]
+     aae:	e5e3      	b.n	678 <GPIO10_IRQHandler+0x188>
+     ab0:	2233      	movs	r2, #51	; 0x33
+     ab2:	719a      	strb	r2, [r3, #6]
+     ab4:	e5e0      	b.n	678 <GPIO10_IRQHandler+0x188>
+     ab6:	2235      	movs	r2, #53	; 0x35
+     ab8:	711a      	strb	r2, [r3, #4]
+     aba:	e5f2      	b.n	6a2 <GPIO10_IRQHandler+0x1b2>
+     abc:	2242      	movs	r2, #66	; 0x42
+     abe:	711a      	strb	r2, [r3, #4]
+     ac0:	e5ef      	b.n	6a2 <GPIO10_IRQHandler+0x1b2>
+     ac2:	2441      	movs	r4, #65	; 0x41
+     ac4:	711c      	strb	r4, [r3, #4]
+     ac6:	e5ec      	b.n	6a2 <GPIO10_IRQHandler+0x1b2>
+     ac8:	2039      	movs	r0, #57	; 0x39
+     aca:	7118      	strb	r0, [r3, #4]
+     acc:	e5e9      	b.n	6a2 <GPIO10_IRQHandler+0x1b2>
+     ace:	2436      	movs	r4, #54	; 0x36
+     ad0:	719c      	strb	r4, [r3, #6]
+     ad2:	e5d1      	b.n	678 <GPIO10_IRQHandler+0x188>
+     ad4:	2239      	movs	r2, #57	; 0x39
+     ad6:	719a      	strb	r2, [r3, #6]
+     ad8:	e5ce      	b.n	678 <GPIO10_IRQHandler+0x188>
+     ada:	2042      	movs	r0, #66	; 0x42
+     adc:	7018      	strb	r0, [r3, #0]
+     ade:	e60a      	b.n	6f6 <GPIO10_IRQHandler+0x206>
+     ae0:	2444      	movs	r4, #68	; 0x44
+     ae2:	709c      	strb	r4, [r3, #2]
+     ae4:	e5f2      	b.n	6cc <GPIO10_IRQHandler+0x1dc>
+     ae6:	2036      	movs	r0, #54	; 0x36
+     ae8:	7118      	strb	r0, [r3, #4]
+     aea:	e5da      	b.n	6a2 <GPIO10_IRQHandler+0x1b2>
+     aec:	2439      	movs	r4, #57	; 0x39
+     aee:	709c      	strb	r4, [r3, #2]
+     af0:	e5ec      	b.n	6cc <GPIO10_IRQHandler+0x1dc>
+     af2:	2142      	movs	r1, #66	; 0x42
+     af4:	7099      	strb	r1, [r3, #2]
+     af6:	e5e9      	b.n	6cc <GPIO10_IRQHandler+0x1dc>
+     af8:	2137      	movs	r1, #55	; 0x37
+     afa:	7099      	strb	r1, [r3, #2]
+     afc:	e5e6      	b.n	6cc <GPIO10_IRQHandler+0x1dc>
+     afe:	2236      	movs	r2, #54	; 0x36
+     b00:	709a      	strb	r2, [r3, #2]
+     b02:	e5e3      	b.n	6cc <GPIO10_IRQHandler+0x1dc>
+     b04:	2435      	movs	r4, #53	; 0x35
+     b06:	709c      	strb	r4, [r3, #2]
+     b08:	e5e0      	b.n	6cc <GPIO10_IRQHandler+0x1dc>
+     b0a:	2242      	movs	r2, #66	; 0x42
+     b0c:	719a      	strb	r2, [r3, #6]
+     b0e:	e5b3      	b.n	678 <GPIO10_IRQHandler+0x188>
+     b10:	2237      	movs	r2, #55	; 0x37
+     b12:	719a      	strb	r2, [r3, #6]
+     b14:	e5b0      	b.n	678 <GPIO10_IRQHandler+0x188>
+     b16:	2232      	movs	r2, #50	; 0x32
+     b18:	711a      	strb	r2, [r3, #4]
+     b1a:	e5c2      	b.n	6a2 <GPIO10_IRQHandler+0x1b2>
+     b1c:	2437      	movs	r4, #55	; 0x37
+     b1e:	711c      	strb	r4, [r3, #4]
+     b20:	e5bf      	b.n	6a2 <GPIO10_IRQHandler+0x1b2>
+     b22:	2432      	movs	r4, #50	; 0x32
+     b24:	719c      	strb	r4, [r3, #6]
+     b26:	e5a7      	b.n	678 <GPIO10_IRQHandler+0x188>
+     b28:	2231      	movs	r2, #49	; 0x31
+     b2a:	719a      	strb	r2, [r3, #6]
+     b2c:	e5a4      	b.n	678 <GPIO10_IRQHandler+0x188>
+     b2e:	2441      	movs	r4, #65	; 0x41
+     b30:	719c      	strb	r4, [r3, #6]
+     b32:	e5a1      	b.n	678 <GPIO10_IRQHandler+0x188>
+     b34:	2033      	movs	r0, #51	; 0x33
+     b36:	7018      	strb	r0, [r3, #0]
+     b38:	e5dd      	b.n	6f6 <GPIO10_IRQHandler+0x206>
+     b3a:	2432      	movs	r4, #50	; 0x32
+     b3c:	701c      	strb	r4, [r3, #0]
+     b3e:	e5da      	b.n	6f6 <GPIO10_IRQHandler+0x206>
+     b40:	2037      	movs	r0, #55	; 0x37
+     b42:	7018      	strb	r0, [r3, #0]
+     b44:	e5d7      	b.n	6f6 <GPIO10_IRQHandler+0x206>
+     b46:	2232      	movs	r2, #50	; 0x32
+     b48:	709a      	strb	r2, [r3, #2]
+     b4a:	e5bf      	b.n	6cc <GPIO10_IRQHandler+0x1dc>
+     b4c:	2431      	movs	r4, #49	; 0x31
+     b4e:	709c      	strb	r4, [r3, #2]
+     b50:	e5bc      	b.n	6cc <GPIO10_IRQHandler+0x1dc>
+     b52:	2133      	movs	r1, #51	; 0x33
+     b54:	7099      	strb	r1, [r3, #2]
+     b56:	e5b9      	b.n	6cc <GPIO10_IRQHandler+0x1dc>
+     b58:	2244      	movs	r2, #68	; 0x44
+     b5a:	701a      	strb	r2, [r3, #0]
+     b5c:	e5cb      	b.n	6f6 <GPIO10_IRQHandler+0x206>
+     b5e:	2241      	movs	r2, #65	; 0x41
+     b60:	709a      	strb	r2, [r3, #2]
+     b62:	e5b3      	b.n	6cc <GPIO10_IRQHandler+0x1dc>
+     b64:	2033      	movs	r0, #51	; 0x33
+     b66:	7118      	strb	r0, [r3, #4]
+     b68:	e59b      	b.n	6a2 <GPIO10_IRQHandler+0x1b2>
+     b6a:	2431      	movs	r4, #49	; 0x31
+     b6c:	711c      	strb	r4, [r3, #4]
+     b6e:	e598      	b.n	6a2 <GPIO10_IRQHandler+0x1b2>
+     b70:	2444      	movs	r4, #68	; 0x44
+     b72:	711c      	strb	r4, [r3, #4]
+     b74:	e595      	b.n	6a2 <GPIO10_IRQHandler+0x1b2>
+     b76:	2441      	movs	r4, #65	; 0x41
+     b78:	701c      	strb	r4, [r3, #0]
+     b7a:	e5bc      	b.n	6f6 <GPIO10_IRQHandler+0x206>
+     b7c:	2239      	movs	r2, #57	; 0x39
+     b7e:	701a      	strb	r2, [r3, #0]
+     b80:	e5b9      	b.n	6f6 <GPIO10_IRQHandler+0x206>
+     b82:	2231      	movs	r2, #49	; 0x31
+     b84:	701a      	strb	r2, [r3, #0]
+     b86:	e5b6      	b.n	6f6 <GPIO10_IRQHandler+0x206>
+     b88:	2244      	movs	r2, #68	; 0x44
+     b8a:	719a      	strb	r2, [r3, #6]
+     b8c:	e574      	b.n	678 <GPIO10_IRQHandler+0x188>
+     b8e:	2ac0      	cmp	r2, #192	; 0xc0
+     b90:	f47f ad72 	bne.w	678 <GPIO10_IRQHandler+0x188>
+     b94:	2443      	movs	r4, #67	; 0x43
+     b96:	719c      	strb	r4, [r3, #6]
+     b98:	e56e      	b.n	678 <GPIO10_IRQHandler+0x188>
+     b9a:	2ac0      	cmp	r2, #192	; 0xc0
+     b9c:	f47f adab 	bne.w	6f6 <GPIO10_IRQHandler+0x206>
+     ba0:	2143      	movs	r1, #67	; 0x43
+     ba2:	7019      	strb	r1, [r3, #0]
+     ba4:	e5a7      	b.n	6f6 <GPIO10_IRQHandler+0x206>
+     ba6:	29c0      	cmp	r1, #192	; 0xc0
+     ba8:	f47f ad90 	bne.w	6cc <GPIO10_IRQHandler+0x1dc>
+     bac:	2043      	movs	r0, #67	; 0x43
+     bae:	7098      	strb	r0, [r3, #2]
+     bb0:	e58c      	b.n	6cc <GPIO10_IRQHandler+0x1dc>
+     bb2:	28c0      	cmp	r0, #192	; 0xc0
+     bb4:	f47f ad75 	bne.w	6a2 <GPIO10_IRQHandler+0x1b2>
+     bb8:	2043      	movs	r0, #67	; 0x43
+     bba:	7118      	strb	r0, [r3, #4]
+     bbc:	e571      	b.n	6a2 <GPIO10_IRQHandler+0x1b2>
+     bbe:	2445      	movs	r4, #69	; 0x45
+     bc0:	719c      	strb	r4, [r3, #6]
+     bc2:	e559      	b.n	678 <GPIO10_IRQHandler+0x188>
+     bc4:	2245      	movs	r2, #69	; 0x45
+     bc6:	709a      	strb	r2, [r3, #2]
+     bc8:	e580      	b.n	6cc <GPIO10_IRQHandler+0x1dc>
+     bca:	2445      	movs	r4, #69	; 0x45
+     bcc:	701c      	strb	r4, [r3, #0]
+     bce:	e592      	b.n	6f6 <GPIO10_IRQHandler+0x206>
+     bd0:	2245      	movs	r2, #69	; 0x45
+     bd2:	711a      	strb	r2, [r3, #4]
+     bd4:	e565      	b.n	6a2 <GPIO10_IRQHandler+0x1b2>
+     bd6:	bf00      	nop
+
+00000bd8 <uart0_rx_handler>:
+     bd8:	b570      	push	{r4, r5, r6, lr}
+     bda:	f240 0431 	movw	r4, #49	; 0x31
+     bde:	4606      	mov	r6, r0
+     be0:	2100      	movs	r1, #0
+     be2:	200f      	movs	r0, #15
+     be4:	f2c2 0400 	movt	r4, #8192	; 0x2000
+     be8:	f000 fd7a 	bl	16e0 <MSS_GPIO_set_output>
+     bec:	f240 053c 	movw	r5, #60	; 0x3c
+     bf0:	7821      	ldrb	r1, [r4, #0]
+     bf2:	f2c2 0500 	movt	r5, #8192	; 0x2000
+     bf6:	4630      	mov	r0, r6
+     bf8:	1869      	adds	r1, r5, r1
+     bfa:	2201      	movs	r2, #1
+     bfc:	f000 f9c2 	bl	f84 <MSS_UART_get_rx>
+     c00:	f240 0338 	movw	r3, #56	; 0x38
+     c04:	f2c2 0300 	movt	r3, #8192	; 0x2000
+     c08:	781e      	ldrb	r6, [r3, #0]
+     c0a:	b986      	cbnz	r6, c2e <uart0_rx_handler+0x56>
+     c0c:	7821      	ldrb	r1, [r4, #0]
+     c0e:	5c6a      	ldrb	r2, [r5, r1]
+     c10:	2a0d      	cmp	r2, #13
+     c12:	d00d      	beq.n	c30 <uart0_rx_handler+0x58>
+     c14:	f240 0094 	movw	r0, #148	; 0x94
+     c18:	1869      	adds	r1, r5, r1
+     c1a:	f2c2 0000 	movt	r0, #8192	; 0x2000
+     c1e:	f000 f973 	bl	f08 <MSS_UART_polled_tx_string>
+     c22:	7821      	ldrb	r1, [r4, #0]
+     c24:	1c48      	adds	r0, r1, #1
+     c26:	b2c3      	uxtb	r3, r0
+     c28:	2b13      	cmp	r3, #19
+     c2a:	7023      	strb	r3, [r4, #0]
+     c2c:	d003      	beq.n	c36 <uart0_rx_handler+0x5e>
+     c2e:	bd70      	pop	{r4, r5, r6, pc}
+     c30:	2201      	movs	r2, #1
+     c32:	701a      	strb	r2, [r3, #0]
+     c34:	bd70      	pop	{r4, r5, r6, pc}
+     c36:	7026      	strb	r6, [r4, #0]
+     c38:	bd70      	pop	{r4, r5, r6, pc}
+     c3a:	bf00      	nop
+
+00000c3c <main>:
+     c3c:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
+     c40:	f240 0094 	movw	r0, #148	; 0x94
+     c44:	b083      	sub	sp, #12
+     c46:	2203      	movs	r2, #3
+     c48:	f2c2 0000 	movt	r0, #8192	; 0x2000
+     c4c:	f44f 31e1 	mov.w	r1, #115200	; 0x1c200
+     c50:	f000 fcc0 	bl	15d4 <MSS_UART_init>
+     c54:	f240 0094 	movw	r0, #148	; 0x94
+     c58:	f640 31d9 	movw	r1, #3033	; 0xbd9
+     c5c:	2200      	movs	r2, #0
+     c5e:	f2c2 0000 	movt	r0, #8192	; 0x2000
+     c62:	f2c0 0100 	movt	r1, #0
+     c66:	f000 f9c7 	bl	ff8 <MSS_UART_set_rx_handler>
+     c6a:	f000 fce3 	bl	1634 <MSS_GPIO_init>
+     c6e:	200a      	movs	r0, #10
+     c70:	2162      	movs	r1, #98	; 0x62
+     c72:	f000 fd2b 	bl	16cc <MSS_GPIO_config>
+     c76:	2000      	movs	r0, #0
+     c78:	2102      	movs	r1, #2
+     c7a:	f000 fd27 	bl	16cc <MSS_GPIO_config>
+     c7e:	2001      	movs	r0, #1
+     c80:	2102      	movs	r1, #2
+     c82:	f000 fd23 	bl	16cc <MSS_GPIO_config>
+     c86:	2002      	movs	r0, #2
+     c88:	4601      	mov	r1, r0
+     c8a:	f000 fd1f 	bl	16cc <MSS_GPIO_config>
+     c8e:	2003      	movs	r0, #3
+     c90:	2102      	movs	r1, #2
+     c92:	f000 fd1b 	bl	16cc <MSS_GPIO_config>
+     c96:	2004      	movs	r0, #4
+     c98:	2102      	movs	r1, #2
+     c9a:	f000 fd17 	bl	16cc <MSS_GPIO_config>
+     c9e:	2005      	movs	r0, #5
+     ca0:	2102      	movs	r1, #2
+     ca2:	f000 fd13 	bl	16cc <MSS_GPIO_config>
+     ca6:	2006      	movs	r0, #6
+     ca8:	2102      	movs	r1, #2
+     caa:	f000 fd0f 	bl	16cc <MSS_GPIO_config>
+     cae:	2007      	movs	r0, #7
+     cb0:	2102      	movs	r1, #2
+     cb2:	f000 fd0b 	bl	16cc <MSS_GPIO_config>
+     cb6:	2008      	movs	r0, #8
+     cb8:	2105      	movs	r1, #5
+     cba:	f000 fd07 	bl	16cc <MSS_GPIO_config>
+     cbe:	2009      	movs	r0, #9
+     cc0:	2105      	movs	r1, #5
+     cc2:	f000 fd03 	bl	16cc <MSS_GPIO_config>
+     cc6:	200b      	movs	r0, #11
+     cc8:	2105      	movs	r1, #5
+     cca:	f000 fcff 	bl	16cc <MSS_GPIO_config>
+     cce:	200c      	movs	r0, #12
+     cd0:	2105      	movs	r1, #5
+     cd2:	f000 fcfb 	bl	16cc <MSS_GPIO_config>
+     cd6:	200d      	movs	r0, #13
+     cd8:	2105      	movs	r1, #5
+     cda:	f000 fcf7 	bl	16cc <MSS_GPIO_config>
+     cde:	200e      	movs	r0, #14
+     ce0:	2105      	movs	r1, #5
+     ce2:	f000 fcf3 	bl	16cc <MSS_GPIO_config>
+     ce6:	2010      	movs	r0, #16
+     ce8:	2105      	movs	r1, #5
+     cea:	f000 fcef 	bl	16cc <MSS_GPIO_config>
+     cee:	2011      	movs	r0, #17
+     cf0:	2105      	movs	r1, #5
+     cf2:	f000 fceb 	bl	16cc <MSS_GPIO_config>
+     cf6:	2012      	movs	r0, #18
+     cf8:	2105      	movs	r1, #5
+     cfa:	f000 fce7 	bl	16cc <MSS_GPIO_config>
+     cfe:	2013      	movs	r0, #19
+     d00:	2105      	movs	r1, #5
+     d02:	f000 fce3 	bl	16cc <MSS_GPIO_config>
+     d06:	2014      	movs	r0, #20
+     d08:	2105      	movs	r1, #5
+     d0a:	f000 fcdf 	bl	16cc <MSS_GPIO_config>
+     d0e:	200f      	movs	r0, #15
+     d10:	2105      	movs	r1, #5
+     d12:	f000 fcdb 	bl	16cc <MSS_GPIO_config>
+     d16:	2015      	movs	r0, #21
+     d18:	2105      	movs	r1, #5
+     d1a:	f000 fcd7 	bl	16cc <MSS_GPIO_config>
+     d1e:	200b      	movs	r0, #11
+     d20:	2100      	movs	r1, #0
+     d22:	f000 fcdd 	bl	16e0 <MSS_GPIO_set_output>
+     d26:	200c      	movs	r0, #12
+     d28:	2100      	movs	r1, #0
+     d2a:	f000 fcd9 	bl	16e0 <MSS_GPIO_set_output>
+     d2e:	200d      	movs	r0, #13
+     d30:	2100      	movs	r1, #0
+     d32:	f000 fcd5 	bl	16e0 <MSS_GPIO_set_output>
+     d36:	200e      	movs	r0, #14
+     d38:	2101      	movs	r1, #1
+     d3a:	f000 fcd1 	bl	16e0 <MSS_GPIO_set_output>
+     d3e:	2015      	movs	r0, #21
+     d40:	2101      	movs	r1, #1
+     d42:	f000 fccd 	bl	16e0 <MSS_GPIO_set_output>
+     d46:	200f      	movs	r0, #15
+     d48:	2101      	movs	r1, #1
+     d4a:	f000 fcc9 	bl	16e0 <MSS_GPIO_set_output>
+     d4e:	2010      	movs	r0, #16
+     d50:	2100      	movs	r1, #0
+     d52:	f000 fcc5 	bl	16e0 <MSS_GPIO_set_output>
+     d56:	2011      	movs	r0, #17
+     d58:	2101      	movs	r1, #1
+     d5a:	f000 fcc1 	bl	16e0 <MSS_GPIO_set_output>
+     d5e:	2012      	movs	r0, #18
+     d60:	2100      	movs	r1, #0
+     d62:	f000 fcbd 	bl	16e0 <MSS_GPIO_set_output>
+     d66:	2013      	movs	r0, #19
+     d68:	2100      	movs	r1, #0
+     d6a:	f000 fcb9 	bl	16e0 <MSS_GPIO_set_output>
+     d6e:	f240 0738 	movw	r7, #56	; 0x38
+     d72:	2014      	movs	r0, #20
+     d74:	2100      	movs	r1, #0
+     d76:	f000 fcb3 	bl	16e0 <MSS_GPIO_set_output>
+     d7a:	f2c2 0700 	movt	r7, #8192	; 0x2000
+     d7e:	200a      	movs	r0, #10
+     d80:	f000 fcc4 	bl	170c <MSS_GPIO_enable_irq>
+     d84:	783b      	ldrb	r3, [r7, #0]
+     d86:	f240 053c 	movw	r5, #60	; 0x3c
+     d8a:	f2c2 0500 	movt	r5, #8192	; 0x2000
+     d8e:	f641 1978 	movw	r9, #6520	; 0x1978
+     d92:	ae01      	add	r6, sp, #4
+     d94:	f240 0a31 	movw	sl, #49	; 0x31
+     d98:	2400      	movs	r4, #0
+     d9a:	2b01      	cmp	r3, #1
+     d9c:	f2c0 0900 	movt	r9, #0
+     da0:	f2c2 0a00 	movt	sl, #8192	; 0x2000
+     da4:	46b0      	mov	r8, r6
+     da6:	46ab      	mov	fp, r5
+     da8:	d124      	bne.n	df4 <main+0x1b8>
+     daa:	f8d9 1000 	ldr.w	r1, [r9]
+     dae:	f240 0094 	movw	r0, #148	; 0x94
+     db2:	0c0a      	lsrs	r2, r1, #16
+     db4:	8031      	strh	r1, [r6, #0]
+     db6:	70b2      	strb	r2, [r6, #2]
+     db8:	f2c2 0000 	movt	r0, #8192	; 0x2000
+     dbc:	4641      	mov	r1, r8
+     dbe:	f000 f8a3 	bl	f08 <MSS_UART_polled_tx_string>
+     dc2:	782b      	ldrb	r3, [r5, #0]
+     dc4:	4646      	mov	r6, r8
+     dc6:	2b73      	cmp	r3, #115	; 0x73
+     dc8:	d02b      	beq.n	e22 <main+0x1e6>
+     dca:	2b72      	cmp	r3, #114	; 0x72
+     dcc:	d013      	beq.n	df6 <main+0x1ba>
+     dce:	703c      	strb	r4, [r7, #0]
+     dd0:	f88a 4000 	strb.w	r4, [sl]
+     dd4:	702c      	strb	r4, [r5, #0]
+     dd6:	706c      	strb	r4, [r5, #1]
+     dd8:	2302      	movs	r3, #2
+     dda:	1c59      	adds	r1, r3, #1
+     ddc:	555c      	strb	r4, [r3, r5]
+     dde:	1c4b      	adds	r3, r1, #1
+     de0:	2b14      	cmp	r3, #20
+     de2:	554c      	strb	r4, [r1, r5]
+     de4:	d1f9      	bne.n	dda <main+0x19e>
+     de6:	200f      	movs	r0, #15
+     de8:	2101      	movs	r1, #1
+     dea:	f000 fc79 	bl	16e0 <MSS_GPIO_set_output>
+     dee:	783b      	ldrb	r3, [r7, #0]
+     df0:	2b01      	cmp	r3, #1
+     df2:	d0da      	beq.n	daa <main+0x16e>
+     df4:	e7fe      	b.n	df4 <main+0x1b8>
+     df6:	7868      	ldrb	r0, [r5, #1]
+     df8:	2873      	cmp	r0, #115	; 0x73
+     dfa:	d1e8      	bne.n	dce <main+0x192>
+     dfc:	f89b c002 	ldrb.w	ip, [fp, #2]
+     e00:	f1bc 0f74 	cmp.w	ip, #116	; 0x74
+     e04:	d1e3      	bne.n	dce <main+0x192>
+     e06:	f89b e003 	ldrb.w	lr, [fp, #3]
+     e0a:	f1be 0f5f 	cmp.w	lr, #95	; 0x5f
+     e0e:	d1de      	bne.n	dce <main+0x192>
+     e10:	f89b 2004 	ldrb.w	r2, [fp, #4]
+     e14:	2a6e      	cmp	r2, #110	; 0x6e
+     e16:	d1da      	bne.n	dce <main+0x192>
+     e18:	2015      	movs	r0, #21
+     e1a:	2100      	movs	r1, #0
+     e1c:	f000 fc60 	bl	16e0 <MSS_GPIO_set_output>
+     e20:	e7d5      	b.n	dce <main+0x192>
+     e22:	f89b 0001 	ldrb.w	r0, [fp, #1]
+     e26:	2865      	cmp	r0, #101	; 0x65
+     e28:	d001      	beq.n	e2e <main+0x1f2>
+     e2a:	782b      	ldrb	r3, [r5, #0]
+     e2c:	e7cd      	b.n	dca <main+0x18e>
+     e2e:	f89b c002 	ldrb.w	ip, [fp, #2]
+     e32:	f1bc 0f74 	cmp.w	ip, #116	; 0x74
+     e36:	d036      	beq.n	ea6 <main+0x26a>
+     e38:	f895 c002 	ldrb.w	ip, [r5, #2]
+     e3c:	f1bc 0f74 	cmp.w	ip, #116	; 0x74
+     e40:	d002      	beq.n	e48 <main+0x20c>
+     e42:	f89b 3000 	ldrb.w	r3, [fp]
+     e46:	e7c0      	b.n	dca <main+0x18e>
+     e48:	f89b e003 	ldrb.w	lr, [fp, #3]
+     e4c:	f1be 0f5f 	cmp.w	lr, #95	; 0x5f
+     e50:	d1bd      	bne.n	dce <main+0x192>
+     e52:	f89b 2004 	ldrb.w	r2, [fp, #4]
+     e56:	2a61      	cmp	r2, #97	; 0x61
+     e58:	d1b9      	bne.n	dce <main+0x192>
+     e5a:	f89b 100a 	ldrb.w	r1, [fp, #10]
+     e5e:	2010      	movs	r0, #16
+     e60:	391e      	subs	r1, #30
+     e62:	b2c9      	uxtb	r1, r1
+     e64:	f000 fc3c 	bl	16e0 <MSS_GPIO_set_output>
+     e68:	f89b 3009 	ldrb.w	r3, [fp, #9]
+     e6c:	2011      	movs	r0, #17
+     e6e:	3b1e      	subs	r3, #30
+     e70:	b2d9      	uxtb	r1, r3
+     e72:	f000 fc35 	bl	16e0 <MSS_GPIO_set_output>
+     e76:	f89b 2008 	ldrb.w	r2, [fp, #8]
+     e7a:	2012      	movs	r0, #18
+     e7c:	3a1e      	subs	r2, #30
+     e7e:	b2d1      	uxtb	r1, r2
+     e80:	f000 fc2e 	bl	16e0 <MSS_GPIO_set_output>
+     e84:	f89b 1007 	ldrb.w	r1, [fp, #7]
+     e88:	2013      	movs	r0, #19
+     e8a:	391e      	subs	r1, #30
+     e8c:	b2c9      	uxtb	r1, r1
+     e8e:	f000 fc27 	bl	16e0 <MSS_GPIO_set_output>
+     e92:	f89b 3006 	ldrb.w	r3, [fp, #6]
+     e96:	2014      	movs	r0, #20
+     e98:	3b1e      	subs	r3, #30
+     e9a:	b2d9      	uxtb	r1, r3
+     e9c:	f000 fc20 	bl	16e0 <MSS_GPIO_set_output>
+     ea0:	f89b 3000 	ldrb.w	r3, [fp]
+     ea4:	e791      	b.n	dca <main+0x18e>
+     ea6:	f89b e003 	ldrb.w	lr, [fp, #3]
+     eaa:	f1be 0f5f 	cmp.w	lr, #95	; 0x5f
+     eae:	d1c3      	bne.n	e38 <main+0x1fc>
+     eb0:	f89b 3004 	ldrb.w	r3, [fp, #4]
+     eb4:	2b63      	cmp	r3, #99	; 0x63
+     eb6:	d1bf      	bne.n	e38 <main+0x1fc>
+     eb8:	f89b 1009 	ldrb.w	r1, [fp, #9]
+     ebc:	200b      	movs	r0, #11
+     ebe:	391e      	subs	r1, #30
+     ec0:	b2c9      	uxtb	r1, r1
+     ec2:	f000 fc0d 	bl	16e0 <MSS_GPIO_set_output>
+     ec6:	f89b 3008 	ldrb.w	r3, [fp, #8]
+     eca:	200c      	movs	r0, #12
+     ecc:	3b1e      	subs	r3, #30
+     ece:	b2d9      	uxtb	r1, r3
+     ed0:	f000 fc06 	bl	16e0 <MSS_GPIO_set_output>
+     ed4:	f89b 2007 	ldrb.w	r2, [fp, #7]
+     ed8:	200d      	movs	r0, #13
+     eda:	3a1e      	subs	r2, #30
+     edc:	b2d1      	uxtb	r1, r2
+     ede:	f000 fbff 	bl	16e0 <MSS_GPIO_set_output>
+     ee2:	f89b 1006 	ldrb.w	r1, [fp, #6]
+     ee6:	200e      	movs	r0, #14
+     ee8:	391e      	subs	r1, #30
+     eea:	b2c9      	uxtb	r1, r1
+     eec:	f000 fbf8 	bl	16e0 <MSS_GPIO_set_output>
+     ef0:	f89b 3000 	ldrb.w	r3, [fp]
+     ef4:	2b73      	cmp	r3, #115	; 0x73
+     ef6:	f47f af68 	bne.w	dca <main+0x18e>
+     efa:	f89b 0001 	ldrb.w	r0, [fp, #1]
+     efe:	2865      	cmp	r0, #101	; 0x65
+     f00:	d09a      	beq.n	e38 <main+0x1fc>
+     f02:	782b      	ldrb	r3, [r5, #0]
+     f04:	e761      	b.n	dca <main+0x18e>
+     f06:	bf00      	nop
+
+00000f08 <MSS_UART_polled_tx_string>:
+    uint8_t status;
+
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+    ASSERT(p_sz_string != ((uint8_t *)0));
+
+    if(((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1)) &&
+     f08:	f240 0394 	movw	r3, #148	; 0x94
+     f0c:	f2c2 0300 	movt	r3, #8192	; 0x2000
+     f10:	4298      	cmp	r0, r3
+MSS_UART_polled_tx_string
+(
+    mss_uart_instance_t * this_uart,
+    const uint8_t * p_sz_string
+)
+{
+     f12:	e92d 05f0 	stmdb	sp!, {r4, r5, r6, r7, r8, sl}
+    uint8_t status;
+
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+    ASSERT(p_sz_string != ((uint8_t *)0));
+
+    if(((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1)) &&
+     f16:	d008      	beq.n	f2a <MSS_UART_polled_tx_string+0x22>
+     f18:	f240 0254 	movw	r2, #84	; 0x54
+     f1c:	f2c2 0200 	movt	r2, #8192	; 0x2000
+     f20:	4290      	cmp	r0, r2
+     f22:	d002      	beq.n	f2a <MSS_UART_polled_tx_string+0x22>
+                /* Get the next data byte from the input buffer */
+                data_byte = p_sz_string[char_idx];
+            }
+        }
+    }
+}
+     f24:	e8bd 05f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, sl}
+     f28:	4770      	bx	lr
+    uint8_t status;
+
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+    ASSERT(p_sz_string != ((uint8_t *)0));
+
+    if(((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1)) &&
+     f2a:	2900      	cmp	r1, #0
+     f2c:	d0fa      	beq.n	f24 <MSS_UART_polled_tx_string+0x1c>
+       (p_sz_string != ((uint8_t *)0)))
+    {
+        /* Get the first data byte from the input buffer */
+        data_byte = p_sz_string[char_idx];
+     f2e:	780d      	ldrb	r5, [r1, #0]
+
+        /* First check for the NULL terminator byte.
+         * Then remain in this loop until the entire string in the input buffer
+         * has been transferred to the UART.
+         */
+        while(0u != data_byte)
+     f30:	2d00      	cmp	r5, #0
+     f32:	d0f7      	beq.n	f24 <MSS_UART_polled_tx_string+0x1c>
+     f34:	7b42      	ldrb	r2, [r0, #13]
+        {
+            /* Wait until TX FIFO is empty. */
+            do {
+                status = this_uart->hw_reg->LSR;
+     f36:	6804      	ldr	r4, [r0, #0]
+     f38:	f04f 0c00 	mov.w	ip, #0
+     f3c:	7d23      	ldrb	r3, [r4, #20]
+                this_uart->status |= status;
+     f3e:	431a      	orrs	r2, r3
+            } while (0u == (status & MSS_UART_THRE));
+     f40:	f013 0f20 	tst.w	r3, #32
+     f44:	d0fa      	beq.n	f3c <MSS_UART_polled_tx_string+0x34>
+     f46:	7342      	strb	r2, [r0, #13]
+
+            /* Send bytes from the input buffer until the TX FIFO is full
+             * or we reach the NULL terminator byte.
+             */
+            fill_size = 0u;
+            while((0u != data_byte) && (fill_size < TX_FIFO_SIZE))
+     f48:	b925      	cbnz	r5, f54 <MSS_UART_polled_tx_string+0x4c>
+     f4a:	4663      	mov	r3, ip
+
+        /* First check for the NULL terminator byte.
+         * Then remain in this loop until the entire string in the input buffer
+         * has been transferred to the UART.
+         */
+        while(0u != data_byte)
+     f4c:	2d00      	cmp	r5, #0
+     f4e:	d0e9      	beq.n	f24 <MSS_UART_polled_tx_string+0x1c>
+     f50:	469c      	mov	ip, r3
+     f52:	e7f3      	b.n	f3c <MSS_UART_polled_tx_string+0x34>
+
+            /* Send bytes from the input buffer until the TX FIFO is full
+             * or we reach the NULL terminator byte.
+             */
+            fill_size = 0u;
+            while((0u != data_byte) && (fill_size < TX_FIFO_SIZE))
+     f54:	f8d0 a000 	ldr.w	sl, [r0]
+     f58:	2600      	movs	r6, #0
+     f5a:	eb01 080c 	add.w	r8, r1, ip
+            {
+                /* Send the data byte */
+                this_uart->hw_reg->THR = data_byte;
+                ++fill_size;
+     f5e:	3601      	adds	r6, #1
+             */
+            fill_size = 0u;
+            while((0u != data_byte) && (fill_size < TX_FIFO_SIZE))
+            {
+                /* Send the data byte */
+                this_uart->hw_reg->THR = data_byte;
+     f60:	f88a 5000 	strb.w	r5, [sl]
+                ++fill_size;
+                char_idx++;
+                /* Get the next data byte from the input buffer */
+                data_byte = p_sz_string[char_idx];
+     f64:	f818 5006 	ldrb.w	r5, [r8, r6]
+            fill_size = 0u;
+            while((0u != data_byte) && (fill_size < TX_FIFO_SIZE))
+            {
+                /* Send the data byte */
+                this_uart->hw_reg->THR = data_byte;
+                ++fill_size;
+     f68:	eb06 030c 	add.w	r3, r6, ip
+
+            /* Send bytes from the input buffer until the TX FIFO is full
+             * or we reach the NULL terminator byte.
+             */
+            fill_size = 0u;
+            while((0u != data_byte) && (fill_size < TX_FIFO_SIZE))
+     f6c:	1e2f      	subs	r7, r5, #0
+     f6e:	bf18      	it	ne
+     f70:	2701      	movne	r7, #1
+     f72:	2e0f      	cmp	r6, #15
+     f74:	bf8c      	ite	hi
+     f76:	2700      	movhi	r7, #0
+     f78:	f007 0701 	andls.w	r7, r7, #1
+     f7c:	2f00      	cmp	r7, #0
+     f7e:	d0e5      	beq.n	f4c <MSS_UART_polled_tx_string+0x44>
+     f80:	e7ed      	b.n	f5e <MSS_UART_polled_tx_string+0x56>
+     f82:	bf00      	nop
+
+00000f84 <MSS_UART_get_rx>:
+
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+    ASSERT(rx_buff != ((uint8_t *)0));
+    ASSERT(buff_size > 0u);
+
+    if(((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1)) &&
+     f84:	f240 0394 	movw	r3, #148	; 0x94
+     f88:	f2c2 0300 	movt	r3, #8192	; 0x2000
+     f8c:	4298      	cmp	r0, r3
+(
+    mss_uart_instance_t * this_uart,
+    uint8_t * rx_buff,
+    size_t buff_size
+)
+{
+     f8e:	b470      	push	{r4, r5, r6}
+
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+    ASSERT(rx_buff != ((uint8_t *)0));
+    ASSERT(buff_size > 0u);
+
+    if(((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1)) &&
+     f90:	d009      	beq.n	fa6 <MSS_UART_get_rx+0x22>
+     f92:	f240 0c54 	movw	ip, #84	; 0x54
+     f96:	f2c2 0c00 	movt	ip, #8192	; 0x2000
+     f9a:	4560      	cmp	r0, ip
+     f9c:	d003      	beq.n	fa6 <MSS_UART_get_rx+0x22>
+       (rx_buff != ((uint8_t *)0)) && (buff_size > 0u))
+    {
+        status = this_uart->hw_reg->LSR;
+        this_uart->status |= status;
+
+        while(((status & MSS_UART_DATA_READY) != 0u) &&
+     f9e:	2300      	movs	r3, #0
+            status = this_uart->hw_reg->LSR;
+            this_uart->status |= status;
+        }
+    }
+    return rx_size;
+}
+     fa0:	4618      	mov	r0, r3
+     fa2:	bc70      	pop	{r4, r5, r6}
+     fa4:	4770      	bx	lr
+
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+    ASSERT(rx_buff != ((uint8_t *)0));
+    ASSERT(buff_size > 0u);
+
+    if(((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1)) &&
+     fa6:	1e0b      	subs	r3, r1, #0
+     fa8:	bf18      	it	ne
+     faa:	2301      	movne	r3, #1
+     fac:	2a00      	cmp	r2, #0
+     fae:	bf0c      	ite	eq
+     fb0:	2300      	moveq	r3, #0
+     fb2:	f003 0301 	andne.w	r3, r3, #1
+     fb6:	2b00      	cmp	r3, #0
+     fb8:	d0f1      	beq.n	f9e <MSS_UART_get_rx+0x1a>
+       (rx_buff != ((uint8_t *)0)) && (buff_size > 0u))
+    {
+        status = this_uart->hw_reg->LSR;
+     fba:	6804      	ldr	r4, [r0, #0]
+        this_uart->status |= status;
+     fbc:	f890 c00d 	ldrb.w	ip, [r0, #13]
+    ASSERT(buff_size > 0u);
+
+    if(((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1)) &&
+       (rx_buff != ((uint8_t *)0)) && (buff_size > 0u))
+    {
+        status = this_uart->hw_reg->LSR;
+     fc0:	7d23      	ldrb	r3, [r4, #20]
+        this_uart->status |= status;
+     fc2:	ea43 0c0c 	orr.w	ip, r3, ip
+
+        while(((status & MSS_UART_DATA_READY) != 0u) &&
+     fc6:	f013 0f01 	tst.w	r3, #1
+
+    if(((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1)) &&
+       (rx_buff != ((uint8_t *)0)) && (buff_size > 0u))
+    {
+        status = this_uart->hw_reg->LSR;
+        this_uart->status |= status;
+     fca:	f880 c00d 	strb.w	ip, [r0, #13]
+
+        while(((status & MSS_UART_DATA_READY) != 0u) &&
+     fce:	d0e6      	beq.n	f9e <MSS_UART_get_rx+0x1a>
+     fd0:	2300      	movs	r3, #0
+              (rx_size < buff_size))
+        {
+            rx_buff[rx_size] = this_uart->hw_reg->RBR;
+     fd2:	7825      	ldrb	r5, [r4, #0]
+     fd4:	54cd      	strb	r5, [r1, r3]
+            ++rx_size;
+            status = this_uart->hw_reg->LSR;
+     fd6:	6804      	ldr	r4, [r0, #0]
+            this_uart->status |= status;
+     fd8:	7b46      	ldrb	r6, [r0, #13]
+        while(((status & MSS_UART_DATA_READY) != 0u) &&
+              (rx_size < buff_size))
+        {
+            rx_buff[rx_size] = this_uart->hw_reg->RBR;
+            ++rx_size;
+            status = this_uart->hw_reg->LSR;
+     fda:	f894 c014 	ldrb.w	ip, [r4, #20]
+
+        while(((status & MSS_UART_DATA_READY) != 0u) &&
+              (rx_size < buff_size))
+        {
+            rx_buff[rx_size] = this_uart->hw_reg->RBR;
+            ++rx_size;
+     fde:	3301      	adds	r3, #1
+            status = this_uart->hw_reg->LSR;
+            this_uart->status |= status;
+     fe0:	ea4c 0606 	orr.w	r6, ip, r6
+       (rx_buff != ((uint8_t *)0)) && (buff_size > 0u))
+    {
+        status = this_uart->hw_reg->LSR;
+        this_uart->status |= status;
+
+        while(((status & MSS_UART_DATA_READY) != 0u) &&
+     fe4:	429a      	cmp	r2, r3
+     fe6:	bf94      	ite	ls
+     fe8:	2500      	movls	r5, #0
+     fea:	f00c 0501 	andhi.w	r5, ip, #1
+              (rx_size < buff_size))
+        {
+            rx_buff[rx_size] = this_uart->hw_reg->RBR;
+            ++rx_size;
+            status = this_uart->hw_reg->LSR;
+            this_uart->status |= status;
+     fee:	7346      	strb	r6, [r0, #13]
+       (rx_buff != ((uint8_t *)0)) && (buff_size > 0u))
+    {
+        status = this_uart->hw_reg->LSR;
+        this_uart->status |= status;
+
+        while(((status & MSS_UART_DATA_READY) != 0u) &&
+     ff0:	2d00      	cmp	r5, #0
+     ff2:	d1ee      	bne.n	fd2 <MSS_UART_get_rx+0x4e>
+     ff4:	e7d4      	b.n	fa0 <MSS_UART_get_rx+0x1c>
+     ff6:	bf00      	nop
+
+00000ff8 <MSS_UART_set_rx_handler>:
+{
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+    ASSERT(handler != INVALID_IRQ_HANDLER );
+    ASSERT(trigger_level < MSS_UART_FIFO_INVALID_TRIG_LEVEL);
+
+    if(((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1)) &&
+     ff8:	f240 0394 	movw	r3, #148	; 0x94
+     ffc:	f2c2 0300 	movt	r3, #8192	; 0x2000
+    1000:	4298      	cmp	r0, r3
+(
+    mss_uart_instance_t *       this_uart,
+    mss_uart_irq_handler_t      handler,
+    mss_uart_rx_trig_level_t    trigger_level
+)
+{
+    1002:	b430      	push	{r4, r5}
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+    ASSERT(handler != INVALID_IRQ_HANDLER );
+    ASSERT(trigger_level < MSS_UART_FIFO_INVALID_TRIG_LEVEL);
+
+    if(((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1)) &&
+    1004:	d007      	beq.n	1016 <MAIN_STACK_SIZE+0x16>
+    1006:	f240 0c54 	movw	ip, #84	; 0x54
+    100a:	f2c2 0c00 	movt	ip, #8192	; 0x2000
+    100e:	4560      	cmp	r0, ip
+    1010:	d001      	beq.n	1016 <MAIN_STACK_SIZE+0x16>
+        set_bit_reg8(&this_uart->hw_reg->IER,ERBFI);
+
+        /* Enable UART instance interrupt in Cortex-M3 NVIC. */
+        NVIC_EnableIRQ(this_uart->irqn);
+    }
+}
+    1012:	bc30      	pop	{r4, r5}
+    1014:	4770      	bx	lr
+{
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+    ASSERT(handler != INVALID_IRQ_HANDLER );
+    ASSERT(trigger_level < MSS_UART_FIFO_INVALID_TRIG_LEVEL);
+
+    if(((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1)) &&
+    1016:	1e0b      	subs	r3, r1, #0
+    1018:	bf18      	it	ne
+    101a:	2301      	movne	r3, #1
+    101c:	2ac0      	cmp	r2, #192	; 0xc0
+    101e:	bf8c      	ite	hi
+    1020:	2300      	movhi	r3, #0
+    1022:	f003 0301 	andls.w	r3, r3, #1
+    1026:	2b00      	cmp	r3, #0
+    1028:	d0f3      	beq.n	1012 <MAIN_STACK_SIZE+0x12>
+       (trigger_level < MSS_UART_FIFO_INVALID_TRIG_LEVEL))
+    {
+        this_uart->rx_handler = handler;
+
+        /* Set the receive interrupt trigger level. */
+        this_uart->hw_reg->FCR = (this_uart->hw_reg->FCR &
+    102a:	6805      	ldr	r5, [r0, #0]
+
+    if(((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1)) &&
+       (handler != INVALID_IRQ_HANDLER) &&
+       (trigger_level < MSS_UART_FIFO_INVALID_TRIG_LEVEL))
+    {
+        this_uart->rx_handler = handler;
+    102c:	6201      	str	r1, [r0, #32]
+
+        /* Set the receive interrupt trigger level. */
+        this_uart->hw_reg->FCR = (this_uart->hw_reg->FCR &
+    102e:	f895 c008 	ldrb.w	ip, [r5, #8]
+
+    \param [in]      IRQn  External interrupt number. Value cannot be negative.
+ */
+__STATIC_INLINE void NVIC_ClearPendingIRQ(IRQn_Type IRQn)
+{
+  NVIC->ICPR[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F)); /* Clear pending interrupt */
+    1032:	2401      	movs	r4, #1
+    1034:	f00c 033f 	and.w	r3, ip, #63	; 0x3f
+    1038:	431a      	orrs	r2, r3
+    103a:	722a      	strb	r2, [r5, #8]
+                                 (uint8_t)(~((uint8_t)FCR_TRIG_LEVEL_MASK))) |
+                                 (uint8_t)trigger_level;
+        /* Clear any previously pended interrupts */
+        NVIC_ClearPendingIRQ(this_uart->irqn);
+    103c:	7902      	ldrb	r2, [r0, #4]
+
+        /* Enable receive interrupt. */
+        set_bit_reg8(&this_uart->hw_reg->IER,ERBFI);
+    103e:	f105 0c04 	add.w	ip, r5, #4
+    1042:	f002 001f 	and.w	r0, r2, #31
+    1046:	fa14 f000 	lsls.w	r0, r4, r0
+    104a:	f02c 437f 	bic.w	r3, ip, #4278190080	; 0xff000000
+    104e:	b251      	sxtb	r1, r2
+    1050:	f423 0570 	bic.w	r5, r3, #15728640	; 0xf00000
+    1054:	0949      	lsrs	r1, r1, #5
+    1056:	f24e 1300 	movw	r3, #57600	; 0xe100
+    105a:	f00c 4c70 	and.w	ip, ip, #4026531840	; 0xf0000000
+    105e:	f2ce 0300 	movt	r3, #57344	; 0xe000
+    1062:	016a      	lsls	r2, r5, #5
+    1064:	f10c 7c00 	add.w	ip, ip, #33554432	; 0x2000000
+    1068:	f101 0560 	add.w	r5, r1, #96	; 0x60
+    106c:	f843 0025 	str.w	r0, [r3, r5, lsl #2]
+    1070:	f84c 4002 	str.w	r4, [ip, r2]
+
+    \param [in]      IRQn  External interrupt number. Value cannot be negative.
+ */
+__STATIC_INLINE void NVIC_EnableIRQ(IRQn_Type IRQn)
+{
+  NVIC->ISER[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F)); /* enable interrupt */
+    1074:	f843 0021 	str.w	r0, [r3, r1, lsl #2]
+    1078:	e7cb      	b.n	1012 <MAIN_STACK_SIZE+0x12>
+    107a:	bf00      	nop
+
+0000107c <MSS_UART_isr>:
+{
+    uint8_t iirf;
+
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+
+    if((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1))
+    107c:	f240 0394 	movw	r3, #148	; 0x94
+    1080:	f2c2 0300 	movt	r3, #8192	; 0x2000
+    1084:	4298      	cmp	r0, r3
+static void
+MSS_UART_isr
+(
+    mss_uart_instance_t * this_uart
+)
+{
+    1086:	b510      	push	{r4, lr}
+    1088:	4604      	mov	r4, r0
+    uint8_t iirf;
+
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+
+    if((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1))
+    108a:	d006      	beq.n	109a <MSS_UART_isr+0x1e>
+    108c:	f240 0054 	movw	r0, #84	; 0x54
+    1090:	f2c2 0000 	movt	r0, #8192	; 0x2000
+    1094:	4284      	cmp	r4, r0
+    1096:	d000      	beq.n	109a <MSS_UART_isr+0x1e>
+    1098:	bd10      	pop	{r4, pc}
+    {
+        iirf = this_uart->hw_reg->IIR & IIRF_MASK;
+    109a:	6822      	ldr	r2, [r4, #0]
+    109c:	7a11      	ldrb	r1, [r2, #8]
+
+        switch (iirf)
+    109e:	f001 0c0f 	and.w	ip, r1, #15
+    10a2:	f1bc 0f0c 	cmp.w	ip, #12
+    10a6:	d8f7      	bhi.n	1098 <MSS_UART_isr+0x1c>
+    10a8:	a101      	add	r1, pc, #4	; (adr r1, 10b0 <MSS_UART_isr+0x34>)
+    10aa:	f851 f02c 	ldr.w	pc, [r1, ip, lsl #2]
+    10ae:	bf00      	nop
+    10b0:	00001101 	.word	0x00001101
+    10b4:	00001099 	.word	0x00001099
+    10b8:	000010f9 	.word	0x000010f9
+    10bc:	00001109 	.word	0x00001109
+    10c0:	000010f1 	.word	0x000010f1
+    10c4:	00001099 	.word	0x00001099
+    10c8:	000010e5 	.word	0x000010e5
+    10cc:	00001099 	.word	0x00001099
+    10d0:	00001099 	.word	0x00001099
+    10d4:	00001099 	.word	0x00001099
+    10d8:	00001099 	.word	0x00001099
+    10dc:	00001099 	.word	0x00001099
+    10e0:	000010f1 	.word	0x000010f1
+            break;
+
+            case IIRF_RX_LINE_STATUS:  /* Line Status Interrupt */
+            {
+                ASSERT(NULL_HANDLER != this_uart->linests_handler);
+                if(NULL_HANDLER != this_uart->linests_handler)
+    10e4:	69e3      	ldr	r3, [r4, #28]
+    10e6:	2b00      	cmp	r3, #0
+    10e8:	d0d6      	beq.n	1098 <MSS_UART_isr+0x1c>
+                {
+                   (*(this_uart->linests_handler))(this_uart);
+    10ea:	4620      	mov	r0, r4
+    10ec:	4798      	blx	r3
+    10ee:	bd10      	pop	{r4, pc}
+
+            case IIRF_RX_DATA:      /* Received Data Available */
+            case IIRF_DATA_TIMEOUT: /* Received Data Timed-out */
+            {
+                ASSERT(NULL_HANDLER != this_uart->rx_handler);
+                if(NULL_HANDLER != this_uart->rx_handler)
+    10f0:	6a23      	ldr	r3, [r4, #32]
+    10f2:	2b00      	cmp	r3, #0
+    10f4:	d1f9      	bne.n	10ea <MSS_UART_isr+0x6e>
+    10f6:	e7cf      	b.n	1098 <MSS_UART_isr+0x1c>
+            break;
+
+            case IIRF_THRE: /* Transmitter Holding Register Empty */
+            {
+                ASSERT(NULL_HANDLER != this_uart->tx_handler);
+                if(NULL_HANDLER != this_uart->tx_handler)
+    10f8:	6a63      	ldr	r3, [r4, #36]	; 0x24
+    10fa:	2b00      	cmp	r3, #0
+    10fc:	d1f5      	bne.n	10ea <MSS_UART_isr+0x6e>
+    10fe:	e7cb      	b.n	1098 <MSS_UART_isr+0x1c>
+        switch (iirf)
+        {
+            case IIRF_MODEM_STATUS:  /* Modem status interrupt */
+            {
+                ASSERT(NULL_HANDLER != this_uart->modemsts_handler);
+                if(NULL_HANDLER != this_uart->modemsts_handler)
+    1100:	6aa3      	ldr	r3, [r4, #40]	; 0x28
+    1102:	2b00      	cmp	r3, #0
+    1104:	d1f1      	bne.n	10ea <MSS_UART_isr+0x6e>
+    1106:	e7c7      	b.n	1098 <MSS_UART_isr+0x1c>
+            case IIRF_MMI:
+            {
+                /* Identify multimode interrupts and handle */
+
+                /* Receiver time-out interrupt */
+                if(read_bit_reg8(&this_uart->hw_reg->IIM,ERTOI))
+    1108:	3228      	adds	r2, #40	; 0x28
+{
+    return (HW_REG_BIT(reg,bit));
+}
+static __INLINE uint8_t read_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    return (HW_REG_BIT(reg,bit));
+    110a:	f022 407f 	bic.w	r0, r2, #4278190080	; 0xff000000
+    110e:	f420 0370 	bic.w	r3, r0, #15728640	; 0xf00000
+    1112:	f002 4170 	and.w	r1, r2, #4026531840	; 0xf0000000
+    1116:	0158      	lsls	r0, r3, #5
+    1118:	f101 7c00 	add.w	ip, r1, #33554432	; 0x2000000
+    111c:	f85c 3000 	ldr.w	r3, [ip, r0]
+    1120:	f013 0fff 	tst.w	r3, #255	; 0xff
+    1124:	d005      	beq.n	1132 <MSS_UART_isr+0xb6>
+                {
+                    ASSERT(NULL_HANDLER != this_uart->rto_handler);
+                    if(NULL_HANDLER != this_uart->rto_handler)
+    1126:	6ae3      	ldr	r3, [r4, #44]	; 0x2c
+    1128:	b11b      	cbz	r3, 1132 <MSS_UART_isr+0xb6>
+                    {
+                        (*(this_uart->rto_handler))(this_uart);
+    112a:	4620      	mov	r0, r4
+    112c:	4798      	blx	r3
+    112e:	6822      	ldr	r2, [r4, #0]
+    1130:	3228      	adds	r2, #40	; 0x28
+    1132:	f002 4070 	and.w	r0, r2, #4026531840	; 0xf0000000
+    1136:	f022 4c7f 	bic.w	ip, r2, #4278190080	; 0xff000000
+    113a:	f100 7300 	add.w	r3, r0, #33554432	; 0x2000000
+    113e:	f42c 0170 	bic.w	r1, ip, #15728640	; 0xf00000
+    1142:	1d18      	adds	r0, r3, #4
+    1144:	0149      	lsls	r1, r1, #5
+    1146:	5843      	ldr	r3, [r0, r1]
+                    }
+                }
+                /* NACK interrupt */
+                if(read_bit_reg8(&this_uart->hw_reg->IIM,ENACKI))
+    1148:	f013 0fff 	tst.w	r3, #255	; 0xff
+    114c:	d005      	beq.n	115a <MSS_UART_isr+0xde>
+                {
+                    ASSERT(NULL_HANDLER != this_uart->nack_handler);
+                    if(NULL_HANDLER != this_uart->nack_handler)
+    114e:	6b23      	ldr	r3, [r4, #48]	; 0x30
+    1150:	b11b      	cbz	r3, 115a <MSS_UART_isr+0xde>
+                    {
+                        (*(this_uart->nack_handler))(this_uart);
+    1152:	4620      	mov	r0, r4
+    1154:	4798      	blx	r3
+    1156:	6822      	ldr	r2, [r4, #0]
+    1158:	3228      	adds	r2, #40	; 0x28
+    115a:	f002 4370 	and.w	r3, r2, #4026531840	; 0xf0000000
+    115e:	f022 4c7f 	bic.w	ip, r2, #4278190080	; 0xff000000
+    1162:	f103 7000 	add.w	r0, r3, #33554432	; 0x2000000
+    1166:	f42c 0170 	bic.w	r1, ip, #15728640	; 0xf00000
+    116a:	3008      	adds	r0, #8
+    116c:	0149      	lsls	r1, r1, #5
+    116e:	5843      	ldr	r3, [r0, r1]
+                    }
+                }
+
+                /* PID parity error interrupt */
+                if(read_bit_reg8(&this_uart->hw_reg->IIM,EPID_PEI))
+    1170:	f013 0fff 	tst.w	r3, #255	; 0xff
+    1174:	d005      	beq.n	1182 <MSS_UART_isr+0x106>
+                {
+                    ASSERT(NULL_HANDLER != this_uart->pid_pei_handler);
+                    if(NULL_HANDLER != this_uart->pid_pei_handler)
+    1176:	6b63      	ldr	r3, [r4, #52]	; 0x34
+    1178:	b11b      	cbz	r3, 1182 <MSS_UART_isr+0x106>
+                    {
+                        (*(this_uart->pid_pei_handler))(this_uart);
+    117a:	4620      	mov	r0, r4
+    117c:	4798      	blx	r3
+    117e:	6822      	ldr	r2, [r4, #0]
+    1180:	3228      	adds	r2, #40	; 0x28
+    1182:	f002 4370 	and.w	r3, r2, #4026531840	; 0xf0000000
+    1186:	f022 4c7f 	bic.w	ip, r2, #4278190080	; 0xff000000
+    118a:	f42c 0070 	bic.w	r0, ip, #15728640	; 0xf00000
+    118e:	f103 7300 	add.w	r3, r3, #33554432	; 0x2000000
+    1192:	330c      	adds	r3, #12
+    1194:	0141      	lsls	r1, r0, #5
+    1196:	5858      	ldr	r0, [r3, r1]
+                    }
+                }
+
+                /* LIN break detection interrupt */
+                if(read_bit_reg8(&this_uart->hw_reg->IIM,ELINBI))
+    1198:	f010 0fff 	tst.w	r0, #255	; 0xff
+    119c:	d005      	beq.n	11aa <MSS_UART_isr+0x12e>
+                {
+                    ASSERT(NULL_HANDLER != this_uart->break_handler);
+                    if(NULL_HANDLER != this_uart->break_handler)
+    119e:	6ba3      	ldr	r3, [r4, #56]	; 0x38
+    11a0:	b11b      	cbz	r3, 11aa <MSS_UART_isr+0x12e>
+                    {
+                        (*(this_uart->break_handler))(this_uart);
+    11a2:	4620      	mov	r0, r4
+    11a4:	4798      	blx	r3
+    11a6:	6822      	ldr	r2, [r4, #0]
+    11a8:	3228      	adds	r2, #40	; 0x28
+    11aa:	f022 4c7f 	bic.w	ip, r2, #4278190080	; 0xff000000
+    11ae:	f002 4170 	and.w	r1, r2, #4026531840	; 0xf0000000
+    11b2:	f101 7200 	add.w	r2, r1, #33554432	; 0x2000000
+    11b6:	f42c 0370 	bic.w	r3, ip, #15728640	; 0xf00000
+    11ba:	3210      	adds	r2, #16
+    11bc:	0158      	lsls	r0, r3, #5
+    11be:	5811      	ldr	r1, [r2, r0]
+                    }
+                }
+
+                /* LIN Sync detection interrupt */
+                if(read_bit_reg8(&this_uart->hw_reg->IIM,ELINSI))
+    11c0:	f011 0fff 	tst.w	r1, #255	; 0xff
+    11c4:	f43f af68 	beq.w	1098 <MSS_UART_isr+0x1c>
+                {
+                    ASSERT(NULL_HANDLER != this_uart->sync_handler);
+                    if(NULL_HANDLER != this_uart->sync_handler)
+    11c8:	6be3      	ldr	r3, [r4, #60]	; 0x3c
+    11ca:	2b00      	cmp	r3, #0
+    11cc:	f43f af64 	beq.w	1098 <MSS_UART_isr+0x1c>
+                    {
+                        (*(this_uart->sync_handler))(this_uart);
+    11d0:	4620      	mov	r0, r4
+    11d2:	4798      	blx	r3
+    11d4:	e760      	b.n	1098 <MSS_UART_isr+0x1c>
+    11d6:	bf00      	nop
+
+000011d8 <UART1_IRQHandler>:
+#if defined(__GNUC__)
+__attribute__((__interrupt__)) void UART1_IRQHandler(void)
+#else
+void UART1_IRQHandler(void)
+#endif
+{
+    11d8:	4668      	mov	r0, sp
+    11da:	f020 0107 	bic.w	r1, r0, #7
+    11de:	468d      	mov	sp, r1
+    11e0:	b501      	push	{r0, lr}
+    MSS_UART_isr(&g_mss_uart1);
+    11e2:	f240 0054 	movw	r0, #84	; 0x54
+    11e6:	f2c2 0000 	movt	r0, #8192	; 0x2000
+    11ea:	f7ff ff47 	bl	107c <MSS_UART_isr>
+}
+    11ee:	e8bd 4001 	ldmia.w	sp!, {r0, lr}
+    11f2:	4685      	mov	sp, r0
+    11f4:	4770      	bx	lr
+    11f6:	bf00      	nop
+
+000011f8 <UART0_IRQHandler>:
+#if defined(__GNUC__)
+__attribute__((__interrupt__)) void UART0_IRQHandler(void)
+#else
+void UART0_IRQHandler(void)
+#endif
+{
+    11f8:	4668      	mov	r0, sp
+    11fa:	f020 0107 	bic.w	r1, r0, #7
+    11fe:	468d      	mov	sp, r1
+    1200:	b501      	push	{r0, lr}
+    MSS_UART_isr(&g_mss_uart0);
+    1202:	f240 0094 	movw	r0, #148	; 0x94
+    1206:	f2c2 0000 	movt	r0, #8192	; 0x2000
+    120a:	f7ff ff37 	bl	107c <MSS_UART_isr>
+}
+    120e:	e8bd 4001 	ldmia.w	sp!, {r0, lr}
+    1212:	4685      	mov	sp, r0
+    1214:	4770      	bx	lr
+    1216:	bf00      	nop
+
+00001218 <default_tx_handler>:
+
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+    ASSERT(( (uint8_t *)0 ) != this_uart->tx_buffer);
+    ASSERT(0u < this_uart->tx_buff_size);
+
+    if(((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1)) &&
+    1218:	f240 0394 	movw	r3, #148	; 0x94
+    121c:	f2c2 0300 	movt	r3, #8192	; 0x2000
+    1220:	4298      	cmp	r0, r3
+static void
+default_tx_handler
+(
+    mss_uart_instance_t * this_uart
+)
+{
+    1222:	b470      	push	{r4, r5, r6}
+
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+    ASSERT(( (uint8_t *)0 ) != this_uart->tx_buffer);
+    ASSERT(0u < this_uart->tx_buff_size);
+
+    if(((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1)) &&
+    1224:	d007      	beq.n	1236 <default_tx_handler+0x1e>
+    1226:	f240 0154 	movw	r1, #84	; 0x54
+    122a:	f2c2 0100 	movt	r1, #8192	; 0x2000
+    122e:	4288      	cmp	r0, r1
+    1230:	d001      	beq.n	1236 <default_tx_handler+0x1e>
+            this_uart->tx_buff_size = TX_COMPLETE;
+            /* disables TX interrupt */
+            clear_bit_reg8(&this_uart->hw_reg->IER,ETBEI);
+        }
+    }
+}
+    1232:	bc70      	pop	{r4, r5, r6}
+    1234:	4770      	bx	lr
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+    ASSERT(( (uint8_t *)0 ) != this_uart->tx_buffer);
+    ASSERT(0u < this_uart->tx_buff_size);
+
+    if(((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1)) &&
+       (((uint8_t *)0 ) != this_uart->tx_buffer) &&
+    1236:	6904      	ldr	r4, [r0, #16]
+    1238:	2c00      	cmp	r4, #0
+    123a:	d0fa      	beq.n	1232 <default_tx_handler+0x1a>
+       (0u < this_uart->tx_buff_size))
+    123c:	6943      	ldr	r3, [r0, #20]
+    123e:	2b00      	cmp	r3, #0
+    1240:	d0f7      	beq.n	1232 <default_tx_handler+0x1a>
+    {
+        /* Read the Line Status Register and update the sticky record. */
+        status = this_uart->hw_reg->LSR;
+    1242:	6801      	ldr	r1, [r0, #0]
+        this_uart->status |= status;
+    1244:	f890 c00d 	ldrb.w	ip, [r0, #13]
+    if(((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1)) &&
+       (((uint8_t *)0 ) != this_uart->tx_buffer) &&
+       (0u < this_uart->tx_buff_size))
+    {
+        /* Read the Line Status Register and update the sticky record. */
+        status = this_uart->hw_reg->LSR;
+    1248:	7d0a      	ldrb	r2, [r1, #20]
+        this_uart->status |= status;
+    124a:	ea42 0c0c 	orr.w	ip, r2, ip
+
+        /*
+         * This function should only be called as a result of a THRE interrupt.
+         * Verify that this is true before proceeding to transmit data.
+         */
+        if(status & MSS_UART_THRE)
+    124e:	f012 0f20 	tst.w	r2, #32
+       (((uint8_t *)0 ) != this_uart->tx_buffer) &&
+       (0u < this_uart->tx_buff_size))
+    {
+        /* Read the Line Status Register and update the sticky record. */
+        status = this_uart->hw_reg->LSR;
+        this_uart->status |= status;
+    1252:	f880 c00d 	strb.w	ip, [r0, #13]
+
+        /*
+         * This function should only be called as a result of a THRE interrupt.
+         * Verify that this is true before proceeding to transmit data.
+         */
+        if(status & MSS_UART_THRE)
+    1256:	6982      	ldr	r2, [r0, #24]
+    1258:	d029      	beq.n	12ae <default_tx_handler+0x96>
+        {
+            uint32_t i;
+            uint32_t fill_size = TX_FIFO_SIZE;
+            uint32_t tx_remain = this_uart->tx_buff_size - this_uart->tx_idx;
+    125a:	1a9d      	subs	r5, r3, r2
+
+            /* Calculate the number of bytes to transmit. */
+            if(tx_remain < TX_FIFO_SIZE)
+    125c:	2d0f      	cmp	r5, #15
+    125e:	d938      	bls.n	12d2 <default_tx_handler+0xba>
+    1260:	2510      	movs	r5, #16
+    1262:	18a4      	adds	r4, r4, r2
+
+            /* Fill the TX FIFO with the calculated the number of bytes. */
+            for(i = 0u; i < fill_size; ++i)
+            {
+                /* Send next character in the buffer. */
+                this_uart->hw_reg->THR = this_uart->tx_buffer[this_uart->tx_idx];
+    1264:	7826      	ldrb	r6, [r4, #0]
+    1266:	1e6b      	subs	r3, r5, #1
+    1268:	700e      	strb	r6, [r1, #0]
+    126a:	f003 0601 	and.w	r6, r3, #1
+            {
+                fill_size = tx_remain;
+            }
+
+            /* Fill the TX FIFO with the calculated the number of bytes. */
+            for(i = 0u; i < fill_size; ++i)
+    126e:	2301      	movs	r3, #1
+            {
+                /* Send next character in the buffer. */
+                this_uart->hw_reg->THR = this_uart->tx_buffer[this_uart->tx_idx];
+                ++this_uart->tx_idx;
+    1270:	3201      	adds	r2, #1
+            {
+                fill_size = tx_remain;
+            }
+
+            /* Fill the TX FIFO with the calculated the number of bytes. */
+            for(i = 0u; i < fill_size; ++i)
+    1272:	429d      	cmp	r5, r3
+            {
+                /* Send next character in the buffer. */
+                this_uart->hw_reg->THR = this_uart->tx_buffer[this_uart->tx_idx];
+                ++this_uart->tx_idx;
+    1274:	6182      	str	r2, [r0, #24]
+            {
+                fill_size = tx_remain;
+            }
+
+            /* Fill the TX FIFO with the calculated the number of bytes. */
+            for(i = 0u; i < fill_size; ++i)
+    1276:	d919      	bls.n	12ac <default_tx_handler+0x94>
+    1278:	b146      	cbz	r6, 128c <default_tx_handler+0x74>
+            {
+                /* Send next character in the buffer. */
+                this_uart->hw_reg->THR = this_uart->tx_buffer[this_uart->tx_idx];
+    127a:	f894 c001 	ldrb.w	ip, [r4, #1]
+            {
+                fill_size = tx_remain;
+            }
+
+            /* Fill the TX FIFO with the calculated the number of bytes. */
+            for(i = 0u; i < fill_size; ++i)
+    127e:	2302      	movs	r3, #2
+            {
+                /* Send next character in the buffer. */
+                this_uart->hw_reg->THR = this_uart->tx_buffer[this_uart->tx_idx];
+                ++this_uart->tx_idx;
+    1280:	3201      	adds	r2, #1
+            {
+                fill_size = tx_remain;
+            }
+
+            /* Fill the TX FIFO with the calculated the number of bytes. */
+            for(i = 0u; i < fill_size; ++i)
+    1282:	429d      	cmp	r5, r3
+            {
+                /* Send next character in the buffer. */
+                this_uart->hw_reg->THR = this_uart->tx_buffer[this_uart->tx_idx];
+    1284:	f881 c000 	strb.w	ip, [r1]
+                ++this_uart->tx_idx;
+    1288:	6182      	str	r2, [r0, #24]
+            {
+                fill_size = tx_remain;
+            }
+
+            /* Fill the TX FIFO with the calculated the number of bytes. */
+            for(i = 0u; i < fill_size; ++i)
+    128a:	d90f      	bls.n	12ac <default_tx_handler+0x94>
+            {
+                /* Send next character in the buffer. */
+                this_uart->hw_reg->THR = this_uart->tx_buffer[this_uart->tx_idx];
+    128c:	f814 c003 	ldrb.w	ip, [r4, r3]
+                ++this_uart->tx_idx;
+    1290:	3201      	adds	r2, #1
+
+            /* Fill the TX FIFO with the calculated the number of bytes. */
+            for(i = 0u; i < fill_size; ++i)
+            {
+                /* Send next character in the buffer. */
+                this_uart->hw_reg->THR = this_uart->tx_buffer[this_uart->tx_idx];
+    1292:	f881 c000 	strb.w	ip, [r1]
+            {
+                fill_size = tx_remain;
+            }
+
+            /* Fill the TX FIFO with the calculated the number of bytes. */
+            for(i = 0u; i < fill_size; ++i)
+    1296:	3301      	adds	r3, #1
+            {
+                /* Send next character in the buffer. */
+                this_uart->hw_reg->THR = this_uart->tx_buffer[this_uart->tx_idx];
+                ++this_uart->tx_idx;
+    1298:	6182      	str	r2, [r0, #24]
+
+            /* Fill the TX FIFO with the calculated the number of bytes. */
+            for(i = 0u; i < fill_size; ++i)
+            {
+                /* Send next character in the buffer. */
+                this_uart->hw_reg->THR = this_uart->tx_buffer[this_uart->tx_idx];
+    129a:	f814 c003 	ldrb.w	ip, [r4, r3]
+            {
+                fill_size = tx_remain;
+            }
+
+            /* Fill the TX FIFO with the calculated the number of bytes. */
+            for(i = 0u; i < fill_size; ++i)
+    129e:	3301      	adds	r3, #1
+            {
+                /* Send next character in the buffer. */
+                this_uart->hw_reg->THR = this_uart->tx_buffer[this_uart->tx_idx];
+                ++this_uart->tx_idx;
+    12a0:	3201      	adds	r2, #1
+            {
+                fill_size = tx_remain;
+            }
+
+            /* Fill the TX FIFO with the calculated the number of bytes. */
+            for(i = 0u; i < fill_size; ++i)
+    12a2:	429d      	cmp	r5, r3
+            {
+                /* Send next character in the buffer. */
+                this_uart->hw_reg->THR = this_uart->tx_buffer[this_uart->tx_idx];
+    12a4:	f881 c000 	strb.w	ip, [r1]
+                ++this_uart->tx_idx;
+    12a8:	6182      	str	r2, [r0, #24]
+            {
+                fill_size = tx_remain;
+            }
+
+            /* Fill the TX FIFO with the calculated the number of bytes. */
+            for(i = 0u; i < fill_size; ++i)
+    12aa:	d8ef      	bhi.n	128c <default_tx_handler+0x74>
+    12ac:	6943      	ldr	r3, [r0, #20]
+                ++this_uart->tx_idx;
+            }
+        }
+
+        /* Flag Tx as complete if all data has been pushed into the Tx FIFO. */
+        if(this_uart->tx_idx == this_uart->tx_buff_size)
+    12ae:	429a      	cmp	r2, r3
+    12b0:	d1bf      	bne.n	1232 <default_tx_handler+0x1a>
+        {
+            this_uart->tx_buff_size = TX_COMPLETE;
+            /* disables TX interrupt */
+            clear_bit_reg8(&this_uart->hw_reg->IER,ETBEI);
+    12b2:	6802      	ldr	r2, [r0, #0]
+        }
+
+        /* Flag Tx as complete if all data has been pushed into the Tx FIFO. */
+        if(this_uart->tx_idx == this_uart->tx_buff_size)
+        {
+            this_uart->tx_buff_size = TX_COMPLETE;
+    12b4:	2100      	movs	r1, #0
+            /* disables TX interrupt */
+            clear_bit_reg8(&this_uart->hw_reg->IER,ETBEI);
+    12b6:	1d13      	adds	r3, r2, #4
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    12b8:	f023 4c7f 	bic.w	ip, r3, #4278190080	; 0xff000000
+    12bc:	f003 4270 	and.w	r2, r3, #4026531840	; 0xf0000000
+    12c0:	f102 7300 	add.w	r3, r2, #33554432	; 0x2000000
+    12c4:	f42c 0270 	bic.w	r2, ip, #15728640	; 0xf00000
+    12c8:	3304      	adds	r3, #4
+    12ca:	0152      	lsls	r2, r2, #5
+    12cc:	5099      	str	r1, [r3, r2]
+        }
+
+        /* Flag Tx as complete if all data has been pushed into the Tx FIFO. */
+        if(this_uart->tx_idx == this_uart->tx_buff_size)
+        {
+            this_uart->tx_buff_size = TX_COMPLETE;
+    12ce:	6141      	str	r1, [r0, #20]
+    12d0:	e7af      	b.n	1232 <default_tx_handler+0x1a>
+            {
+                fill_size = tx_remain;
+            }
+
+            /* Fill the TX FIFO with the calculated the number of bytes. */
+            for(i = 0u; i < fill_size; ++i)
+    12d2:	2d00      	cmp	r5, #0
+    12d4:	d1c5      	bne.n	1262 <default_tx_handler+0x4a>
+    12d6:	e7ea      	b.n	12ae <default_tx_handler+0x96>
+
+000012d8 <global_init>:
+(
+    mss_uart_instance_t * this_uart,
+    uint32_t baud_rate,
+    uint8_t line_config
+)
+{
+    12d8:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
+    /* The driver expects g_mss_uart0 and g_mss_uart1 to be the only
+     * mss_uart_instance_t instances used to identify UART0 and UART1. */
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+
+    if(this_uart == &g_mss_uart0)
+    12dc:	f240 0394 	movw	r3, #148	; 0x94
+(
+    mss_uart_instance_t * this_uart,
+    uint32_t baud_rate,
+    uint8_t line_config
+)
+{
+    12e0:	b08f      	sub	sp, #60	; 0x3c
+    /* The driver expects g_mss_uart0 and g_mss_uart1 to be the only
+     * mss_uart_instance_t instances used to identify UART0 and UART1. */
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+
+    if(this_uart == &g_mss_uart0)
+    12e2:	f2c2 0300 	movt	r3, #8192	; 0x2000
+(
+    mss_uart_instance_t * this_uart,
+    uint32_t baud_rate,
+    uint8_t line_config
+)
+{
+    12e6:	920b      	str	r2, [sp, #44]	; 0x2c
+    if(this_uart == &g_mss_uart0)
+    {
+        this_uart->hw_reg = UART0;
+        this_uart->irqn = UART0_IRQn;
+        /* reset UART0 */
+        SYSREG->SOFT_RST_CR |= SYSREG_MMUART0_SOFTRESET_MASK;
+    12e8:	f248 0200 	movw	r2, #32768	; 0x8000
+{
+    /* The driver expects g_mss_uart0 and g_mss_uart1 to be the only
+     * mss_uart_instance_t instances used to identify UART0 and UART1. */
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+
+    if(this_uart == &g_mss_uart0)
+    12ec:	4298      	cmp	r0, r3
+    {
+        this_uart->hw_reg = UART0;
+        this_uart->irqn = UART0_IRQn;
+        /* reset UART0 */
+        SYSREG->SOFT_RST_CR |= SYSREG_MMUART0_SOFTRESET_MASK;
+    12ee:	f2c4 0203 	movt	r2, #16387	; 0x4003
+(
+    mss_uart_instance_t * this_uart,
+    uint32_t baud_rate,
+    uint8_t line_config
+)
+{
+    12f2:	4604      	mov	r4, r0
+    12f4:	910d      	str	r1, [sp, #52]	; 0x34
+    if(this_uart == &g_mss_uart0)
+    {
+        this_uart->hw_reg = UART0;
+        this_uart->irqn = UART0_IRQn;
+        /* reset UART0 */
+        SYSREG->SOFT_RST_CR |= SYSREG_MMUART0_SOFTRESET_MASK;
+    12f6:	6c90      	ldr	r0, [r2, #72]	; 0x48
+
+    \param [in]      IRQn  External interrupt number. Value cannot be negative.
+ */
+__STATIC_INLINE void NVIC_ClearPendingIRQ(IRQn_Type IRQn)
+{
+  NVIC->ICPR[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F)); /* Clear pending interrupt */
+    12f8:	f24e 1100 	movw	r1, #57600	; 0xe100
+{
+    /* The driver expects g_mss_uart0 and g_mss_uart1 to be the only
+     * mss_uart_instance_t instances used to identify UART0 and UART1. */
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+
+    if(this_uart == &g_mss_uart0)
+    12fc:	f000 8129 	beq.w	1552 <global_init+0x27a>
+    else
+    {
+        this_uart->hw_reg = UART1;
+        this_uart->irqn = UART1_IRQn;
+        /* Reset UART1 */
+        SYSREG->SOFT_RST_CR |= SYSREG_MMUART1_SOFTRESET_MASK;
+    1300:	f440 7780 	orr.w	r7, r0, #256	; 0x100
+    1304:	f2ce 0100 	movt	r1, #57344	; 0xe000
+    1308:	f44f 6600 	mov.w	r6, #2048	; 0x800
+    130c:	6497      	str	r7, [r2, #72]	; 0x48
+    130e:	f8c1 6180 	str.w	r6, [r1, #384]	; 0x180
+        /* Clear any previously pended UART1 interrupt */
+        NVIC_ClearPendingIRQ(UART1_IRQn);
+        /* Take UART1 out of reset. */
+        SYSREG->SOFT_RST_CR &= ~SYSREG_MMUART1_SOFTRESET_MASK;
+    1312:	6c95      	ldr	r5, [r2, #72]	; 0x48
+        /* Take UART0 out of reset. */
+        SYSREG->SOFT_RST_CR &= ~SYSREG_MMUART0_SOFTRESET_MASK;
+    }
+    else
+    {
+        this_uart->hw_reg = UART1;
+    1314:	f240 0100 	movw	r1, #0
+        /* Reset UART1 */
+        SYSREG->SOFT_RST_CR |= SYSREG_MMUART1_SOFTRESET_MASK;
+        /* Clear any previously pended UART1 interrupt */
+        NVIC_ClearPendingIRQ(UART1_IRQn);
+        /* Take UART1 out of reset. */
+        SYSREG->SOFT_RST_CR &= ~SYSREG_MMUART1_SOFTRESET_MASK;
+    1318:	f425 7080 	bic.w	r0, r5, #256	; 0x100
+        /* Take UART0 out of reset. */
+        SYSREG->SOFT_RST_CR &= ~SYSREG_MMUART0_SOFTRESET_MASK;
+    }
+    else
+    {
+        this_uart->hw_reg = UART1;
+    131c:	f2c4 0101 	movt	r1, #16385	; 0x4001
+        /* Reset UART1 */
+        SYSREG->SOFT_RST_CR |= SYSREG_MMUART1_SOFTRESET_MASK;
+        /* Clear any previously pended UART1 interrupt */
+        NVIC_ClearPendingIRQ(UART1_IRQn);
+        /* Take UART1 out of reset. */
+        SYSREG->SOFT_RST_CR &= ~SYSREG_MMUART1_SOFTRESET_MASK;
+    1320:	6490      	str	r0, [r2, #72]	; 0x48
+        SYSREG->SOFT_RST_CR &= ~SYSREG_MMUART0_SOFTRESET_MASK;
+    }
+    else
+    {
+        this_uart->hw_reg = UART1;
+        this_uart->irqn = UART1_IRQn;
+    1322:	220b      	movs	r2, #11
+    1324:	7122      	strb	r2, [r4, #4]
+        /* Take UART0 out of reset. */
+        SYSREG->SOFT_RST_CR &= ~SYSREG_MMUART0_SOFTRESET_MASK;
+    }
+    else
+    {
+        this_uart->hw_reg = UART1;
+    1326:	6021      	str	r1, [r4, #0]
+        /* Take UART1 out of reset. */
+        SYSREG->SOFT_RST_CR &= ~SYSREG_MMUART1_SOFTRESET_MASK;
+    }
+
+    /* disable interrupts */
+    this_uart->hw_reg->IER = 0u;
+    1328:	2200      	movs	r2, #0
+
+    /* FIFO configuration */
+    this_uart->hw_reg->FCR = (uint8_t)MSS_UART_FIFO_SINGLE_BYTE;
+    132a:	460d      	mov	r5, r1
+        /* Take UART1 out of reset. */
+        SYSREG->SOFT_RST_CR &= ~SYSREG_MMUART1_SOFTRESET_MASK;
+    }
+
+    /* disable interrupts */
+    this_uart->hw_reg->IER = 0u;
+    132c:	710a      	strb	r2, [r1, #4]
+    /* enable RXRDYN and TXRDYN pins. The earlier FCR write to set the TX FIFO
+     * trigger level inadvertently disabled the FCR_RXRDY_TXRDYN_EN bit. */
+    set_bit_reg8(&this_uart->hw_reg->FCR,RXRDY_TXRDYN_EN);
+
+    /* disable loopback : local * remote */
+    clear_bit_reg8(&this_uart->hw_reg->MCR,LOOP);
+    132e:	f101 0610 	add.w	r6, r1, #16
+
+    /* disable interrupts */
+    this_uart->hw_reg->IER = 0u;
+
+    /* FIFO configuration */
+    this_uart->hw_reg->FCR = (uint8_t)MSS_UART_FIFO_SINGLE_BYTE;
+    1332:	f805 2f08 	strb.w	r2, [r5, #8]!
+    clear_bit_reg8(&this_uart->hw_reg->MM1,E_MSB_TX);
+    /* set default RX endian */
+    clear_bit_reg8(&this_uart->hw_reg->MM1,E_MSB_RX);
+
+    /* default AFM : disabled */
+    clear_bit_reg8(&this_uart->hw_reg->MM2,EAFM);
+    1336:	f101 0a38 	add.w	sl, r1, #56	; 0x38
+    133a:	f02a 4b7f 	bic.w	fp, sl, #4278190080	; 0xff000000
+    /* disable loopback : local * remote */
+    clear_bit_reg8(&this_uart->hw_reg->MCR,LOOP);
+    clear_bit_reg8(&this_uart->hw_reg->MCR,RLOOP);
+
+    /* set default TX endian */
+    clear_bit_reg8(&this_uart->hw_reg->MM1,E_MSB_TX);
+    133e:	f101 0934 	add.w	r9, r1, #52	; 0x34
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+    1342:	f025 477f 	bic.w	r7, r5, #4278190080	; 0xff000000
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    1346:	f026 487f 	bic.w	r8, r6, #4278190080	; 0xff000000
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+    134a:	f005 4570 	and.w	r5, r5, #4026531840	; 0xf0000000
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    134e:	f006 4670 	and.w	r6, r6, #4026531840	; 0xf0000000
+    1352:	f00a 4a70 	and.w	sl, sl, #4026531840	; 0xf0000000
+    1356:	f8cd a010 	str.w	sl, [sp, #16]
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+    135a:	9506      	str	r5, [sp, #24]
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    135c:	f029 407f 	bic.w	r0, r9, #4278190080	; 0xff000000
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+    1360:	f106 7500 	add.w	r5, r6, #33554432	; 0x2000000
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    1364:	9003      	str	r0, [sp, #12]
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+    1366:	9501      	str	r5, [sp, #4]
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    1368:	f009 4970 	and.w	r9, r9, #4026531840	; 0xf0000000
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+    136c:	9d04      	ldr	r5, [sp, #16]
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    136e:	f8cd 901c 	str.w	r9, [sp, #28]
+    1372:	f8dd 900c 	ldr.w	r9, [sp, #12]
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+    1376:	f105 7500 	add.w	r5, r5, #33554432	; 0x2000000
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    137a:	f429 0a70 	bic.w	sl, r9, #15728640	; 0xf00000
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+    137e:	950a      	str	r5, [sp, #40]	; 0x28
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    1380:	f42b 0970 	bic.w	r9, fp, #15728640	; 0xf00000
+    1384:	9d07      	ldr	r5, [sp, #28]
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+    1386:	f8dd b018 	ldr.w	fp, [sp, #24]
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    138a:	f8cd 9014 	str.w	r9, [sp, #20]
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+    138e:	f10b 7900 	add.w	r9, fp, #33554432	; 0x2000000
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    1392:	f105 7b00 	add.w	fp, r5, #33554432	; 0x2000000
+    1396:	9d04      	ldr	r5, [sp, #16]
+
+    /* default AFM : disabled */
+    clear_bit_reg8(&this_uart->hw_reg->MM2,EAFM);
+
+    /* disable TX time gaurd */
+    clear_bit_reg8(&this_uart->hw_reg->MM0,ETTG); 
+    1398:	f101 0c30 	add.w	ip, r1, #48	; 0x30
+    139c:	f02c 407f 	bic.w	r0, ip, #4278190080	; 0xff000000
+    13a0:	f105 7500 	add.w	r5, r5, #33554432	; 0x2000000
+    13a4:	f00c 4c70 	and.w	ip, ip, #4026531840	; 0xf0000000
+    13a8:	f8cd a00c 	str.w	sl, [sp, #12]
+    13ac:	9504      	str	r5, [sp, #16]
+    13ae:	f10c 7500 	add.w	r5, ip, #33554432	; 0x2000000
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+    13b2:	f10c 7a00 	add.w	sl, ip, #33554432	; 0x2000000
+    13b6:	46ac      	mov	ip, r5
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    13b8:	9d03      	ldr	r5, [sp, #12]
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+    13ba:	f8cd a024 	str.w	sl, [sp, #36]	; 0x24
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    13be:	016d      	lsls	r5, r5, #5
+    13c0:	9503      	str	r5, [sp, #12]
+    13c2:	9d05      	ldr	r5, [sp, #20]
+    13c4:	f428 0870 	bic.w	r8, r8, #15728640	; 0xf00000
+    13c8:	016d      	lsls	r5, r5, #5
+    13ca:	9505      	str	r5, [sp, #20]
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+    13cc:	9d06      	ldr	r5, [sp, #24]
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    13ce:	46ca      	mov	sl, r9
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+    13d0:	f105 7500 	add.w	r5, r5, #33554432	; 0x2000000
+    13d4:	9506      	str	r5, [sp, #24]
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    13d6:	9d01      	ldr	r5, [sp, #4]
+    13d8:	ea4f 1848 	mov.w	r8, r8, lsl #5
+    13dc:	3514      	adds	r5, #20
+    13de:	9501      	str	r5, [sp, #4]
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+    13e0:	9d07      	ldr	r5, [sp, #28]
+    13e2:	f427 0770 	bic.w	r7, r7, #15728640	; 0xf00000
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    13e6:	f105 7500 	add.w	r5, r5, #33554432	; 0x2000000
+    13ea:	9507      	str	r5, [sp, #28]
+    13ec:	9d04      	ldr	r5, [sp, #16]
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+    13ee:	017f      	lsls	r7, r7, #5
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    13f0:	3504      	adds	r5, #4
+    13f2:	9504      	str	r5, [sp, #16]
+    13f4:	4665      	mov	r5, ip
+    13f6:	3514      	adds	r5, #20
+    13f8:	9508      	str	r5, [sp, #32]
+    13fa:	9d09      	ldr	r5, [sp, #36]	; 0x24
+    13fc:	f8cd 8030 	str.w	r8, [sp, #48]	; 0x30
+    1400:	351c      	adds	r5, #28
+    1402:	9509      	str	r5, [sp, #36]	; 0x24
+    1404:	9d0a      	ldr	r5, [sp, #40]	; 0x28
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+    1406:	f04f 0801 	mov.w	r8, #1
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    140a:	350c      	adds	r5, #12
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+    140c:	f10a 0a08 	add.w	sl, sl, #8
+    1410:	f109 0904 	add.w	r9, r9, #4
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    1414:	950a      	str	r5, [sp, #40]	; 0x28
+    1416:	f106 7600 	add.w	r6, r6, #33554432	; 0x2000000
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+    141a:	f849 8007 	str.w	r8, [r9, r7]
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    141e:	9d0c      	ldr	r5, [sp, #48]	; 0x30
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+    1420:	f84a 8007 	str.w	r8, [sl, r7]
+    1424:	f8dd a018 	ldr.w	sl, [sp, #24]
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    1428:	3610      	adds	r6, #16
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+    142a:	f84a 8007 	str.w	r8, [sl, r7]
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    142e:	5172      	str	r2, [r6, r5]
+    1430:	f8dd a00c 	ldr.w	sl, [sp, #12]
+    1434:	9e01      	ldr	r6, [sp, #4]
+    1436:	f10b 0b04 	add.w	fp, fp, #4
+    143a:	5172      	str	r2, [r6, r5]
+    143c:	f84b 200a 	str.w	r2, [fp, sl]
+    1440:	f8dd b01c 	ldr.w	fp, [sp, #28]
+    1444:	9d05      	ldr	r5, [sp, #20]
+    1446:	f84b 200a 	str.w	r2, [fp, sl]
+    144a:	9e04      	ldr	r6, [sp, #16]
+    144c:	f8dd a020 	ldr.w	sl, [sp, #32]
+    1450:	f420 0070 	bic.w	r0, r0, #15728640	; 0xf00000
+    1454:	0140      	lsls	r0, r0, #5
+    1456:	f10c 0c18 	add.w	ip, ip, #24
+    145a:	5172      	str	r2, [r6, r5]
+    145c:	f8dd b024 	ldr.w	fp, [sp, #36]	; 0x24
+    1460:	f84a 2000 	str.w	r2, [sl, r0]
+    1464:	f84c 2000 	str.w	r2, [ip, r0]
+    1468:	f8dd c028 	ldr.w	ip, [sp, #40]	; 0x28
+    uint32_t baudrate    
+)
+{
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+    
+    if((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1))
+    146c:	429c      	cmp	r4, r3
+    146e:	f84b 2000 	str.w	r2, [fp, r0]
+    1472:	f84c 2005 	str.w	r2, [ip, r5]
+
+    /* disable single wire mode */
+    clear_bit_reg8(&this_uart->hw_reg->MM2,ESWM);
+
+    /* set filter to minimum value */
+    this_uart->hw_reg->GFR = 0u;
+    1476:	f881 2044 	strb.w	r2, [r1, #68]	; 0x44
+    /* set default TX time gaurd */
+    this_uart->hw_reg->TTG = 0u;
+    147a:	f881 2048 	strb.w	r2, [r1, #72]	; 0x48
+    /* set default RX timeout */
+    this_uart->hw_reg->RTO = 0u;
+    147e:	f881 204c 	strb.w	r2, [r1, #76]	; 0x4c
+    uint32_t baudrate    
+)
+{
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+    
+    if((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1))
+    1482:	d079      	beq.n	1578 <global_init+0x2a0>
+    1484:	f240 0354 	movw	r3, #84	; 0x54
+    1488:	f2c2 0300 	movt	r3, #8192	; 0x2000
+    148c:	429c      	cmp	r4, r3
+    148e:	d015      	beq.n	14bc <global_init+0x1e4>
+     * where possible to provide the most accurate baud rat possible.
+     */
+    config_baud_divisors(this_uart, baud_rate);
+
+    /* set the line control register (bit length, stop bits, parity) */
+    this_uart->hw_reg->LCR = line_config;
+    1490:	9d0b      	ldr	r5, [sp, #44]	; 0x2c
+
+    /* Instance setup */
+    this_uart->baudrate = baud_rate;
+    this_uart->lineconfig = line_config;
+    this_uart->tx_buff_size = TX_COMPLETE;
+    1492:	2000      	movs	r0, #0
+     * where possible to provide the most accurate baud rat possible.
+     */
+    config_baud_divisors(this_uart, baud_rate);
+
+    /* set the line control register (bit length, stop bits, parity) */
+    this_uart->hw_reg->LCR = line_config;
+    1494:	730d      	strb	r5, [r1, #12]
+    this_uart->pid_pei_handler  = NULL_HANDLER;
+    this_uart->break_handler    = NULL_HANDLER;    
+    this_uart->sync_handler     = NULL_HANDLER;   
+
+    /* Initialize the sticky status */
+    this_uart->status = 0u;
+    1496:	7360      	strb	r0, [r4, #13]
+
+    /* set the line control register (bit length, stop bits, parity) */
+    this_uart->hw_reg->LCR = line_config;
+
+    /* Instance setup */
+    this_uart->baudrate = baud_rate;
+    1498:	9e0d      	ldr	r6, [sp, #52]	; 0x34
+    this_uart->lineconfig = line_config;
+    this_uart->tx_buff_size = TX_COMPLETE;
+    149a:	6160      	str	r0, [r4, #20]
+
+    /* set the line control register (bit length, stop bits, parity) */
+    this_uart->hw_reg->LCR = line_config;
+
+    /* Instance setup */
+    this_uart->baudrate = baud_rate;
+    149c:	60a6      	str	r6, [r4, #8]
+    this_uart->lineconfig = line_config;
+    149e:	7325      	strb	r5, [r4, #12]
+    this_uart->tx_buff_size = TX_COMPLETE;
+    this_uart->tx_buffer = (const uint8_t *)0;
+    14a0:	6120      	str	r0, [r4, #16]
+    this_uart->tx_idx = 0u;
+    14a2:	61a0      	str	r0, [r4, #24]
+
+    /* Default handlers for MSS UART interrupts */
+    this_uart->rx_handler       = NULL_HANDLER;
+    14a4:	6220      	str	r0, [r4, #32]
+    this_uart->tx_handler       = NULL_HANDLER;
+    14a6:	6260      	str	r0, [r4, #36]	; 0x24
+    this_uart->linests_handler  = NULL_HANDLER;
+    14a8:	61e0      	str	r0, [r4, #28]
+    this_uart->modemsts_handler = NULL_HANDLER;
+    14aa:	62a0      	str	r0, [r4, #40]	; 0x28
+    this_uart->rto_handler      = NULL_HANDLER;    
+    14ac:	62e0      	str	r0, [r4, #44]	; 0x2c
+    this_uart->nack_handler     = NULL_HANDLER;   
+    14ae:	6320      	str	r0, [r4, #48]	; 0x30
+    this_uart->pid_pei_handler  = NULL_HANDLER;
+    14b0:	6360      	str	r0, [r4, #52]	; 0x34
+    this_uart->break_handler    = NULL_HANDLER;    
+    14b2:	63a0      	str	r0, [r4, #56]	; 0x38
+    this_uart->sync_handler     = NULL_HANDLER;   
+    14b4:	63e0      	str	r0, [r4, #60]	; 0x3c
+
+    /* Initialize the sticky status */
+    this_uart->status = 0u;
+}
+    14b6:	b00f      	add	sp, #60	; 0x3c
+    14b8:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
+        uint32_t baud_value_by_64;
+        uint32_t baud_value_by_128;
+        uint32_t fractional_baud_value;
+        uint32_t pclk_freq;
+
+        this_uart->baudrate = baudrate;
+    14bc:	9f0d      	ldr	r7, [sp, #52]	; 0x34
+    14be:	60a7      	str	r7, [r4, #8]
+
+        /* Force the value of the CMSIS global variables holding the various system
+          * clock frequencies to be updated. */
+        SystemCoreClockUpdate();
+    14c0:	f000 f954 	bl	176c <SystemCoreClockUpdate>
+        {
+            pclk_freq = g_FrequencyPCLK0;
+        }
+        else
+        {
+            pclk_freq = g_FrequencyPCLK1;
+    14c4:	f240 0124 	movw	r1, #36	; 0x24
+    14c8:	f2c2 0100 	movt	r1, #8192	; 0x2000
+    14cc:	680a      	ldr	r2, [r1, #0]
+        /*
+         * Compute baud value based on requested baud rate and PCLK frequency.
+         * The baud value is computed using the following equation:
+         *      baud_value = PCLK_Frequency / (baud_rate * 16)
+         */
+        baud_value_by_128 = (8u * pclk_freq) / baudrate;
+    14ce:	9e0d      	ldr	r6, [sp, #52]	; 0x34
+    14d0:	00d7      	lsls	r7, r2, #3
+    14d2:	fbb7 f2f6 	udiv	r2, r7, r6
+        baud_value_by_64 = baud_value_by_128 / 2u;
+        baud_value = baud_value_by_64 / 64u;
+    14d6:	09d3      	lsrs	r3, r2, #7
+         * Compute baud value based on requested baud rate and PCLK frequency.
+         * The baud value is computed using the following equation:
+         *      baud_value = PCLK_Frequency / (baud_rate * 16)
+         */
+        baud_value_by_128 = (8u * pclk_freq) / baudrate;
+        baud_value_by_64 = baud_value_by_128 / 2u;
+    14d8:	0857      	lsrs	r7, r2, #1
+        fractional_baud_value += (baud_value_by_128 - (baud_value * 128u)) - (fractional_baud_value * 2u);
+        
+        /* Assert if integer baud value fits in 16-bit. */
+        ASSERT(baud_value <= UINT16_MAX);
+    
+        if(baud_value <= (uint32_t)UINT16_MAX)
+    14da:	f5b3 3f80 	cmp.w	r3, #65536	; 0x10000
+    14de:	bf28      	it	cs
+    14e0:	6821      	ldrcs	r1, [r4, #0]
+    14e2:	d2d5      	bcs.n	1490 <global_init+0x1b8>
+        {
+            if(baud_value > 1u)
+    14e4:	2b01      	cmp	r3, #1
+            {
+                /* 
+                 * Use Frational baud rate divisors
+                 */
+                /* set divisor latch */
+                set_bit_reg8(&this_uart->hw_reg->LCR,DLAB);
+    14e6:	6821      	ldr	r1, [r4, #0]
+        /* Assert if integer baud value fits in 16-bit. */
+        ASSERT(baud_value <= UINT16_MAX);
+    
+        if(baud_value <= (uint32_t)UINT16_MAX)
+        {
+            if(baud_value > 1u)
+    14e8:	d950      	bls.n	158c <global_init+0x2b4>
+            {
+                /* 
+                 * Use Frational baud rate divisors
+                 */
+                /* set divisor latch */
+                set_bit_reg8(&this_uart->hw_reg->LCR,DLAB);
+    14ea:	f101 000c 	add.w	r0, r1, #12
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+    14ee:	f020 4c7f 	bic.w	ip, r0, #4278190080	; 0xff000000
+    14f2:	f000 4670 	and.w	r6, r0, #4026531840	; 0xf0000000
+    14f6:	f106 7000 	add.w	r0, r6, #33554432	; 0x2000000
+    14fa:	f42c 0a70 	bic.w	sl, ip, #15728640	; 0xf00000
+    14fe:	ea4f 1e4a 	mov.w	lr, sl, lsl #5
+            
+                /* msb of baud value */
+                this_uart->hw_reg->DMR = (uint8_t)(baud_value >> 8);
+                /* lsb of baud value */
+                this_uart->hw_reg->DLR = (uint8_t)baud_value;
+    1502:	460d      	mov	r5, r1
+    1504:	fa5f f883 	uxtb.w	r8, r3
+         *      baud_value = PCLK_Frequency / (baud_rate * 16)
+         */
+        baud_value_by_128 = (8u * pclk_freq) / baudrate;
+        baud_value_by_64 = baud_value_by_128 / 2u;
+        baud_value = baud_value_by_64 / 64u;
+        fractional_baud_value = baud_value_by_64 - (baud_value * 64u);
+    1508:	eba7 1783 	sub.w	r7, r7, r3, lsl #6
+    150c:	301c      	adds	r0, #28
+    150e:	2601      	movs	r6, #1
+                 */
+                /* set divisor latch */
+                set_bit_reg8(&this_uart->hw_reg->LCR,DLAB);
+            
+                /* msb of baud value */
+                this_uart->hw_reg->DMR = (uint8_t)(baud_value >> 8);
+    1510:	f3c2 3ac7 	ubfx	sl, r2, #15, #8
+    1514:	f840 600e 	str.w	r6, [r0, lr]
+         */
+        baud_value_by_128 = (8u * pclk_freq) / baudrate;
+        baud_value_by_64 = baud_value_by_128 / 2u;
+        baud_value = baud_value_by_64 / 64u;
+        fractional_baud_value = baud_value_by_64 - (baud_value * 64u);
+        fractional_baud_value += (baud_value_by_128 - (baud_value * 128u)) - (fractional_baud_value * 2u);
+    1518:	eba7 13c3 	sub.w	r3, r7, r3, lsl #7
+                 */
+                /* set divisor latch */
+                set_bit_reg8(&this_uart->hw_reg->LCR,DLAB);
+            
+                /* msb of baud value */
+                this_uart->hw_reg->DMR = (uint8_t)(baud_value >> 8);
+    151c:	f881 a004 	strb.w	sl, [r1, #4]
+                /* lsb of baud value */
+                this_uart->hw_reg->DLR = (uint8_t)baud_value;
+    1520:	f805 8b30 	strb.w	r8, [r5], #48
+         */
+        baud_value_by_128 = (8u * pclk_freq) / baudrate;
+        baud_value_by_64 = baud_value_by_128 / 2u;
+        baud_value = baud_value_by_64 / 64u;
+        fractional_baud_value = baud_value_by_64 - (baud_value * 64u);
+        fractional_baud_value += (baud_value_by_128 - (baud_value * 128u)) - (fractional_baud_value * 2u);
+    1524:	189a      	adds	r2, r3, r2
+    1526:	f025 437f 	bic.w	r3, r5, #4278190080	; 0xff000000
+    152a:	f005 4570 	and.w	r5, r5, #4026531840	; 0xf0000000
+    152e:	f423 0870 	bic.w	r8, r3, #15728640	; 0xf00000
+                /* Enable Fractional baud rate */
+                set_bit_reg8(&this_uart->hw_reg->MM0,EFBR);
+        
+                /* Load the fractional baud rate register */
+                ASSERT(fractional_baud_value <= (uint32_t)UINT8_MAX);
+                this_uart->hw_reg->DFR = (uint8_t)fractional_baud_value;
+    1532:	eba2 0747 	sub.w	r7, r2, r7, lsl #1
+    1536:	f105 7500 	add.w	r5, r5, #33554432	; 0x2000000
+    153a:	351c      	adds	r5, #28
+    153c:	ea4f 1848 	mov.w	r8, r8, lsl #5
+    1540:	b2ff      	uxtb	r7, r7
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    1542:	2300      	movs	r3, #0
+    1544:	f840 300e 	str.w	r3, [r0, lr]
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+}
+static __INLINE void set_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x1;
+    1548:	f845 6008 	str.w	r6, [r5, r8]
+    154c:	f881 703c 	strb.w	r7, [r1, #60]	; 0x3c
+    1550:	e79e      	b.n	1490 <global_init+0x1b8>
+    if(this_uart == &g_mss_uart0)
+    {
+        this_uart->hw_reg = UART0;
+        this_uart->irqn = UART0_IRQn;
+        /* reset UART0 */
+        SYSREG->SOFT_RST_CR |= SYSREG_MMUART0_SOFTRESET_MASK;
+    1552:	f040 0780 	orr.w	r7, r0, #128	; 0x80
+    1556:	f2ce 0100 	movt	r1, #57344	; 0xe000
+    155a:	f44f 6680 	mov.w	r6, #1024	; 0x400
+    155e:	6497      	str	r7, [r2, #72]	; 0x48
+    1560:	f8c1 6180 	str.w	r6, [r1, #384]	; 0x180
+        /* Clear any previously pended UART0 interrupt */
+        NVIC_ClearPendingIRQ(UART0_IRQn);
+        /* Take UART0 out of reset. */
+        SYSREG->SOFT_RST_CR &= ~SYSREG_MMUART0_SOFTRESET_MASK;
+    1564:	6c95      	ldr	r5, [r2, #72]	; 0x48
+     * mss_uart_instance_t instances used to identify UART0 and UART1. */
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+
+    if(this_uart == &g_mss_uart0)
+    {
+        this_uart->hw_reg = UART0;
+    1566:	f04f 4180 	mov.w	r1, #1073741824	; 0x40000000
+        /* reset UART0 */
+        SYSREG->SOFT_RST_CR |= SYSREG_MMUART0_SOFTRESET_MASK;
+        /* Clear any previously pended UART0 interrupt */
+        NVIC_ClearPendingIRQ(UART0_IRQn);
+        /* Take UART0 out of reset. */
+        SYSREG->SOFT_RST_CR &= ~SYSREG_MMUART0_SOFTRESET_MASK;
+    156a:	f025 0080 	bic.w	r0, r5, #128	; 0x80
+    156e:	6490      	str	r0, [r2, #72]	; 0x48
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+
+    if(this_uart == &g_mss_uart0)
+    {
+        this_uart->hw_reg = UART0;
+        this_uart->irqn = UART0_IRQn;
+    1570:	220a      	movs	r2, #10
+    1572:	7122      	strb	r2, [r4, #4]
+     * mss_uart_instance_t instances used to identify UART0 and UART1. */
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+
+    if(this_uart == &g_mss_uart0)
+    {
+        this_uart->hw_reg = UART0;
+    1574:	6021      	str	r1, [r4, #0]
+    1576:	e6d7      	b.n	1328 <global_init+0x50>
+        uint32_t baud_value_by_64;
+        uint32_t baud_value_by_128;
+        uint32_t fractional_baud_value;
+        uint32_t pclk_freq;
+
+        this_uart->baudrate = baudrate;
+    1578:	9a0d      	ldr	r2, [sp, #52]	; 0x34
+    157a:	60a2      	str	r2, [r4, #8]
+
+        /* Force the value of the CMSIS global variables holding the various system
+          * clock frequencies to be updated. */
+        SystemCoreClockUpdate();
+    157c:	f000 f8f6 	bl	176c <SystemCoreClockUpdate>
+        if(this_uart == &g_mss_uart0)
+        {
+            pclk_freq = g_FrequencyPCLK0;
+    1580:	f240 0120 	movw	r1, #32
+    1584:	f2c2 0100 	movt	r1, #8192	; 0x2000
+    1588:	680a      	ldr	r2, [r1, #0]
+    158a:	e7a0      	b.n	14ce <global_init+0x1f6>
+            {
+                /*
+                 * Do NOT use Frational baud rate divisors.
+                 */
+                /* set divisor latch */
+                set_bit_reg8(&this_uart->hw_reg->LCR,DLAB);
+    158c:	f101 0c0c 	add.w	ip, r1, #12
+    1590:	f02c 4e7f 	bic.w	lr, ip, #4278190080	; 0xff000000
+    1594:	f00c 4270 	and.w	r2, ip, #4026531840	; 0xf0000000
+    1598:	f42e 0570 	bic.w	r5, lr, #15728640	; 0xf00000
+    159c:	f102 7200 	add.w	r2, r2, #33554432	; 0x2000000
+    15a0:	ea4f 1e45 	mov.w	lr, r5, lsl #5
+            
+                /* msb of baud value */
+                this_uart->hw_reg->DMR = (uint8_t)(baud_value >> 8u);
+                /* lsb of baud value */
+                this_uart->hw_reg->DLR = (uint8_t)baud_value;
+    15a4:	4608      	mov	r0, r1
+                 */
+                /* set divisor latch */
+                set_bit_reg8(&this_uart->hw_reg->LCR,DLAB);
+            
+                /* msb of baud value */
+                this_uart->hw_reg->DMR = (uint8_t)(baud_value >> 8u);
+    15a6:	2500      	movs	r5, #0
+                /* lsb of baud value */
+                this_uart->hw_reg->DLR = (uint8_t)baud_value;
+    15a8:	b2db      	uxtb	r3, r3
+    15aa:	321c      	adds	r2, #28
+    15ac:	2601      	movs	r6, #1
+    15ae:	f842 600e 	str.w	r6, [r2, lr]
+                 */
+                /* set divisor latch */
+                set_bit_reg8(&this_uart->hw_reg->LCR,DLAB);
+            
+                /* msb of baud value */
+                this_uart->hw_reg->DMR = (uint8_t)(baud_value >> 8u);
+    15b2:	710d      	strb	r5, [r1, #4]
+                /* lsb of baud value */
+                this_uart->hw_reg->DLR = (uint8_t)baud_value;
+    15b4:	f800 3b30 	strb.w	r3, [r0], #48
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+}
+static __INLINE void clear_bit_reg8(volatile uint8_t * reg, uint8_t bit)
+{
+    HW_REG_BIT(reg,bit) = 0x0;
+    15b8:	f020 4c7f 	bic.w	ip, r0, #4278190080	; 0xff000000
+    15bc:	f000 4070 	and.w	r0, r0, #4026531840	; 0xf0000000
+    15c0:	f100 7600 	add.w	r6, r0, #33554432	; 0x2000000
+    15c4:	f42c 0370 	bic.w	r3, ip, #15728640	; 0xf00000
+    15c8:	361c      	adds	r6, #28
+    15ca:	015b      	lsls	r3, r3, #5
+    15cc:	f842 500e 	str.w	r5, [r2, lr]
+    15d0:	50f5      	str	r5, [r6, r3]
+    15d2:	e75d      	b.n	1490 <global_init+0x1b8>
+
+000015d4 <MSS_UART_init>:
+(
+    mss_uart_instance_t* this_uart, 
+    uint32_t baud_rate,
+    uint8_t line_config
+)
+{
+    15d4:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+    15d6:	4604      	mov	r4, r0
+    /* The driver expects g_mss_uart0 and g_mss_uart1 to be the only
+     * mss_uart_instance_t instances used to identify UART0 and UART1. */
+    ASSERT((this_uart == &g_mss_uart0) || (this_uart == &g_mss_uart1));
+
+    /* Perform generic initialization */
+    global_init(this_uart, baud_rate, line_config);
+    15d8:	f7ff fe7e 	bl	12d8 <global_init>
+
+    /* Disable LIN mode */
+    clear_bit_reg8(&this_uart->hw_reg->MM0, ELIN);
+    15dc:	6822      	ldr	r2, [r4, #0]
+    15de:	f64f 73ff 	movw	r3, #65535	; 0xffff
+
+    /* Disable IrDA mode */
+    clear_bit_reg8(&this_uart->hw_reg->MM1, EIRD);
+    15e2:	f102 0034 	add.w	r0, r2, #52	; 0x34
+
+    /* Perform generic initialization */
+    global_init(this_uart, baud_rate, line_config);
+
+    /* Disable LIN mode */
+    clear_bit_reg8(&this_uart->hw_reg->MM0, ELIN);
+    15e6:	f102 0530 	add.w	r5, r2, #48	; 0x30
+    15ea:	f2c0 030f 	movt	r3, #15
+    15ee:	f005 4770 	and.w	r7, r5, #4026531840	; 0xf0000000
+
+    /* Disable IrDA mode */
+    clear_bit_reg8(&this_uart->hw_reg->MM1, EIRD);
+
+    /* Disable SmartCard Mode */
+    clear_bit_reg8(&this_uart->hw_reg->MM2, EERR);
+    15f2:	3238      	adds	r2, #56	; 0x38
+    15f4:	f000 4170 	and.w	r1, r0, #4026531840	; 0xf0000000
+
+    /* set default tx handler for automated TX using interrupt in USART mode */
+    this_uart->tx_handler = default_tx_handler;
+    15f8:	ea02 0603 	and.w	r6, r2, r3
+    15fc:	f107 7c00 	add.w	ip, r7, #33554432	; 0x2000000
+    1600:	401d      	ands	r5, r3
+    1602:	ea00 0703 	and.w	r7, r0, r3
+    1606:	f002 4270 	and.w	r2, r2, #4026531840	; 0xf0000000
+    160a:	f101 7100 	add.w	r1, r1, #33554432	; 0x2000000
+    160e:	f241 2019 	movw	r0, #4633	; 0x1219
+    1612:	017b      	lsls	r3, r7, #5
+    1614:	f10c 0c0c 	add.w	ip, ip, #12
+    1618:	f102 7700 	add.w	r7, r2, #33554432	; 0x2000000
+    161c:	016d      	lsls	r5, r5, #5
+    161e:	2200      	movs	r2, #0
+    1620:	3108      	adds	r1, #8
+    1622:	0176      	lsls	r6, r6, #5
+    1624:	f2c0 0000 	movt	r0, #0
+    1628:	f84c 2005 	str.w	r2, [ip, r5]
+    162c:	6260      	str	r0, [r4, #36]	; 0x24
+    162e:	50ca      	str	r2, [r1, r3]
+    1630:	51ba      	str	r2, [r7, r6]
+}
+    1632:	bdf8      	pop	{r3, r4, r5, r6, r7, pc}
+
+00001634 <MSS_GPIO_init>:
+void MSS_GPIO_init( void )
+{
+    uint32_t inc;
+    
+    /* reset MSS GPIO hardware */
+    SYSREG->SOFT_RST_CR |= SYSREG_GPIO_SOFTRESET_MASK;
+    1634:	f248 0200 	movw	r2, #32768	; 0x8000
+    1638:	f2c4 0203 	movt	r2, #16387	; 0x4003
+/*-------------------------------------------------------------------------*//**
+ * MSS_GPIO_init
+ * See "mss_gpio.h" for details of how to use this function.
+ */
+void MSS_GPIO_init( void )
+{
+    163c:	e92d 05f0 	stmdb	sp!, {r4, r5, r6, r7, r8, sl}
+    uint32_t inc;
+    
+    /* reset MSS GPIO hardware */
+    SYSREG->SOFT_RST_CR |= SYSREG_GPIO_SOFTRESET_MASK;
+    1640:	6c94      	ldr	r4, [r2, #72]	; 0x48
+    1642:	f641 167c 	movw	r6, #6524	; 0x197c
+    1646:	f444 1380 	orr.w	r3, r4, #1048576	; 0x100000
+    164a:	6493      	str	r3, [r2, #72]	; 0x48
+    SYSREG->SOFT_RST_CR |= (SYSREG_GPIO_7_0_SOFTRESET_MASK |
+    164c:	6c90      	ldr	r0, [r2, #72]	; 0x48
+
+    \param [in]      IRQn  External interrupt number. Value cannot be negative.
+ */
+__STATIC_INLINE void NVIC_DisableIRQ(IRQn_Type IRQn)
+{
+  NVIC->ICER[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F)); /* disable interrupt */
+    164e:	f24e 1300 	movw	r3, #57600	; 0xe100
+    1652:	f040 71f0 	orr.w	r1, r0, #31457280	; 0x1e00000
+    1656:	6491      	str	r1, [r2, #72]	; 0x48
+    1658:	f2c0 0600 	movt	r6, #0
+    165c:	f2ce 0300 	movt	r3, #57344	; 0xe000
+    1660:	2200      	movs	r2, #0
+    1662:	2701      	movs	r7, #1
+                            SYSREG_GPIO_15_8_SOFTRESET_MASK |
+                            SYSREG_GPIO_23_16_SOFTRESET_MASK |
+                            SYSREG_GPIO_31_24_SOFTRESET_MASK);
+                            
+    /* Clear any previously pended MSS GPIO interrupt */
+    for(inc = 0U; inc < NB_OF_GPIO; ++inc)
+    1664:	1c55      	adds	r5, r2, #1
+    {
+        NVIC_DisableIRQ(g_gpio_irqn_lut[inc]);
+    1666:	5cb4      	ldrb	r4, [r6, r2]
+    1668:	f816 a005 	ldrb.w	sl, [r6, r5]
+    166c:	f004 001f 	and.w	r0, r4, #31
+    1670:	f00a 011f 	and.w	r1, sl, #31
+    1674:	fa17 f000 	lsls.w	r0, r7, r0
+    1678:	fa17 f101 	lsls.w	r1, r7, r1
+    167c:	fa4f f88a 	sxtb.w	r8, sl
+    1680:	b262      	sxtb	r2, r4
+    1682:	0954      	lsrs	r4, r2, #5
+    1684:	ea4f 1c58 	mov.w	ip, r8, lsr #5
+                            SYSREG_GPIO_15_8_SOFTRESET_MASK |
+                            SYSREG_GPIO_23_16_SOFTRESET_MASK |
+                            SYSREG_GPIO_31_24_SOFTRESET_MASK);
+                            
+    /* Clear any previously pended MSS GPIO interrupt */
+    for(inc = 0U; inc < NB_OF_GPIO; ++inc)
+    1688:	1c6a      	adds	r2, r5, #1
+
+    \param [in]      IRQn  External interrupt number. Value cannot be negative.
+ */
+__STATIC_INLINE void NVIC_ClearPendingIRQ(IRQn_Type IRQn)
+{
+  NVIC->ICPR[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F)); /* Clear pending interrupt */
+    168a:	f104 0a60 	add.w	sl, r4, #96	; 0x60
+    168e:	f10c 0860 	add.w	r8, ip, #96	; 0x60
+
+    \param [in]      IRQn  External interrupt number. Value cannot be negative.
+ */
+__STATIC_INLINE void NVIC_DisableIRQ(IRQn_Type IRQn)
+{
+  NVIC->ICER[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F)); /* disable interrupt */
+    1692:	3420      	adds	r4, #32
+    1694:	f10c 0c20 	add.w	ip, ip, #32
+    1698:	2a20      	cmp	r2, #32
+    169a:	f843 0024 	str.w	r0, [r3, r4, lsl #2]
+
+    \param [in]      IRQn  External interrupt number. Value cannot be negative.
+ */
+__STATIC_INLINE void NVIC_ClearPendingIRQ(IRQn_Type IRQn)
+{
+  NVIC->ICPR[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F)); /* Clear pending interrupt */
+    169e:	f843 002a 	str.w	r0, [r3, sl, lsl #2]
+
+    \param [in]      IRQn  External interrupt number. Value cannot be negative.
+ */
+__STATIC_INLINE void NVIC_DisableIRQ(IRQn_Type IRQn)
+{
+  NVIC->ICER[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F)); /* disable interrupt */
+    16a2:	f843 102c 	str.w	r1, [r3, ip, lsl #2]
+
+    \param [in]      IRQn  External interrupt number. Value cannot be negative.
+ */
+__STATIC_INLINE void NVIC_ClearPendingIRQ(IRQn_Type IRQn)
+{
+  NVIC->ICPR[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F)); /* Clear pending interrupt */
+    16a6:	f843 1028 	str.w	r1, [r3, r8, lsl #2]
+    16aa:	d1db      	bne.n	1664 <MSS_GPIO_init+0x30>
+    {
+        NVIC_DisableIRQ(g_gpio_irqn_lut[inc]);
+        NVIC_ClearPendingIRQ(g_gpio_irqn_lut[inc]);
+    }
+    /* Take MSS GPIO hardware out of reset. */
+    SYSREG->SOFT_RST_CR &= ~(SYSREG_GPIO_7_0_SOFTRESET_MASK |
+    16ac:	f248 0300 	movw	r3, #32768	; 0x8000
+    16b0:	f2c4 0303 	movt	r3, #16387	; 0x4003
+    16b4:	6c9a      	ldr	r2, [r3, #72]	; 0x48
+    16b6:	f022 70f0 	bic.w	r0, r2, #31457280	; 0x1e00000
+    16ba:	6498      	str	r0, [r3, #72]	; 0x48
+                             SYSREG_GPIO_15_8_SOFTRESET_MASK |
+                             SYSREG_GPIO_23_16_SOFTRESET_MASK |
+                             SYSREG_GPIO_31_24_SOFTRESET_MASK);
+    SYSREG->SOFT_RST_CR &= ~SYSREG_GPIO_SOFTRESET_MASK;
+    16bc:	6c99      	ldr	r1, [r3, #72]	; 0x48
+    16be:	f421 1280 	bic.w	r2, r1, #1048576	; 0x100000
+    16c2:	649a      	str	r2, [r3, #72]	; 0x48
+}
+    16c4:	e8bd 05f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, sl}
+    16c8:	4770      	bx	lr
+    16ca:	bf00      	nop
+
+000016cc <MSS_GPIO_config>:
+{
+    uint32_t gpio_idx = (uint32_t)port_id;
+    
+    ASSERT(gpio_idx < NB_OF_GPIO);
+
+    if(gpio_idx < NB_OF_GPIO)
+    16cc:	281f      	cmp	r0, #31
+    {
+        *(g_config_reg_lut[gpio_idx]) = config;
+    16ce:	bf9f      	itttt	ls
+    16d0:	f641 139c 	movwls	r3, #6556	; 0x199c
+    16d4:	f2c0 0300 	movtls	r3, #0
+    16d8:	f853 3020 	ldrls.w	r3, [r3, r0, lsl #2]
+    16dc:	6019      	strls	r1, [r3, #0]
+    16de:	4770      	bx	lr
+
+000016e0 <MSS_GPIO_set_output>:
+    uint32_t gpio_setting;
+    uint32_t gpio_idx = (uint32_t)port_id;
+    
+    ASSERT(gpio_idx < NB_OF_GPIO);
+    
+    if(gpio_idx < NB_OF_GPIO)
+    16e0:	281f      	cmp	r0, #31
+    16e2:	d812      	bhi.n	170a <MSS_GPIO_set_output+0x2a>
+    {
+        gpio_setting = GPIO->GPIO_OUT;
+        gpio_setting &= ~((uint32_t)0x01u << gpio_idx);
+    16e4:	2201      	movs	r2, #1
+    16e6:	fa02 fc00 	lsl.w	ip, r2, r0
+        gpio_setting |= ((uint32_t)value & 0x01u) << gpio_idx;
+    16ea:	f001 0301 	and.w	r3, r1, #1
+    16ee:	fa13 f000 	lsls.w	r0, r3, r0
+    
+    ASSERT(gpio_idx < NB_OF_GPIO);
+    
+    if(gpio_idx < NB_OF_GPIO)
+    {
+        gpio_setting = GPIO->GPIO_OUT;
+    16f2:	f243 0300 	movw	r3, #12288	; 0x3000
+    16f6:	f2c4 0301 	movt	r3, #16385	; 0x4001
+    16fa:	f8d3 2088 	ldr.w	r2, [r3, #136]	; 0x88
+        gpio_setting &= ~((uint32_t)0x01u << gpio_idx);
+    16fe:	ea22 010c 	bic.w	r1, r2, ip
+        gpio_setting |= ((uint32_t)value & 0x01u) << gpio_idx;
+    1702:	ea41 0000 	orr.w	r0, r1, r0
+        GPIO->GPIO_OUT = gpio_setting;
+    1706:	f8c3 0088 	str.w	r0, [r3, #136]	; 0x88
+    170a:	4770      	bx	lr
+
+0000170c <MSS_GPIO_enable_irq>:
+    uint32_t cfg_value;
+    uint32_t gpio_idx = (uint32_t)port_id;
+    
+    ASSERT(gpio_idx < NB_OF_GPIO);
+    
+    if(gpio_idx < NB_OF_GPIO)
+    170c:	281f      	cmp	r0, #31
+ */
+void MSS_GPIO_enable_irq
+(
+    mss_gpio_id_t port_id
+)
+{
+    170e:	b410      	push	{r4}
+    uint32_t cfg_value;
+    uint32_t gpio_idx = (uint32_t)port_id;
+    
+    ASSERT(gpio_idx < NB_OF_GPIO);
+    
+    if(gpio_idx < NB_OF_GPIO)
+    1710:	d81c      	bhi.n	174c <MSS_GPIO_enable_irq+0x40>
+    {
+        cfg_value = *(g_config_reg_lut[gpio_idx]);
+        *(g_config_reg_lut[gpio_idx]) = (cfg_value | GPIO_INT_ENABLE_MASK);
+        NVIC_EnableIRQ(g_gpio_irqn_lut[gpio_idx]);
+    1712:	f641 117c 	movw	r1, #6524	; 0x197c
+    1716:	f2c0 0100 	movt	r1, #0
+    171a:	f811 c000 	ldrb.w	ip, [r1, r0]
+
+    \param [in]      IRQn  External interrupt number. Value cannot be negative.
+ */
+__STATIC_INLINE void NVIC_EnableIRQ(IRQn_Type IRQn)
+{
+  NVIC->ISER[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F)); /* enable interrupt */
+    171e:	2401      	movs	r4, #1
+    1720:	f00c 021f 	and.w	r2, ip, #31
+    1724:	4094      	lsls	r4, r2
+    
+    ASSERT(gpio_idx < NB_OF_GPIO);
+    
+    if(gpio_idx < NB_OF_GPIO)
+    {
+        cfg_value = *(g_config_reg_lut[gpio_idx]);
+    1726:	f641 139c 	movw	r3, #6556	; 0x199c
+    172a:	f2c0 0300 	movt	r3, #0
+    172e:	f853 2020 	ldr.w	r2, [r3, r0, lsl #2]
+    1732:	fa4f f18c 	sxtb.w	r1, ip
+    1736:	6810      	ldr	r0, [r2, #0]
+    1738:	f24e 1300 	movw	r3, #57600	; 0xe100
+        *(g_config_reg_lut[gpio_idx]) = (cfg_value | GPIO_INT_ENABLE_MASK);
+    173c:	f040 0008 	orr.w	r0, r0, #8
+    1740:	0949      	lsrs	r1, r1, #5
+    1742:	f2ce 0300 	movt	r3, #57344	; 0xe000
+    1746:	6010      	str	r0, [r2, #0]
+    1748:	f843 4021 	str.w	r4, [r3, r1, lsl #2]
+        NVIC_EnableIRQ(g_gpio_irqn_lut[gpio_idx]);
+    }
+}
+    174c:	bc10      	pop	{r4}
+    174e:	4770      	bx	lr
+
+00001750 <MSS_GPIO_clear_irq>:
+{
+    uint32_t gpio_idx = (uint32_t)port_id;
+    
+    ASSERT(gpio_idx < NB_OF_GPIO);
+    
+    if(gpio_idx < NB_OF_GPIO)
+    1750:	281f      	cmp	r0, #31
+    1752:	d808      	bhi.n	1766 <MSS_GPIO_clear_irq+0x16>
+    {
+        GPIO->GPIO_IRQ = ((uint32_t)1) << gpio_idx;
+    1754:	2101      	movs	r1, #1
+    1756:	fa11 f000 	lsls.w	r0, r1, r0
+    175a:	f243 0300 	movw	r3, #12288	; 0x3000
+    175e:	f2c4 0301 	movt	r3, #16385	; 0x4001
+    1762:	f8c3 0080 	str.w	r0, [r3, #128]	; 0x80
+    }
+    __ASM volatile ("dsb");
+    1766:	f3bf 8f4f 	dsb	sy
+
+}
+    176a:	4770      	bx	lr
+
+0000176c <SystemCoreClockUpdate>:
+#define FREQ_1MHZ    1000000u
+#define FREQ_25MHZ   25000000u
+#define FREQ_50MHZ   50000000u
+
+void SystemCoreClockUpdate(void)
+{
+    176c:	b4f0      	push	{r4, r5, r6, r7}
+    uint32_t controller_pll_init;
+    uint32_t clk_src;
+
+    controller_pll_init = SYSREG->MSSDDR_FACC1_CR & CONTROLLER_PLL_INIT_MASK;
+    176e:	f248 0300 	movw	r3, #32768	; 0x8000
+    1772:	f2c4 0303 	movt	r3, #16387	; 0x4003
+    1776:	f8d3 2098 	ldr.w	r2, [r3, #152]	; 0x98
+#define FREQ_1MHZ    1000000u
+#define FREQ_25MHZ   25000000u
+#define FREQ_50MHZ   50000000u
+
+void SystemCoreClockUpdate(void)
+{
+    177a:	b082      	sub	sp, #8
+    uint32_t controller_pll_init;
+    uint32_t clk_src;
+
+    controller_pll_init = SYSREG->MSSDDR_FACC1_CR & CONTROLLER_PLL_INIT_MASK;
+
+    if(0u == controller_pll_init)
+    177c:	f012 6f80 	tst.w	r2, #67108864	; 0x4000000
+    1780:	d118      	bne.n	17b4 <SystemCoreClockUpdate+0x48>
+    {
+        /* Normal operations. */
+        uint32_t global_mux_sel;
+
+        global_mux_sel = SYSREG->MSSDDR_FACC1_CR & FACC_GLMUX_SEL_MASK;
+    1782:	f8d3 0098 	ldr.w	r0, [r3, #152]	; 0x98
+        if(0u == global_mux_sel)
+    1786:	f410 5f80 	tst.w	r0, #4096	; 0x1000
+    178a:	d048      	beq.n	181e <SystemCoreClockUpdate+0xb2>
+                                                   RCOSC_25_50MHZ_CLK_SRC,
+                                                   CLK_XTAL_CLK_SRC,
+                                                   RCOSC_1_MHZ_CLK_SRC,
+                                                   RCOSC_1_MHZ_CLK_SRC,
+                                                   CCC2ASCI_CLK_SRC,
+                                                   CCC2ASCI_CLK_SRC };
+    178c:	f641 221c 	movw	r2, #6684	; 0x1a1c
+    1790:	f2c0 0200 	movt	r2, #0
+    1794:	46ec      	mov	ip, sp
+    1796:	e892 0003 	ldmia.w	r2, {r0, r1}
+    179a:	e88c 0003 	stmia.w	ip, {r0, r1}
+
+            uint32_t standby_sel;
+            uint8_t clock_source;
+
+            standby_sel = (SYSREG->MSSDDR_FACC2_CR >> FACC_STANDBY_SHIFT) & FACC_STANDBY_SEL_MASK;
+    179e:	f8d3 709c 	ldr.w	r7, [r3, #156]	; 0x9c
+            clock_source = standby_clock_lut[standby_sel];
+            switch(clock_source)
+    17a2:	ae02      	add	r6, sp, #8
+    17a4:	f3c7 1582 	ubfx	r5, r7, #6, #3
+    17a8:	1974      	adds	r4, r6, r5
+    17aa:	f814 1c08 	ldrb.w	r1, [r4, #-8]
+    17ae:	2901      	cmp	r1, #1
+    17b0:	d077      	beq.n	18a2 <SystemCoreClockUpdate+0x136>
+    17b2:	d261      	bcs.n	1878 <SystemCoreClockUpdate+0x10c>
+static uint32_t get_rcosc_25_50mhz_frequency(void)
+{
+    uint32_t rcosc_div2;
+    uint32_t rcosc_frequency;
+
+    rcosc_div2 = SYSREG->MSSDDR_PLL_STATUS & RCOSC_DIV2_MASK;
+    17b4:	f8d3 4150 	ldr.w	r4, [r3, #336]	; 0x150
+    if(0u == rcosc_div2)
+    17b8:	f647 0240 	movw	r2, #30784	; 0x7840
+    17bc:	f24f 0380 	movw	r3, #61568	; 0xf080
+    17c0:	f2c0 127d 	movt	r2, #381	; 0x17d
+    17c4:	f014 0f04 	tst.w	r4, #4
+    17c8:	f2c0 23fa 	movt	r3, #762	; 0x2fa
+        - g_FrequencyFIC1
+        - g_FrequencyFIC64
+ */
+static void set_clock_frequency_globals(uint32_t standby_clk)
+{
+    SystemCoreClock = standby_clk;
+    17cc:	f240 0628 	movw	r6, #40	; 0x28
+    g_FrequencyPCLK0 = standby_clk;
+    17d0:	f240 0520 	movw	r5, #32
+    g_FrequencyPCLK1 = standby_clk;
+    17d4:	f240 0424 	movw	r4, #36	; 0x24
+    g_FrequencyPCLK2 = MSS_SYS_APB_2_CLK_FREQ;
+    17d8:	f240 0c14 	movw	ip, #20
+    g_FrequencyFIC0 = standby_clk;
+    17dc:	f240 0018 	movw	r0, #24
+    g_FrequencyFIC1 = standby_clk;
+    17e0:	f240 011c 	movw	r1, #28
+    g_FrequencyFIC64 = standby_clk;
+    17e4:	f240 0710 	movw	r7, #16
+{
+    uint32_t rcosc_div2;
+    uint32_t rcosc_frequency;
+
+    rcosc_div2 = SYSREG->MSSDDR_PLL_STATUS & RCOSC_DIV2_MASK;
+    if(0u == rcosc_div2)
+    17e8:	bf08      	it	eq
+    17ea:	4613      	moveq	r3, r2
+        - g_FrequencyFIC1
+        - g_FrequencyFIC64
+ */
+static void set_clock_frequency_globals(uint32_t standby_clk)
+{
+    SystemCoreClock = standby_clk;
+    17ec:	f2c2 0600 	movt	r6, #8192	; 0x2000
+    g_FrequencyPCLK0 = standby_clk;
+    17f0:	f2c2 0500 	movt	r5, #8192	; 0x2000
+    g_FrequencyPCLK1 = standby_clk;
+    17f4:	f2c2 0400 	movt	r4, #8192	; 0x2000
+    g_FrequencyPCLK2 = MSS_SYS_APB_2_CLK_FREQ;
+    17f8:	f2c2 0c00 	movt	ip, #8192	; 0x2000
+    g_FrequencyFIC0 = standby_clk;
+    17fc:	f2c2 0000 	movt	r0, #8192	; 0x2000
+    g_FrequencyFIC1 = standby_clk;
+    1800:	f2c2 0100 	movt	r1, #8192	; 0x2000
+    g_FrequencyFIC64 = standby_clk;
+    1804:	f2c2 0700 	movt	r7, #8192	; 0x2000
+static void set_clock_frequency_globals(uint32_t standby_clk)
+{
+    SystemCoreClock = standby_clk;
+    g_FrequencyPCLK0 = standby_clk;
+    g_FrequencyPCLK1 = standby_clk;
+    g_FrequencyPCLK2 = MSS_SYS_APB_2_CLK_FREQ;
+    1808:	f8cc 2000 	str.w	r2, [ip]
+    g_FrequencyFIC0 = standby_clk;
+    g_FrequencyFIC1 = standby_clk;
+    g_FrequencyFIC64 = standby_clk;
+    180c:	603b      	str	r3, [r7, #0]
+        - g_FrequencyFIC1
+        - g_FrequencyFIC64
+ */
+static void set_clock_frequency_globals(uint32_t standby_clk)
+{
+    SystemCoreClock = standby_clk;
+    180e:	6033      	str	r3, [r6, #0]
+    g_FrequencyPCLK0 = standby_clk;
+    1810:	602b      	str	r3, [r5, #0]
+    g_FrequencyPCLK1 = standby_clk;
+    1812:	6023      	str	r3, [r4, #0]
+    g_FrequencyPCLK2 = MSS_SYS_APB_2_CLK_FREQ;
+    g_FrequencyFIC0 = standby_clk;
+    1814:	6003      	str	r3, [r0, #0]
+    g_FrequencyFIC1 = standby_clk;
+    1816:	600b      	str	r3, [r1, #0]
+    {
+        /* PLL initialization mode. Running from 25/50MHZ RC oscillator. */
+        clk_src = get_rcosc_25_50mhz_frequency();
+        set_clock_frequency_globals(clk_src);
+    }
+}
+    1818:	b002      	add	sp, #8
+    181a:	bcf0      	pop	{r4, r5, r6, r7}
+    181c:	4770      	bx	lr
+
+        global_mux_sel = SYSREG->MSSDDR_FACC1_CR & FACC_GLMUX_SEL_MASK;
+        if(0u == global_mux_sel)
+        {
+            /* MSS clocked from MSS PLL. Use Libero flow defines. */
+            SystemCoreClock = MSS_SYS_M3_CLK_FREQ;
+    181e:	f24e 1300 	movw	r3, #57600	; 0xe100
+    1822:	f240 0528 	movw	r5, #40	; 0x28
+            g_FrequencyPCLK0 = MSS_SYS_APB_0_CLK_FREQ;
+    1826:	f240 0420 	movw	r4, #32
+            g_FrequencyPCLK1 = MSS_SYS_APB_1_CLK_FREQ;
+    182a:	f240 0024 	movw	r0, #36	; 0x24
+            g_FrequencyPCLK2 = MSS_SYS_APB_2_CLK_FREQ;
+    182e:	f240 0714 	movw	r7, #20
+    1832:	f647 0c40 	movw	ip, #30784	; 0x7840
+            g_FrequencyFIC0 = MSS_SYS_FIC_0_CLK_FREQ;
+    1836:	f240 0118 	movw	r1, #24
+            g_FrequencyFIC1 = MSS_SYS_FIC_1_CLK_FREQ;
+    183a:	f240 021c 	movw	r2, #28
+            g_FrequencyFIC64 = MSS_SYS_FIC64_CLK_FREQ;
+    183e:	f240 0610 	movw	r6, #16
+
+        global_mux_sel = SYSREG->MSSDDR_FACC1_CR & FACC_GLMUX_SEL_MASK;
+        if(0u == global_mux_sel)
+        {
+            /* MSS clocked from MSS PLL. Use Libero flow defines. */
+            SystemCoreClock = MSS_SYS_M3_CLK_FREQ;
+    1842:	f2c0 53f5 	movt	r3, #1525	; 0x5f5
+        - g_FrequencyFIC1
+        - g_FrequencyFIC64
+ */
+static void set_clock_frequency_globals(uint32_t standby_clk)
+{
+    SystemCoreClock = standby_clk;
+    1846:	f2c2 0500 	movt	r5, #8192	; 0x2000
+    g_FrequencyPCLK0 = standby_clk;
+    184a:	f2c2 0400 	movt	r4, #8192	; 0x2000
+    g_FrequencyPCLK1 = standby_clk;
+    184e:	f2c2 0000 	movt	r0, #8192	; 0x2000
+    g_FrequencyPCLK2 = MSS_SYS_APB_2_CLK_FREQ;
+    1852:	f2c2 0700 	movt	r7, #8192	; 0x2000
+    1856:	f2c0 1c7d 	movt	ip, #381	; 0x17d
+    g_FrequencyFIC0 = standby_clk;
+    185a:	f2c2 0100 	movt	r1, #8192	; 0x2000
+    g_FrequencyFIC1 = standby_clk;
+    185e:	f2c2 0200 	movt	r2, #8192	; 0x2000
+    g_FrequencyFIC64 = standby_clk;
+    1862:	f2c2 0600 	movt	r6, #8192	; 0x2000
+static void set_clock_frequency_globals(uint32_t standby_clk)
+{
+    SystemCoreClock = standby_clk;
+    g_FrequencyPCLK0 = standby_clk;
+    g_FrequencyPCLK1 = standby_clk;
+    g_FrequencyPCLK2 = MSS_SYS_APB_2_CLK_FREQ;
+    1866:	f8c7 c000 	str.w	ip, [r7]
+    g_FrequencyFIC0 = standby_clk;
+    g_FrequencyFIC1 = standby_clk;
+    g_FrequencyFIC64 = standby_clk;
+    186a:	6033      	str	r3, [r6, #0]
+        - g_FrequencyFIC1
+        - g_FrequencyFIC64
+ */
+static void set_clock_frequency_globals(uint32_t standby_clk)
+{
+    SystemCoreClock = standby_clk;
+    186c:	602b      	str	r3, [r5, #0]
+    g_FrequencyPCLK0 = standby_clk;
+    186e:	6023      	str	r3, [r4, #0]
+    g_FrequencyPCLK1 = standby_clk;
+    1870:	6003      	str	r3, [r0, #0]
+    g_FrequencyPCLK2 = MSS_SYS_APB_2_CLK_FREQ;
+    g_FrequencyFIC0 = standby_clk;
+    1872:	600b      	str	r3, [r1, #0]
+    g_FrequencyFIC1 = standby_clk;
+    1874:	6013      	str	r3, [r2, #0]
+    1876:	e7cf      	b.n	1818 <SystemCoreClockUpdate+0xac>
+        - g_FrequencyFIC1
+        - g_FrequencyFIC64
+ */
+static void set_clock_frequency_globals(uint32_t standby_clk)
+{
+    SystemCoreClock = standby_clk;
+    1878:	f244 2340 	movw	r3, #16960	; 0x4240
+    187c:	f240 0528 	movw	r5, #40	; 0x28
+    g_FrequencyPCLK0 = standby_clk;
+    1880:	f240 0420 	movw	r4, #32
+    g_FrequencyPCLK1 = standby_clk;
+    1884:	f240 0024 	movw	r0, #36	; 0x24
+    g_FrequencyPCLK2 = MSS_SYS_APB_2_CLK_FREQ;
+    1888:	f240 0714 	movw	r7, #20
+    188c:	f647 0c40 	movw	ip, #30784	; 0x7840
+    g_FrequencyFIC0 = standby_clk;
+    1890:	f240 0118 	movw	r1, #24
+    g_FrequencyFIC1 = standby_clk;
+    1894:	f240 021c 	movw	r2, #28
+    g_FrequencyFIC64 = standby_clk;
+    1898:	f240 0610 	movw	r6, #16
+        - g_FrequencyFIC1
+        - g_FrequencyFIC64
+ */
+static void set_clock_frequency_globals(uint32_t standby_clk)
+{
+    SystemCoreClock = standby_clk;
+    189c:	f2c0 030f 	movt	r3, #15
+    18a0:	e7d1      	b.n	1846 <SystemCoreClockUpdate+0xda>
+    g_FrequencyPCLK0 = standby_clk;
+    18a2:	f240 0528 	movw	r5, #40	; 0x28
+    18a6:	f240 0420 	movw	r4, #32
+    g_FrequencyPCLK1 = standby_clk;
+    18aa:	f240 0024 	movw	r0, #36	; 0x24
+    g_FrequencyPCLK2 = MSS_SYS_APB_2_CLK_FREQ;
+    18ae:	f240 0714 	movw	r7, #20
+    18b2:	f647 0c40 	movw	ip, #30784	; 0x7840
+    g_FrequencyFIC0 = standby_clk;
+    18b6:	f240 0118 	movw	r1, #24
+    g_FrequencyFIC1 = standby_clk;
+    18ba:	f240 021c 	movw	r2, #28
+    g_FrequencyFIC64 = standby_clk;
+    18be:	f240 0610 	movw	r6, #16
+        - g_FrequencyFIC1
+        - g_FrequencyFIC64
+ */
+static void set_clock_frequency_globals(uint32_t standby_clk)
+{
+    SystemCoreClock = standby_clk;
+    18c2:	f2c2 0500 	movt	r5, #8192	; 0x2000
+    g_FrequencyPCLK0 = standby_clk;
+    18c6:	f2c2 0400 	movt	r4, #8192	; 0x2000
+    g_FrequencyPCLK1 = standby_clk;
+    18ca:	f2c2 0000 	movt	r0, #8192	; 0x2000
+    g_FrequencyPCLK2 = MSS_SYS_APB_2_CLK_FREQ;
+    18ce:	f2c2 0700 	movt	r7, #8192	; 0x2000
+    18d2:	f2c0 1c7d 	movt	ip, #381	; 0x17d
+    g_FrequencyFIC0 = standby_clk;
+    18d6:	f2c2 0100 	movt	r1, #8192	; 0x2000
+    g_FrequencyFIC1 = standby_clk;
+    18da:	f2c2 0200 	movt	r2, #8192	; 0x2000
+    g_FrequencyFIC64 = standby_clk;
+    18de:	f2c2 0600 	movt	r6, #8192	; 0x2000
+        - g_FrequencyFIC1
+        - g_FrequencyFIC64
+ */
+static void set_clock_frequency_globals(uint32_t standby_clk)
+{
+    SystemCoreClock = standby_clk;
+    18e2:	f44f 4300 	mov.w	r3, #32768	; 0x8000
+    18e6:	e7be      	b.n	1866 <SystemCoreClockUpdate+0xfa>
+
+000018e8 <SystemInit>:
+static uint32_t get_silicon_revision(void)
+{
+    uint32_t silicon_revision;
+    uint32_t device_version;
+
+    device_version = SYSREG->DEVICE_VERSION;
+    18e8:	f248 0300 	movw	r3, #32768	; 0x8000
+    18ec:	f2c4 0303 	movt	r3, #16387	; 0x4003
+    18f0:	f8d3 114c 	ldr.w	r1, [r3, #332]	; 0x14c
+    switch(device_version)
+    18f4:	f64f 0202 	movw	r2, #63490	; 0xf802
+    18f8:	4291      	cmp	r1, r2
+    18fa:	d10b      	bne.n	1914 <SystemInit+0x2c>
+{
+    /*--------------------------------------------------------------------------
+     * Work around a couple of silicon issues:
+     */
+    /* DDR_CLK_EN <- 1 */
+    SYSREG->MSSDDR_FACC1_CR |= (uint32_t)1 << DDR_CLK_EN_SHIFT;
+    18fc:	f8d3 0098 	ldr.w	r0, [r3, #152]	; 0x98
+    1900:	f440 7280 	orr.w	r2, r0, #256	; 0x100
+    1904:	f8c3 2098 	str.w	r2, [r3, #152]	; 0x98
+
+    /* CONTROLLER_PLL_INIT <- 0 */
+    SYSREG->MSSDDR_FACC1_CR = SYSREG->MSSDDR_FACC1_CR & ~CONTROLLER_PLL_INIT_MASK;
+    1908:	f8d3 1098 	ldr.w	r1, [r3, #152]	; 0x98
+    190c:	f021 6080 	bic.w	r0, r1, #67108864	; 0x4000000
+    1910:	f8c3 0098 	str.w	r0, [r3, #152]	; 0x98
+    /*--------------------------------------------------------------------------
+     * Set STKALIGN to ensure exception stacking starts on 8 bytes address
+     * boundary. This ensures compliance with the "Procedure Call Standards for
+     * the ARM Architecture" (AAPCS).
+     */
+    SCB->CCR |= SCB_CCR_STKALIGN_Msk;
+    1914:	f64e 5300 	movw	r3, #60672	; 0xed00
+    1918:	f2ce 0300 	movt	r3, #57344	; 0xe000
+    191c:	695a      	ldr	r2, [r3, #20]
+    191e:	f442 7100 	orr.w	r1, r2, #512	; 0x200
+    1922:	6159      	str	r1, [r3, #20]
+#endif
+
+    /*--------------------------------------------------------------------------
+     * Call user defined configuration function.
+     */
+    mscc_post_hw_cfg_init();
+    1924:	f7fe bd86 	b.w	434 <mscc_post_hw_cfg_init>
+
+00001928 <__libc_init_array>:
+    1928:	b570      	push	{r4, r5, r6, lr}
+    192a:	f641 263c 	movw	r6, #6716	; 0x1a3c
+    192e:	f641 253c 	movw	r5, #6716	; 0x1a3c
+    1932:	f2c0 0600 	movt	r6, #0
+    1936:	f2c0 0500 	movt	r5, #0
+    193a:	1b76      	subs	r6, r6, r5
+    193c:	10b6      	asrs	r6, r6, #2
+    193e:	d006      	beq.n	194e <__libc_init_array+0x26>
+    1940:	2400      	movs	r4, #0
+    1942:	f855 3024 	ldr.w	r3, [r5, r4, lsl #2]
+    1946:	3401      	adds	r4, #1
+    1948:	4798      	blx	r3
+    194a:	42a6      	cmp	r6, r4
+    194c:	d8f9      	bhi.n	1942 <__libc_init_array+0x1a>
+    194e:	f641 253c 	movw	r5, #6716	; 0x1a3c
+    1952:	f641 2640 	movw	r6, #6720	; 0x1a40
+    1956:	f2c0 0500 	movt	r5, #0
+    195a:	f2c0 0600 	movt	r6, #0
+    195e:	1b76      	subs	r6, r6, r5
+    1960:	f000 f860 	bl	1a24 <_init>
+    1964:	10b6      	asrs	r6, r6, #2
+    1966:	d006      	beq.n	1976 <__libc_init_array+0x4e>
+    1968:	2400      	movs	r4, #0
+    196a:	f855 3024 	ldr.w	r3, [r5, r4, lsl #2]
+    196e:	3401      	adds	r4, #1
+    1970:	4798      	blx	r3
+    1972:	42a6      	cmp	r6, r4
+    1974:	d8f9      	bhi.n	196a <__libc_init_array+0x42>
+    1976:	bd70      	pop	{r4, r5, r6, pc}
+    1978:	00000a0d 	.word	0x00000a0d
+
+0000197c <g_gpio_irqn_lut>:
+    197c:	35343332 39383736 3d3c3b3a 41403f3e     23456789:;<=>?@A
+    198c:	45444342 49484746 4d4c4b4a 51504f4e     BCDEFGHIJKLMNOPQ
+
+0000199c <g_config_reg_lut>:
+    199c:	40013000 40013004 40013008 4001300c     .0.@.0.@.0.@.0.@
+    19ac:	40013010 40013014 40013018 4001301c     .0.@.0.@.0.@.0.@
+    19bc:	40013020 40013024 40013028 4001302c      0.@$0.@(0.@,0.@
+    19cc:	40013030 40013034 40013038 4001303c     00.@40.@80.@<0.@
+    19dc:	40013040 40013044 40013048 4001304c     @0.@D0.@H0.@L0.@
+    19ec:	40013050 40013054 40013058 4001305c     P0.@T0.@X0.@\0.@
+    19fc:	40013060 40013064 40013068 4001306c     `0.@d0.@h0.@l0.@
+    1a0c:	40013070 40013074 40013078 4001307c     p0.@t0.@x0.@|0.@
+
+00001a1c <C.16.3514>:
+    1a1c:	01000100 03030202                       ........
+
+00001a24 <_init>:
+    1a24:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+    1a26:	bf00      	nop
+    1a28:	bcf8      	pop	{r3, r4, r5, r6, r7}
+    1a2a:	bc08      	pop	{r3}
+    1a2c:	469e      	mov	lr, r3
+    1a2e:	4770      	bx	lr
+
+00001a30 <_fini>:
+    1a30:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+    1a32:	bf00      	nop
+    1a34:	bcf8      	pop	{r3, r4, r5, r6, r7}
+    1a36:	bc08      	pop	{r3}
+    1a38:	469e      	mov	lr, r3
+    1a3a:	4770      	bx	lr
+
+00001a3c <__frame_dummy_init_array_entry>:
+    1a3c:	04d5 0000                                   ....
+
+00001a40 <__do_global_dtors_aux_fini_array_entry>:
+    1a40:	04c1 0000 0000 0000 0000 0000 0000 0000     ................
