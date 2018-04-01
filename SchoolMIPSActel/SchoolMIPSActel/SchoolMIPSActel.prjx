@@ -44,7 +44,7 @@ ENDLIST
 LIST FileManager
 VALUE "<project>\component\Actel\SgCore\OSC\2.0.101\OSC.cxf,actgen_cxf"
 STATE="utd"
-TIME="1521908895"
+TIME="1522504112"
 SIZE="684"
 PARENT="<project>\component\work\SchoolMIPS\SchoolMIPS.cxf"
 ENDFILE
@@ -74,91 +74,91 @@ IS_READONLY="TRUE"
 ENDFILE
 VALUE "<project>\component\Actel\SmartFusion2MSS\MSS\1.1.500\MSS.cxf,actgen_cxf"
 STATE="utd"
-TIME="1521907426"
+TIME="1522396309"
 SIZE="526"
 PARENT="<project>\component\work\MSS1_MSS\MSS1_MSS.cxf"
 ENDFILE
 VALUE "<project>\component\Actel\SmartFusion2MSS\MSS_CCC\1.0.100\MSS_CCC.cxf,actgen_cxf"
 STATE="utd"
-TIME="1521907421"
+TIME="1522396304"
 SIZE="253"
 PARENT="<project>\component\work\MSS1_MSS\MSS1_MSS.cxf"
 ENDFILE
 VALUE "<project>\component\Actel\SmartFusion2MSS\MSS_CC\1.0.100\MSS_CC.cxf,actgen_cxf"
 STATE="utd"
-TIME="1521907421"
+TIME="1522396304"
 SIZE="252"
 PARENT="<project>\component\work\MSS1_MSS\MSS1_MSS.cxf"
 ENDFILE
 VALUE "<project>\component\Actel\SmartFusion2MSS\MSS_CFGM\1.1.100\MSS_CFGM.cxf,actgen_cxf"
 STATE="utd"
-TIME="1521907421"
+TIME="1522396304"
 SIZE="254"
 PARENT="<project>\component\work\MSS1_MSS\MSS1_MSS.cxf"
 ENDFILE
 VALUE "<project>\component\Actel\SmartFusion2MSS\MSS_CM3\1.0.200\MSS_CM3.cxf,actgen_cxf"
 STATE="utd"
-TIME="1521907421"
+TIME="1522396304"
 SIZE="253"
 PARENT="<project>\component\work\MSS1_MSS\MSS1_MSS.cxf"
 ENDFILE
 VALUE "<project>\component\Actel\SmartFusion2MSS\MSS_DDRB\1.0.200\MSS_DDRB.cxf,actgen_cxf"
 STATE="utd"
-TIME="1521907421"
+TIME="1522396304"
 SIZE="254"
 PARENT="<project>\component\work\MSS1_MSS\MSS1_MSS.cxf"
 ENDFILE
 VALUE "<project>\component\Actel\SmartFusion2MSS\MSS_EDAC\1.0.101\MSS_EDAC.cxf,actgen_cxf"
 STATE="utd"
-TIME="1521907421"
+TIME="1522396304"
 SIZE="254"
 PARENT="<project>\component\work\MSS1_MSS\MSS1_MSS.cxf"
 ENDFILE
 VALUE "<project>\component\Actel\SmartFusion2MSS\MSS_ENVM\1.0.101\MSS_ENVM.cxf,actgen_cxf"
 STATE="utd"
-TIME="1521907421"
+TIME="1522396304"
 SIZE="254"
 PARENT="<project>\component\work\MSS1_MSS\MSS1_MSS.cxf"
 ENDFILE
 VALUE "<project>\component\Actel\SmartFusion2MSS\MSS_GPIO\1.0.100\MSS_GPIO.cxf,actgen_cxf"
 STATE="utd"
-TIME="1521907421"
+TIME="1522396304"
 SIZE="254"
 PARENT="<project>\component\work\MSS1_MSS\MSS1_MSS.cxf"
 ENDFILE
 VALUE "<project>\component\Actel\SmartFusion2MSS\MSS_INTR\1.0.200\MSS_INTR.cxf,actgen_cxf"
 STATE="utd"
-TIME="1521907421"
+TIME="1522396304"
 SIZE="254"
 PARENT="<project>\component\work\MSS1_MSS\MSS1_MSS.cxf"
 ENDFILE
 VALUE "<project>\component\Actel\SmartFusion2MSS\MSS_MMUART\1.0.100\MSS_MMUART.cxf,actgen_cxf"
 STATE="utd"
-TIME="1521907421"
+TIME="1522396304"
 SIZE="256"
 PARENT="<project>\component\work\MSS1_MSS\MSS1_MSS.cxf"
 ENDFILE
 VALUE "<project>\component\Actel\SmartFusion2MSS\MSS_RESET\1.0.100\MSS_RESET.cxf,actgen_cxf"
 STATE="utd"
-TIME="1521907421"
+TIME="1522396304"
 SIZE="255"
 PARENT="<project>\component\work\MSS1_MSS\MSS1_MSS.cxf"
 ENDFILE
 VALUE "<project>\component\Actel\SmartFusion2MSS\MSS_SECURITY\1.0.100\MSS_SECURITY.cxf,actgen_cxf"
 STATE="utd"
-TIME="1521907421"
+TIME="1522396304"
 SIZE="258"
 PARENT="<project>\component\work\MSS1_MSS\MSS1_MSS.cxf"
 ENDFILE
 VALUE "<project>\component\Actel\SmartFusion2MSS\MSS_SPI\1.0.100\MSS_SPI.cxf,actgen_cxf"
 STATE="utd"
-TIME="1521907421"
+TIME="1522396304"
 SIZE="253"
 PARENT="<project>\component\work\MSS1_MSS\MSS1_MSS.cxf"
 ENDFILE
 VALUE "<project>\component\Actel\SmartFusion2MSS\MSS_SWITCH\1.0.101\MSS_SWITCH.cxf,actgen_cxf"
 STATE="utd"
-TIME="1521907421"
+TIME="1522396304"
 SIZE="256"
 PARENT="<project>\component\work\MSS1_MSS\MSS1_MSS.cxf"
 ENDFILE
@@ -169,19 +169,19 @@ SIZE="2093"
 ENDFILE
 VALUE "<project>\component\work\MSS1_MSS\MSS1_MSS.cxf,actgen_cxf"
 STATE="utd"
-TIME="1521907427"
-SIZE="16373"
+TIME="1522396310"
+SIZE="16916"
 ENDFILE
 VALUE "<project>\component\work\MSS1_MSS\MSS1_MSS.v,hdl"
 STATE="utd"
-TIME="1521907426"
-SIZE="43128"
+TIME="1522396309"
+SIZE="43366"
 PARENT="<project>\component\work\MSS1_MSS\MSS1_MSS.cxf"
 IS_READONLY="TRUE"
 ENDFILE
 VALUE "<project>\component\work\MSS1_MSS\MSS1_MSS_pre.v,hdl"
 STATE="utd"
-TIME="1521907425"
+TIME="1522396308"
 SIZE="55736"
 PARENT="<project>\component\work\MSS1_MSS\MSS1_MSS.cxf"
 BEGIN_USE_CONSTRAINT
@@ -193,7 +193,7 @@ IS_READONLY="TRUE"
 ENDFILE
 VALUE "<project>\component\work\MSS1_MSS\MSS1_MSS_syn.v,hdl"
 STATE="utd"
-TIME="1521907425"
+TIME="1522396308"
 SIZE="48745"
 PARENT="<project>\component\work\MSS1_MSS\MSS1_MSS.cxf"
 BEGIN_USE_CONSTRAINT
@@ -205,33 +205,33 @@ IS_READONLY="TRUE"
 ENDFILE
 VALUE "<project>\component\work\SchoolMIPS\OSC_0\SchoolMIPS_OSC_0_OSC.cxf,actgen_cxf"
 STATE="utd"
-TIME="1521908895"
+TIME="1522504112"
 SIZE="463"
 PARENT="<project>\component\work\SchoolMIPS\SchoolMIPS.cxf"
 ENDFILE
 VALUE "<project>\component\work\SchoolMIPS\OSC_0\SchoolMIPS_OSC_0_OSC.v,hdl"
 STATE="utd"
-TIME="1521908895"
+TIME="1522504112"
 SIZE="827"
 PARENT="<project>\component\work\SchoolMIPS\OSC_0\SchoolMIPS_OSC_0_OSC.cxf"
 IS_READONLY="TRUE"
 ENDFILE
 VALUE "<project>\component\work\SchoolMIPS\SchoolMIPS.cxf,actgen_cxf"
 STATE="utd"
-TIME="1521908896"
-SIZE="3210"
+TIME="1522504113"
+SIZE="3486"
 ENDFILE
 VALUE "<project>\component\work\SchoolMIPS\SchoolMIPS.v,hdl"
 STATE="utd"
-TIME="1521908895"
-SIZE="6548"
+TIME="1522504112"
+SIZE="6738"
 PARENT="<project>\component\work\SchoolMIPS\SchoolMIPS.cxf"
 IS_READONLY="TRUE"
 ENDFILE
 VALUE "<project>\constraint\io\user.pdc,io_pdc"
 STATE="utd"
-TIME="1521602897"
-SIZE="999"
+TIME="1522384958"
+SIZE="1417"
 IS_TARGET="TRUE"
 ENDFILE
 VALUE "<project>\designer\impl1\SchoolMIPS.ide_des,ide_des"
@@ -241,18 +241,43 @@ SIZE="477"
 ENDFILE
 VALUE "<project>\hdl\BSR.v,hdl"
 STATE="utd"
-TIME="1521902660"
-SIZE="784"
+TIME="1522503463"
+SIZE="862"
+ENDFILE
+VALUE "<project>\hdl\bypass_register.v,hdl"
+STATE="utd"
+TIME="1522564485"
+SIZE="259"
+ENDFILE
+VALUE "<project>\hdl\ir.v,hdl"
+STATE="utd"
+TIME="1522504135"
+SIZE="820"
+ENDFILE
+VALUE "<project>\hdl\ir_decoder.v,hdl"
+STATE="utd"
+TIME="1522568349"
+SIZE="494"
 ENDFILE
 VALUE "<project>\hdl\MUX.v,hdl"
 STATE="utd"
 TIME="1521524542"
 SIZE="952"
 ENDFILE
+VALUE "<project>\hdl\mux_dr.v,hdl"
+STATE="utd"
+TIME="1522567277"
+SIZE="1178"
+ENDFILE
 VALUE "<project>\hdl\one_bsc.v,hdl"
 STATE="utd"
-TIME="1521902658"
-SIZE="471"
+TIME="1522379916"
+SIZE="575"
+ENDFILE
+VALUE "<project>\hdl\one_irc.v,hdl"
+STATE="utd"
+TIME="1522503654"
+SIZE="619"
 ENDFILE
 VALUE "<project>\hdl\sm_cpu.v,hdl"
 STATE="utd"
@@ -281,12 +306,17 @@ SIZE="247"
 ENDFILE
 VALUE "<project>\hdl\sm_top.v,hdl"
 STATE="utd"
-TIME="1521903479"
-SIZE="2954"
+TIME="1522578952"
+SIZE="5505"
+ENDFILE
+VALUE "<project>\hdl\tap_controller.v,hdl"
+STATE="utd"
+TIME="1522492895"
+SIZE="3957"
 ENDFILE
 VALUE "<project>\simulation\CM3_compile_bfm.tcl,sim"
 STATE="utd"
-TIME="1521907425"
+TIME="1522396308"
 SIZE="500"
 PARENT="<project>\component\work\MSS1_MSS\MSS1_MSS.cxf"
 ENDFILE
@@ -298,13 +328,13 @@ PARENT="<project>\component\Actel\SmartFusion2MSS\MSS\1.1.500\MSS.cxf"
 ENDFILE
 VALUE "<project>\simulation\subsystem.bfm,sim"
 STATE="utd"
-TIME="1521908895"
+TIME="1522504112"
 SIZE="602"
 PARENT="<project>\component\work\SchoolMIPS\SchoolMIPS.cxf"
 ENDFILE
 VALUE "<project>\simulation\test.bfm,sim"
 STATE="utd"
-TIME="1521907425"
+TIME="1522396308"
 SIZE="734"
 PARENT="<project>\component\work\MSS1_MSS\MSS1_MSS.cxf"
 ENDFILE
@@ -316,23 +346,23 @@ PARENT="<project>\component\work\MSS1_MSS\MSS1_MSS.cxf"
 ENDFILE
 VALUE "<project>\synthesis\SchoolMIPS.edn,syn_edn"
 STATE="utd"
-TIME="1521908914"
-SIZE="753765"
+TIME="1522507586"
+SIZE="909078"
 ENDFILE
 VALUE "<project>\synthesis\SchoolMIPS.so,so"
 STATE="utd"
-TIME="1521908915"
+TIME="1522507587"
 SIZE="238"
 ENDFILE
 VALUE "<project>\synthesis\SchoolMIPS_sdc.sdc,syn_sdc"
 STATE="utd"
-TIME="1521908914"
-SIZE="1669"
+TIME="1522507586"
+SIZE="1387"
 ENDFILE
 VALUE "<project>\synthesis\SchoolMIPS_syn.prj,prj"
 STATE="utd"
-TIME="1521908915"
-SIZE="3379"
+TIME="1522507587"
+SIZE="3720"
 ENDFILE
 VALUE "<project>\synthesis\sm_hex_display_8.so,so"
 STATE="utd"
@@ -348,6 +378,11 @@ VALUE "<project>\synthesis\sm_top.so,so"
 STATE="utd"
 TIME="1521373435"
 SIZE="230"
+ENDFILE
+VALUE "<project>\synthesis\synwork\layer0.so,so"
+STATE="utd"
+TIME="1522504119"
+SIZE="159"
 ENDFILE
 ENDLIST
 LIST UsedFile
@@ -461,8 +496,8 @@ NAME="Synplify Pro ME"
 FUNCTION="Synthesis"
 TOOL="Synplify Pro ME"
 LOCATION="D:\Microsemi\Libero_SoC_v11.8\SynplifyPro\bin\synplify_pro.exe"
-PARAM=""
-BATCH=0
+PARAM="-licensetype synplifypro_actel -batch -log synplify.log"
+BATCH=1
 LICENSE=""
 IS32BIT="1"
 EndProfile
@@ -521,12 +556,23 @@ LIST UserCustomizedFileList
 ENDLIST
 LIST OpenedFileList
 ORIENTATION;HORIZONTAL
-StartPage;StartPage;0
-ACTIVEVIEW;StartPage
+Reports;Reports;0
+ReportsCurrentItem;Run PROGRAM Action:SchoolMIPS_PROGRAM.log
+HDL;hdl\bypass_register.v;0
+HDL;hdl\MUX.v;0
+HDL;hdl\sm_top.v;0
+HDL;hdl\tap_controller.v;0
+HDL;hdl\mux_dr.v;0
+HDL;hdl\ir_decoder.v;0
+SmartDesign;SchoolMIPS;0
+HDL;hdl\one_irc.v;0
+ACTIVEVIEW;Reports
 ENDLIST
 LIST ModuleSubBlockList
-LIST "BSR::work","hdl\BSR.v","FALSE","FALSE"
+LIST "bsr::work","hdl\BSR.v","FALSE","FALSE"
 SUBBLOCK "one_bsc::work","hdl\one_bsc.v","FALSE","FALSE"
+ENDLIST
+LIST "bypass_register::work","hdl\bypass_register.v","FALSE","FALSE"
 ENDLIST
 LIST "DESIGN_FIRMWARE::work","component\work\DESIGN_FIRMWARE\DESIGN_FIRMWARE.cxf","TRUE","FALSE"
 SUBBLOCK "SmartFusion2_CMSIS::work","","FALSE","FALSE"
@@ -538,6 +584,11 @@ SUBBLOCK "SmartFusion2_MSS_SPI_Driver::work","","FALSE","FALSE"
 SUBBLOCK "SmartFusion2_MSS_System_Services_Driver::work","","FALSE","FALSE"
 SUBBLOCK "SmartFusion2_MSS_Timer_Driver::work","","FALSE","FALSE"
 ENDLIST
+LIST "ir::work","hdl\ir.v","FALSE","FALSE"
+SUBBLOCK "one_irc::work","hdl\one_irc.v","FALSE","FALSE"
+ENDLIST
+LIST "ir_decoder::work","hdl\ir_decoder.v","FALSE","FALSE"
+ENDLIST
 LIST "MSS1_MSS::work","component\work\MSS1_MSS\MSS1_MSS.v","TRUE","FALSE"
 SUBBLOCK "MSS_010::work","component\work\MSS1_MSS\MSS1_MSS_syn.v","FALSE","FALSE"
 ENDLIST
@@ -545,7 +596,11 @@ LIST "MSS_010::work","component\work\MSS1_MSS\MSS1_MSS_syn.v","FALSE","FALSE"
 ENDLIST
 LIST "MUX::work","hdl\MUX.v","FALSE","FALSE"
 ENDLIST
+LIST "mux_dr::work","hdl\mux_dr.v","FALSE","FALSE"
+ENDLIST
 LIST "one_bsc::work","hdl\one_bsc.v","FALSE","FALSE"
+ENDLIST
+LIST "one_irc::work","hdl\one_irc.v","FALSE","FALSE"
 ENDLIST
 LIST "RCOSC_1MHZ::work","component\Actel\SgCore\OSC\2.0.101\osc_comps.v","FALSE","FALSE"
 ENDLIST
@@ -593,11 +648,16 @@ ENDLIST
 LIST "sm_rom::work","hdl\sm_rom.v","FALSE","FALSE"
 ENDLIST
 LIST "sm_top::work","hdl\sm_top.v","FALSE","FALSE"
-SUBBLOCK "BSR::work","hdl\BSR.v","FALSE","FALSE"
+SUBBLOCK "bsr::work","hdl\BSR.v","FALSE","FALSE"
+SUBBLOCK "bypass_register::work","hdl\bypass_register.v","FALSE","FALSE"
+SUBBLOCK "ir::work","hdl\ir.v","FALSE","FALSE"
+SUBBLOCK "ir_decoder::work","hdl\ir_decoder.v","FALSE","FALSE"
+SUBBLOCK "mux_dr::work","hdl\mux_dr.v","FALSE","FALSE"
 SUBBLOCK "sm_clk_divider::work","hdl\sm_top.v","FALSE","FALSE"
 SUBBLOCK "sm_cpu::work","hdl\sm_cpu.v","FALSE","FALSE"
 SUBBLOCK "sm_debouncer::work","hdl\sm_top.v","FALSE","FALSE"
 SUBBLOCK "sm_rom::work","hdl\sm_rom.v","FALSE","FALSE"
+SUBBLOCK "tap_controller::work","hdl\tap_controller.v","FALSE","FALSE"
 ENDLIST
 LIST "SmartFusion2_CMSIS::work","","FALSE","FALSE"
 ENDLIST
@@ -614,6 +674,8 @@ ENDLIST
 LIST "SmartFusion2_MSS_System_Services_Driver::work","","FALSE","FALSE"
 ENDLIST
 LIST "SmartFusion2_MSS_Timer_Driver::work","","FALSE","FALSE"
+ENDLIST
+LIST "tap_controller::work","hdl\tap_controller.v","FALSE","FALSE"
 ENDLIST
 LIST "XTLOSC::work","component\Actel\SgCore\OSC\2.0.101\osc_comps.v","FALSE","FALSE"
 ENDLIST

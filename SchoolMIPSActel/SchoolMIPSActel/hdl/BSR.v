@@ -1,4 +1,4 @@
-module BSR #(parameter width=32)
+module bsr #(parameter width=32)
 (
 	input 	[width-1:0] p_data_in,
 	output 	[width-1:0]	p_data_out,
@@ -7,16 +7,17 @@ module BSR #(parameter width=32)
 	input 					mode,
 	input 					shift_dr,
 	input 					clk_dr,
-	input 					update_dr
+	input 					update_dr,
+	input					ICLK
 );
-wire	[width:0] internal_connect;
+wire	[width:0]   internal_connect;
 assign s_data_out=internal_connect[width];
 assign internal_connect[0]=s_data_in;
 genvar 				number_of_bsc;
 
 generate
 	for(number_of_bsc=0; number_of_bsc<width; number_of_bsc=number_of_bsc+1)
-	begin:MUX
+	begin:generate_bsr
 		one_bsc
 		one_bsc_ (
 		.p_data_in(p_data_in[number_of_bsc]),
@@ -26,7 +27,8 @@ generate
 		.mode(mode),
 		.shift_dr(shift_dr),
 		.clk_dr(clk_dr),
-		.update_dr(update_dr)
+		.update_dr(update_dr),
+		.ICLK(ICLK)
 		);
 	end
 endgenerate

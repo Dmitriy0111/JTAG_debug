@@ -1,6 +1,6 @@
 Microsemi Corporation - Microsemi Libero Software Release Libero SoC v11.8 SP2 (Version 11.8.2.4)
 
-Date      :  Sat Mar 24 23:28:16 2018
+Date      :  Sat Mar 31 20:48:33 2018
 Project   :  C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel
 Component :  SchoolMIPS
 Family    :  SmartFusion2

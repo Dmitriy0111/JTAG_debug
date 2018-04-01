@@ -3,6 +3,7 @@ module one_bsc(
 	output 	p_data_out,
 	input 	s_data_in,
 	output 	s_data_out,
+	input	ICLK,
 	input 	mode,
 	input 	shift_dr,
 	input 	clk_dr,
@@ -15,14 +16,18 @@ module one_bsc(
 	assign s_data_out=CAP;
 	assign p_data_out=mode?UPD:p_data_in;
 	
-	always @(posedge clk_dr)
+	always @(posedge ICLK)
 	begin
-		CAP<=shift_dr_mux;
+		if (clk_dr==1'b1)
+			CAP<=shift_dr_mux;
+		else
+			CAP<=CAP;
 	end
 	
-	always @(posedge update_dr)
+	always @(posedge ICLK)
 	begin
-		UPD<=CAP;
+		if (update_dr==1'b1)
+			UPD<=CAP;
 	end
 	
 endmodule

@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////
-// Created by SmartDesign Sat Mar 24 23:03:46 2018
+// Created by SmartDesign Fri Mar 30 14:51:49 2018
 // Version: v11.8 SP2 11.8.2.4
 //////////////////////////////////////////////////////////////////////
 
@@ -9,6 +9,7 @@
 module MSS1_MSS(
     // Inputs
     GPIO_0_F2M,
+    GPIO_15_F2M,
     GPIO_1_F2M,
     GPIO_2_F2M,
     GPIO_3_F2M,
@@ -29,6 +30,7 @@ module MSS1_MSS(
     GPIO_12_M2F,
     GPIO_13_M2F,
     GPIO_14_M2F,
+    GPIO_16_M2F,
     GPIO_8_M2F,
     GPIO_9_M2F,
     MMUART_0_TXD_M2F,
@@ -42,6 +44,7 @@ module MSS1_MSS(
 // Input
 //--------------------------------------------------------------------
 input  GPIO_0_F2M;
+input  GPIO_15_F2M;
 input  GPIO_1_F2M;
 input  GPIO_2_F2M;
 input  GPIO_3_F2M;
@@ -64,6 +67,7 @@ output GPIO_11_M2F;
 output GPIO_12_M2F;
 output GPIO_13_M2F;
 output GPIO_14_M2F;
+output GPIO_16_M2F;
 output GPIO_8_M2F;
 output GPIO_9_M2F;
 output MMUART_0_TXD_M2F;
@@ -89,6 +93,8 @@ wire   GPIO_11_M2F_net_0;
 wire   GPIO_12_M2F_net_0;
 wire   GPIO_13_M2F_net_0;
 wire   GPIO_14_M2F_net_0;
+wire   GPIO_15_F2M;
+wire   GPIO_16_M2F_0;
 wire   M3_RESET_N;
 wire   MCCC_CLK_BASE;
 wire   MMUART_0_RXD_F2M;
@@ -113,6 +119,7 @@ wire   SPI_0_CLK_M2F_net_1;
 wire   SPI_0_SS0_M2F_net_1;
 wire   SPI_0_SS0_M2F_OE_net_1;
 wire   GPIO_10_M2F_net_1;
+wire   GPIO_16_M2F_0_net_0;
 //--------------------------------------------------------------------
 // TiedOff Nets
 //--------------------------------------------------------------------
@@ -218,6 +225,8 @@ assign SPI_0_SS0_M2F_OE_net_1 = SPI_0_SS0_M2F_OE_net_0;
 assign SPI_0_SS0_M2F_OE       = SPI_0_SS0_M2F_OE_net_1;
 assign GPIO_10_M2F_net_1      = GPIO_10_M2F_net_0;
 assign GPIO_10_M2F            = GPIO_10_M2F_net_1;
+assign GPIO_16_M2F_0_net_0    = GPIO_16_M2F_0;
+assign GPIO_16_M2F            = GPIO_16_M2F_0_net_0;
 //--------------------------------------------------------------------
 // Component instances
 //--------------------------------------------------------------------
@@ -282,7 +291,7 @@ MSS_ADLIB_INST(
         .MGPIO12A_F2H_GPIN                       ( VCC_net ), // tied to 1'b1 from definition
         .MGPIO13A_F2H_GPIN                       ( VCC_net ), // tied to 1'b1 from definition
         .MGPIO14A_F2H_GPIN                       ( VCC_net ), // tied to 1'b1 from definition
-        .MGPIO15A_F2H_GPIN                       ( VCC_net ), // tied to 1'b1 from definition
+        .MGPIO15A_F2H_GPIN                       ( GPIO_15_F2M ),
         .MGPIO16A_F2H_GPIN                       ( VCC_net ), // tied to 1'b1 from definition
         .MGPIO17B_F2H_GPIN                       ( VCC_net ), // tied to 1'b1 from definition
         .MGPIO18B_F2H_GPIN                       ( VCC_net ), // tied to 1'b1 from definition
@@ -568,7 +577,7 @@ MSS_ADLIB_INST(
         .SPI1_SS2_MGPIO15A_H2F_A                 (  ),
         .SPI1_SS2_MGPIO15A_H2F_B                 (  ),
         .SPI1_SS3_MGPIO16A_H2F_A                 (  ),
-        .SPI1_SS3_MGPIO16A_H2F_B                 (  ),
+        .SPI1_SS3_MGPIO16A_H2F_B                 ( GPIO_16_M2F_0 ),
         .SPI1_SS4_MGPIO17A_H2F_A                 (  ),
         .SPI1_SS5_MGPIO18A_H2F_A                 (  ),
         .SPI1_SS6_MGPIO23A_H2F_A                 (  ),

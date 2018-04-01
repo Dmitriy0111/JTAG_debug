@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////
-// Created by SmartDesign Sat Mar 24 23:28:15 2018
+// Created by SmartDesign Sat Mar 31 20:48:32 2018
 // Version: v11.8 SP2 11.8.2.4
 //////////////////////////////////////////////////////////////////////
 
@@ -11,18 +11,20 @@ module SchoolMIPS(
     MMUART_0_RXD_F2M,
     rst_n_0,
     // Outputs
-    MMUART_0_TXD_M2F
+    MMUART_0_TXD_M2F,
+    state_out
 );
 
 //--------------------------------------------------------------------
 // Input
 //--------------------------------------------------------------------
-input  MMUART_0_RXD_F2M;
-input  rst_n_0;
+input        MMUART_0_RXD_F2M;
+input        rst_n_0;
 //--------------------------------------------------------------------
 // Output
 //--------------------------------------------------------------------
-output MMUART_0_TXD_M2F;
+output       MMUART_0_TXD_M2F;
+output [3:0] state_out;
 //--------------------------------------------------------------------
 // Nets
 //--------------------------------------------------------------------
@@ -35,8 +37,7 @@ wire          MSS1_MSS_0_GPIO_11_M2F;
 wire          MSS1_MSS_0_GPIO_12_M2F;
 wire          MSS1_MSS_0_GPIO_13_M2F;
 wire          MSS1_MSS_0_GPIO_14_M2F;
-wire          MSS1_MSS_0_SPI_0_CLK_M2F;
-wire          MSS1_MSS_0_SPI_0_DO_M2F;
+wire          MSS1_MSS_0_GPIO_16_M2F_0;
 wire   [0:0]  MUX_0_dataout0to0;
 wire   [1:1]  MUX_0_dataout1to1;
 wire   [2:2]  MUX_0_dataout2to2;
@@ -48,22 +49,24 @@ wire   [7:7]  MUX_0_dataout7to7;
 wire          OSC_0_RCOSC_25_50MHZ_O2F;
 wire          rst_n_0;
 wire   [31:0] sm_top_0_regData;
-wire          sm_top_0_s_data_out;
+wire          sm_top_0_TDO;
+wire   [3:0]  state_out_net_0;
 wire          MMUART_0_TXD_M2F_net_1;
+wire   [3:0]  state_out_net_1;
 wire   [1:0]  sel_net_0;
 wire   [7:0]  dataout_net_0;
 //--------------------------------------------------------------------
 // TiedOff Nets
 //--------------------------------------------------------------------
-wire          GND_net;
 wire          VCC_net;
+wire          GND_net;
 wire   [3:0]  clkDevide_const_net_0;
 wire   [4:0]  regAddr_const_net_0;
 //--------------------------------------------------------------------
 // Constant assignments
 //--------------------------------------------------------------------
-assign GND_net               = 1'b0;
 assign VCC_net               = 1'b1;
+assign GND_net               = 1'b0;
 assign clkDevide_const_net_0 = 4'h0;
 assign regAddr_const_net_0   = 5'h00;
 //--------------------------------------------------------------------
@@ -71,6 +74,8 @@ assign regAddr_const_net_0   = 5'h00;
 //--------------------------------------------------------------------
 assign MMUART_0_TXD_M2F_net_1 = MMUART_0_TXD_M2F_net_0;
 assign MMUART_0_TXD_M2F       = MMUART_0_TXD_M2F_net_1;
+assign state_out_net_1        = state_out_net_0;
+assign state_out[3:0]         = state_out_net_1;
 //--------------------------------------------------------------------
 // Slices assignments
 //--------------------------------------------------------------------
@@ -104,9 +109,10 @@ MSS1_MSS MSS1_MSS_0(
         .GPIO_7_F2M       ( MUX_0_dataout7to7 ),
         .MSS_RESET_N_F2M  ( rst_n_0 ),
         .M3_RESET_N       ( rst_n_0 ),
-        .SPI_0_DI_F2M     ( sm_top_0_s_data_out ),
+        .SPI_0_DI_F2M     ( VCC_net ),
         .SPI_0_CLK_F2M    ( GND_net ),
         .SPI_0_SS0_F2M    ( VCC_net ),
+        .GPIO_15_F2M      ( sm_top_0_TDO ),
         // Outputs
         .MMUART_0_TXD_M2F ( MMUART_0_TXD_M2F_net_0 ),
         .GPIO_8_M2F       ( MSS1_MSS_0_GPIO_8_M2F ),
@@ -115,11 +121,12 @@ MSS1_MSS MSS1_MSS_0(
         .GPIO_12_M2F      ( MSS1_MSS_0_GPIO_12_M2F ),
         .GPIO_13_M2F      ( MSS1_MSS_0_GPIO_13_M2F ),
         .GPIO_14_M2F      ( MSS1_MSS_0_GPIO_14_M2F ),
-        .SPI_0_DO_M2F     ( MSS1_MSS_0_SPI_0_DO_M2F ),
-        .SPI_0_CLK_M2F    ( MSS1_MSS_0_SPI_0_CLK_M2F ),
+        .SPI_0_DO_M2F     (  ),
+        .SPI_0_CLK_M2F    (  ),
         .SPI_0_SS0_M2F    (  ),
         .SPI_0_SS0_M2F_OE (  ),
-        .GPIO_10_M2F      ( MSS1_MSS_0_GPIO_10_M2F ) 
+        .GPIO_10_M2F      ( MSS1_MSS_0_GPIO_10_M2F ),
+        .GPIO_16_M2F      ( MSS1_MSS_0_GPIO_16_M2F_0 ) 
         );
 
 //--------MUX
@@ -147,21 +154,21 @@ SchoolMIPS_OSC_0_OSC OSC_0(
 //--------sm_top
 sm_top sm_top_0(
         // Inputs
-        .clkIn      ( OSC_0_RCOSC_25_50MHZ_O2F ),
-        .rst_n      ( MSS1_MSS_0_GPIO_10_M2F ),
-        .clkDevide  ( clkDevide_const_net_0 ),
-        .clkEnable  ( GND_net ),
-        .regAddr    ( regAddr_const_net_0 ),
-        .s_data_in  ( MSS1_MSS_0_SPI_0_DO_M2F ),
-        .mode       ( MSS1_MSS_0_GPIO_11_M2F ),
-        .shift_dr   ( MSS1_MSS_0_GPIO_12_M2F ),
-        .clk_dr     ( MSS1_MSS_0_SPI_0_CLK_M2F ),
-        .update_dr  ( MSS1_MSS_0_GPIO_13_M2F ),
-        .clk_cpu    ( MSS1_MSS_0_GPIO_14_M2F ),
+        .clkIn     ( OSC_0_RCOSC_25_50MHZ_O2F ),
+        .rst_n     ( MSS1_MSS_0_GPIO_10_M2F ),
+        .clkEnable ( GND_net ),
+        .TMS       ( MSS1_MSS_0_GPIO_11_M2F ),
+        .TCK       ( MSS1_MSS_0_GPIO_12_M2F ),
+        .TDI       ( MSS1_MSS_0_GPIO_13_M2F ),
+        .TRST      ( MSS1_MSS_0_GPIO_16_M2F_0 ),
+        .clk_cpu   ( MSS1_MSS_0_GPIO_14_M2F ),
+        .clkDevide ( clkDevide_const_net_0 ),
+        .regAddr   ( regAddr_const_net_0 ),
         // Outputs
-        .clk        (  ),
-        .regData    ( sm_top_0_regData ),
-        .s_data_out ( sm_top_0_s_data_out ) 
+        .clk       (  ),
+        .TDO       ( sm_top_0_TDO ),
+        .regData   ( sm_top_0_regData ),
+        .state_out ( state_out_net_0 ) 
         );
 
 

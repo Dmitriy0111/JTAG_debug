@@ -36,9 +36,27 @@ Discarded input sections
  .text          0x00000000        0x0 ./main.o
  .data          0x00000000        0x0 ./main.o
  .bss           0x00000000        0x0 ./main.o
+ .bss.commandNumber
+                0x00000000        0x1 ./main.o
+ .bss.commandReady
+                0x00000000        0x1 ./main.o
  .bss.number    0x00000000        0x1 ./main.o
  .bss.GPIO_Value
                 0x00000000        0x4 ./main.o
+ .text.show_reg
+                0x00000000      0x44c ./main.o
+ .data.timervalue
+                0x00000000        0x4 ./main.o
+ .text.one_clock
+                0x00000000       0x20 ./main.o
+ .text.write    0x00000000      0x220 ./main.o
+ .text.read     0x00000000      0x1cc ./main.o
+ .text.eiths_clock
+                0x00000000      0x1c8 ./main.o
+ .text.one_reg  0x00000000      0x2dc ./main.o
+ .text.uart0_rx_handler
+                0x00000000       0xcc ./main.o
+ COMMON         0x00000000       0x18 ./main.o
  .text          0x00000000        0x0 C:/ActelProjects/SchoolMIPSActel/SchoolMIPSActel/SoftConsole/MSS1_MSS_CM3/MSS1_MSS_CM3_hw_platform/Debug/CMSIS/startup_gcc/startup_m2sxxx.o
  .data          0x00000000        0x0 C:/ActelProjects/SchoolMIPSActel/SchoolMIPSActel/SoftConsole/MSS1_MSS_CM3/MSS1_MSS_CM3_hw_platform/Debug/CMSIS/startup_gcc/startup_m2sxxx.o
  .bss           0x00000000        0x0 C:/ActelProjects/SchoolMIPSActel/SchoolMIPSActel/SoftConsole/MSS1_MSS_CM3/MSS1_MSS_CM3_hw_platform/Debug/CMSIS/startup_gcc/startup_m2sxxx.o
@@ -72,6 +90,8 @@ Discarded input sections
  .text          0x00000000        0x0 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
  .data          0x00000000        0x0 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
  .bss           0x00000000        0x0 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+ .text.NVIC_EnableIRQ
+                0x00000000       0x38 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
  .text.NVIC_DisableIRQ
                 0x00000000       0x3c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
  .text.MSS_UART_lin_init
@@ -86,10 +106,14 @@ Discarded input sections
                 0x00000000       0xb4 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
  .text.MSS_UART_tx_complete
                 0x00000000       0x90 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_get_rx
+                0x00000000       0xdc C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
  .text.MSS_UART_enable_irq
                 0x00000000       0xbc C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
  .text.MSS_UART_disable_irq
                 0x00000000       0xb8 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+ .text.MSS_UART_set_rx_handler
+                0x00000000       0xc0 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
  .text.MSS_UART_set_loopback
                 0x00000000       0xec C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
  .text.MSS_UART_set_rxstatus_handler
@@ -157,6 +181,12 @@ Discarded input sections
  .bss           0x00000000        0x0 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
  .text.MSS_SPI_configure_slave_mode
                 0x00000000       0xd0 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+ .text.MSS_SPI_set_slave_select
+                0x00000000      0x108 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+ .text.MSS_SPI_clear_slave_select
+                0x00000000       0x90 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+ .text.MSS_SPI_transfer_frame
+                0x00000000       0xc0 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
  .text.MSS_SPI_transfer_block
                 0x00000000      0x228 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
  .text.MSS_SPI_set_frame_rx_handler
@@ -281,6 +311,7 @@ END GROUP
                 0x200003a2                I2C1_SMBus_IRQHandler
                 0x200003a8                EthernetMAC_IRQHandler
                 0x200003aa                DMA_IRQHandler
+                0x200003ac                Timer1_IRQHandler
                 0x200003ae                Timer2_IRQHandler
                 0x200003b0                CAN_IRQHandler
                 0x200003b2                ENVM0_IRQHandler
@@ -351,145 +382,112 @@ END GROUP
                 0x20000434                mscc_post_hw_cfg_init
                 0x200004c0                . = ALIGN (0x10)
 
-.text           0x200004c0     0x3790
+.text           0x200004c0     0x2ca0
  CREATE_OBJECT_SYMBOLS
                 0x200004c0                __text_load = LOADADDR (.text)
                 0x200004c0                __text_start = .
  *(.text .text.* .gnu.linkonce.t.*)
  .text          0x200004c0       0x30 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/thumb2/crtbegin.o
- .text.NVIC_EnableIRQ
-                0x200004f0       0x38 ./main.o
- .text.NVIC_DisableIRQ
-                0x20000528       0x3c ./main.o
+ .text.MSS_GPIO_get_inputs
+                0x200004f0       0x18 ./main.o
+ .text.read_write
+                0x20000508      0x334 ./main.o
+                0x20000508                read_write
+ .text.print_reg
+                0x2000083c      0x444 ./main.o
+                0x2000083c                print_reg
+ .text.read_one_reg
+                0x20000c80      0x18c ./main.o
+                0x20000c80                read_one_reg
+ .text.main     0x20000e0c      0x9d4 ./main.o
+                0x20000e0c                main
  .text.NVIC_ClearPendingIRQ
-                0x20000564       0x3c ./main.o
- .text.MSS_TIM1_init
-                0x200005a0       0x84 ./main.o
- .text.MSS_TIM1_load_immediate
-                0x20000624       0x20 ./main.o
- .text.MSS_TIM1_load_background
-                0x20000644       0x20 ./main.o
- .text.MSS_TIM1_enable_irq
-                0x20000664       0x20 ./main.o
- .text.MSS_TIM1_disable_irq
-                0x20000684       0x20 ./main.o
- .text.MSS_TIM1_clear_irq
-                0x200006a4       0x1c ./main.o
- .text.show_reg
-                0x200006c0      0x5ec ./main.o
-                0x200006c0                show_reg
- .text.Timer1_IRQHandler
-                0x20000cac      0x5dc ./main.o
-                0x20000cac                Timer1_IRQHandler
- .text.main     0x20001288      0xb4c ./main.o
-                0x20001288                main
- .text.uart0_rx_handler
-                0x20001dd4       0xcc ./main.o
-                0x20001dd4                uart0_rx_handler
- .text.NVIC_EnableIRQ
-                0x20001ea0       0x38 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
- .text.NVIC_ClearPendingIRQ
-                0x20001ed8       0x3c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+                0x200017e0       0x3c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
  .text.set_bit_reg8
-                0x20001f14       0x40 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+                0x2000181c       0x40 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
  .text.clear_bit_reg8
-                0x20001f54       0x40 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+                0x2000185c       0x40 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
  .text.read_bit_reg8
-                0x20001f94       0x40 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+                0x2000189c       0x40 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
  .text.MSS_UART_init
-                0x20001fd4       0x84 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
-                0x20001fd4                MSS_UART_init
+                0x200018dc       0x84 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+                0x200018dc                MSS_UART_init
  .text.MSS_UART_polled_tx_string
-                0x20002058       0xcc C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
-                0x20002058                MSS_UART_polled_tx_string
- .text.MSS_UART_get_rx
-                0x20002124       0xdc C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
-                0x20002124                MSS_UART_get_rx
- .text.MSS_UART_set_rx_handler
-                0x20002200       0xc0 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
-                0x20002200                MSS_UART_set_rx_handler
+                0x20001960       0xcc C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+                0x20001960                MSS_UART_polled_tx_string
  .text.UART0_IRQHandler
-                0x200022c0       0x24 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
-                0x200022c0                UART0_IRQHandler
+                0x20001a2c       0x24 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+                0x20001a2c                UART0_IRQHandler
  .text.UART1_IRQHandler
-                0x200022e4       0x24 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
-                0x200022e4                UART1_IRQHandler
+                0x20001a50       0x24 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+                0x20001a50                UART1_IRQHandler
  .text.config_baud_divisors
-                0x20002308      0x198 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+                0x20001a74      0x198 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
  .text.global_init
-                0x200024a0      0x26c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+                0x20001c0c      0x26c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
  .text.MSS_UART_isr
-                0x2000270c      0x22c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+                0x20001e78      0x22c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
  .text.default_tx_handler
-                0x20002938      0x10c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+                0x200020a4      0x10c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
  .text.NVIC_EnableIRQ
-                0x20002a44       0x38 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+                0x200021b0       0x38 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
  .text.NVIC_DisableIRQ
-                0x20002a7c       0x3c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+                0x200021e8       0x3c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
  .text.NVIC_ClearPendingIRQ
-                0x20002ab8       0x3c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+                0x20002224       0x3c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
  .text.MSS_SPI_init
-                0x20002af4      0x134 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
-                0x20002af4                MSS_SPI_init
+                0x20002260      0x134 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+                0x20002260                MSS_SPI_init
  .text.recover_from_rx_overflow
-                0x20002c28      0x160 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+                0x20002394      0x160 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
  .text.MSS_SPI_configure_master_mode
-                0x20002d88      0x150 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
-                0x20002d88                MSS_SPI_configure_master_mode
- .text.MSS_SPI_set_slave_select
-                0x20002ed8      0x108 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
-                0x20002ed8                MSS_SPI_set_slave_select
- .text.MSS_SPI_clear_slave_select
-                0x20002fe0       0x90 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
-                0x20002fe0                MSS_SPI_clear_slave_select
- .text.MSS_SPI_transfer_frame
-                0x20003070       0xc0 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
-                0x20003070                MSS_SPI_transfer_frame
+                0x200024f4      0x150 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+                0x200024f4                MSS_SPI_configure_master_mode
  .text.fill_slave_tx_fifo
-                0x20003130       0xe0 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+                0x20002644       0xe0 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
  .text.read_slave_rx_fifo
-                0x20003210       0xac C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+                0x20002724       0xac C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
  .text.mss_spi_isr
-                0x200032bc      0x2b0 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+                0x200027d0      0x2b0 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
  .text.SPI0_IRQHandler
-                0x2000356c       0x24 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
-                0x2000356c                SPI0_IRQHandler
+                0x20002a80       0x24 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+                0x20002a80                SPI0_IRQHandler
  .text.SPI1_IRQHandler
-                0x20003590       0x24 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
-                0x20003590                SPI1_IRQHandler
+                0x20002aa4       0x24 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+                0x20002aa4                SPI1_IRQHandler
  .text.NVIC_DisableIRQ
-                0x200035b4       0x3c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
+                0x20002ac8       0x3c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
  .text.NVIC_ClearPendingIRQ
-                0x200035f0       0x3c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
+                0x20002b04       0x3c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
  .text.MSS_GPIO_init
-                0x2000362c       0xac C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
-                0x2000362c                MSS_GPIO_init
+                0x20002b40       0xac C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
+                0x20002b40                MSS_GPIO_init
  .text.MSS_GPIO_config
-                0x200036d8       0x3c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
-                0x200036d8                MSS_GPIO_config
+                0x20002bec       0x3c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
+                0x20002bec                MSS_GPIO_config
  .text.MSS_GPIO_set_output
-                0x20003714       0x70 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
-                0x20003714                MSS_GPIO_set_output
+                0x20002c28       0x70 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
+                0x20002c28                MSS_GPIO_set_output
  .text.SystemInit
-                0x20003784       0x28 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
-                0x20003784                SystemInit
+                0x20002c98       0x28 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+                0x20002c98                SystemInit
  .text.SystemCoreClockUpdate
-                0x200037ac      0x14c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
-                0x200037ac                SystemCoreClockUpdate
+                0x20002cc0      0x14c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+                0x20002cc0                SystemCoreClockUpdate
  .text.get_rcosc_25_50mhz_frequency
-                0x200038f8       0x44 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+                0x20002e0c       0x44 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
  .text.set_clock_frequency_globals
-                0x2000393c       0x6c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+                0x20002e50       0x6c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
  .text.get_silicon_revision
-                0x200039a8       0x50 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+                0x20002ebc       0x50 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
  .text.silicon_workarounds
-                0x200039f8       0x20 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+                0x20002f0c       0x20 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
  .text.m2s050_rev_a_workarounds
-                0x20003a18       0x44 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
- .text          0x20003a5c       0x50 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-init.o)
-                0x20003a5c                __libc_init_array
- .text          0x20003aac       0xd4 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-memset.o)
-                0x20003aac                memset
+                0x20002f2c       0x44 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+ .text          0x20002f70       0x50 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-init.o)
+                0x20002f70                __libc_init_array
+ .text          0x20002fc0       0xd4 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-memset.o)
+                0x20002fc0                memset
  *(.plt)
  *(.gnu.warning)
  *(.glue_7t)
@@ -498,7 +496,7 @@ END GROUP
  .glue_7        0x00000000        0x0 linker stubs
  *(.vfp11_veneer)
  .vfp11_veneer  0x00000000        0x0 linker stubs
-                0x20003b80                . = ALIGN (0x4)
+                0x20003094                . = ALIGN (0x4)
  *crtbegin.o(.ctors)
  *(EXCLUDE_FILE(*crtend.o) .ctors)
  *(SORT(.ctors.*))
@@ -509,135 +507,122 @@ END GROUP
  *crtend.o(.dtors)
  *(.rodata .rodata.* .gnu.linkonce.r.*)
  .rodata.gp_my_uart
-                0x20003b80        0x4 ./main.o
-                0x20003b80                gp_my_uart
- .rodata        0x20003b84        0x4 ./main.o
+                0x20003094        0x4 ./main.o
+                0x20003094                gp_my_uart
  .rodata.g_config_reg_lut
-                0x20003b88       0x80 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
+                0x20003098       0x80 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
  .rodata.g_gpio_irqn_lut
-                0x20003c08       0x20 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
+                0x20003118       0x20 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
  .rodata.C.18.3527
-                0x20003c28        0x8 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+                0x20003138        0x8 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
  *(.ARM.extab* .gnu.linkonce.armextab.*)
  *(.gcc_except_table)
  *(.eh_frame_hdr)
  *(.eh_frame)
  *(.vector_table)
  *(.init)
- .init          0x20003c30        0x4 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/thumb2/crti.o
-                0x20003c30                _init
- .init          0x20003c34        0x8 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/thumb2/crtn.o
+ .init          0x20003140        0x4 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/thumb2/crti.o
+                0x20003140                _init
+ .init          0x20003144        0x8 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/thumb2/crtn.o
  *(.fini)
- .fini          0x20003c3c        0x4 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/thumb2/crti.o
-                0x20003c3c                _fini
- .fini          0x20003c40        0x8 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/thumb2/crtn.o
-                0x20003c48                PROVIDE (__preinit_array_start, .)
+ .fini          0x2000314c        0x4 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/thumb2/crti.o
+                0x2000314c                _fini
+ .fini          0x20003150        0x8 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/thumb2/crtn.o
+                0x20003158                PROVIDE (__preinit_array_start, .)
  *(.preinit_array)
-                0x20003c48                PROVIDE (__preinit_array_end, .)
-                0x20003c48                PROVIDE (__init_array_start, .)
+                0x20003158                PROVIDE (__preinit_array_end, .)
+                0x20003158                PROVIDE (__init_array_start, .)
  *(SORT(.init_array.*))
  *(.init_array)
- .init_array    0x20003c48        0x4 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/thumb2/crtbegin.o
-                0x20003c4c                PROVIDE (__init_array_end, .)
-                0x20003c4c                PROVIDE (__fini_array_start, .)
+ .init_array    0x20003158        0x4 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/thumb2/crtbegin.o
+                0x2000315c                PROVIDE (__init_array_end, .)
+                0x2000315c                PROVIDE (__fini_array_start, .)
  *(.fini_array)
- .fini_array    0x20003c4c        0x4 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/thumb2/crtbegin.o
+ .fini_array    0x2000315c        0x4 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/thumb2/crtbegin.o
  *(SORT(.fini_array.*))
-                0x20003c50                PROVIDE (__fini_array_end, .)
-                0x20003c50                . = ALIGN (0x10)
-                0x20003c50                __exidx_start = .
+                0x20003160                PROVIDE (__fini_array_end, .)
+                0x20003160                . = ALIGN (0x10)
+                0x20003160                __exidx_start = .
 
-.v4_bx          0x20003c50        0x0
+.v4_bx          0x20003160        0x0
  .v4_bx         0x00000000        0x0 linker stubs
 
 .ARM.exidx
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
-                0x20003c50                __exidx_end = .
-                0x20003c50                _etext = .
-                0x20003c50                PROVIDE (__text_end, .)
+                0x20003160                __exidx_end = .
+                0x20003160                _etext = .
+                0x20003160                PROVIDE (__text_end, .)
 
-.data           0x20003c50       0x40
-                0x20003c50                __data_load = LOADADDR (.data)
-                0x20003c50                _sidata = LOADADDR (.data)
-                0x20003c50                __data_start = .
-                0x20003c50                _sdata = .
+.data           0x20003160       0x40
+                0x20003160                __data_load = LOADADDR (.data)
+                0x20003160                _sidata = LOADADDR (.data)
+                0x20003160                __data_start = .
+                0x20003160                _sdata = .
  *(.jcr)
- .jcr           0x20003c50        0x0 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/thumb2/crtbegin.o
- .jcr           0x20003c50        0x4 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/thumb2/crtend.o
+ .jcr           0x20003160        0x0 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/thumb2/crtbegin.o
+ .jcr           0x20003160        0x4 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/thumb2/crtend.o
  *(.got.plt)
  *(.got)
  *(.shdata)
  *(.data .data.* .gnu.linkonce.d.*)
  .data.serialData
-                0x20003c54        0x8 ./main.o
-                0x20003c54                serialData
- .data.Message  0x20003c5c        0xc ./main.o
-                0x20003c5c                Message
- .data.timervalue
-                0x20003c68        0x4 ./main.o
-                0x20003c68                timervalue
+                0x20003164        0x8 ./main.o
+                0x20003164                serialData
+ .data.Message  0x2000316c        0xc ./main.o
+                0x2000316c                Message
  .data.SystemCoreClock
-                0x20003c6c        0x4 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
-                0x20003c6c                SystemCoreClock
+                0x20003178        0x4 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+                0x20003178                SystemCoreClock
  .data.g_FrequencyPCLK0
-                0x20003c70        0x4 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
-                0x20003c70                g_FrequencyPCLK0
+                0x2000317c        0x4 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+                0x2000317c                g_FrequencyPCLK0
  .data.g_FrequencyPCLK1
-                0x20003c74        0x4 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
-                0x20003c74                g_FrequencyPCLK1
+                0x20003180        0x4 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+                0x20003180                g_FrequencyPCLK1
  .data.g_FrequencyPCLK2
-                0x20003c78        0x4 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
-                0x20003c78                g_FrequencyPCLK2
+                0x20003184        0x4 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+                0x20003184                g_FrequencyPCLK2
  .data.g_FrequencyFIC0
-                0x20003c7c        0x4 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
-                0x20003c7c                g_FrequencyFIC0
+                0x20003188        0x4 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+                0x20003188                g_FrequencyFIC0
  .data.g_FrequencyFIC1
-                0x20003c80        0x4 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
-                0x20003c80                g_FrequencyFIC1
+                0x2000318c        0x4 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+                0x2000318c                g_FrequencyFIC1
  .data.g_FrequencyFIC64
-                0x20003c84        0x4 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
-                0x20003c84                g_FrequencyFIC64
-                0x20003c90                . = ALIGN (0x10)
- *fill*         0x20003c88        0x8 00
-                0x20003c90                _edata = .
+                0x20003190        0x4 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+                0x20003190                g_FrequencyFIC64
+                0x200031a0                . = ALIGN (0x10)
+ *fill*         0x20003194        0xc 00
+                0x200031a0                _edata = .
 
-.bss            0x20003c90      0x1b0
-                0x20003c90                __bss_start__ = .
-                0x20003c90                _sbss = .
+.bss            0x200031a0      0x190
+                0x200031a0                __bss_start__ = .
+                0x200031a0                _sbss = .
  *(.shbss)
  *(.bss .bss.* .gnu.linkonce.b.*)
- .bss           0x20003c90        0x1 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/thumb2/crtbegin.o
- .bss.commandNumber
-                0x20003c91        0x1 ./main.o
-                0x20003c91                commandNumber
- .bss.commandReady
-                0x20003c92        0x1 ./main.o
-                0x20003c92                commandReady
+ .bss           0x200031a0        0x1 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/thumb2/crtbegin.o
  *(COMMON)
- *fill*         0x20003c93        0x1 00
- COMMON         0x20003c94       0x18 ./main.o
-                0x20003c94                commandBuf
-                0x20003ca8                GPIO_Buff
- COMMON         0x20003cac       0x80 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
-                0x20003cac                g_mss_uart1
-                0x20003cec                g_mss_uart0
- COMMON         0x20003d2c      0x108 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
-                0x20003d2c                g_mss_spi1
-                0x20003db0                g_mss_spi0
-                0x20003e40                . = ALIGN (0x10)
- *fill*         0x20003e34        0xc 00
-                0x20003e40                __bss_end__ = .
-                0x20003e40                _end = .
-                0x20003e40                __end = _end
-                0x20003e40                _ebss = .
-                0x20003e40                PROVIDE (end, .)
+ *fill*         0x200031a1        0x3 00
+ COMMON         0x200031a4       0x80 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+                0x200031a4                g_mss_uart1
+                0x200031e4                g_mss_uart0
+ COMMON         0x20003224      0x108 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+                0x20003224                g_mss_spi1
+                0x200032a8                g_mss_spi0
+                0x20003330                . = ALIGN (0x10)
+ *fill*         0x2000332c        0x4 00
+                0x20003330                __bss_end__ = .
+                0x20003330                _end = .
+                0x20003330                __end = _end
+                0x20003330                _ebss = .
+                0x20003330                PROVIDE (end, .)
 
-.heap           0x20003e40     0xb1c0
-                0x20003e40                __heap_start__ = .
-                0x20004e40                . = (. + MIN_SIZE_HEAP)
- *fill*         0x20003e40     0x1000 00
+.heap           0x20003330     0xbcd0
+                0x20003330                __heap_start__ = .
+                0x20004330                . = (. + MIN_SIZE_HEAP)
+ *fill*         0x20003330     0x1000 00
                 0x2000f000                . = (. + (((ABSOLUTE (RAM_START_ADDRESS) + RAM_SIZE) - MAIN_STACK_SIZE) - .))
- *fill*         0x20004e40     0xa1c0 00
+ *fill*         0x20004330     0xacd0 00
                 0x2000f000                _eheap = .
 
 .stack          0x2000f000     0x1000
@@ -672,114 +657,114 @@ END GROUP
  .comment       0x000000ac       0x2b C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
  .comment       0x000000d7       0x2b C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
 
-.debug_aranges  0x00000000      0x490
+.debug_aranges  0x00000000      0x488
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x80 ./main.o
+                0x00000000       0x78 ./main.o
  .debug_aranges
-                0x00000080       0xa8 C:/ActelProjects/SchoolMIPSActel/SchoolMIPSActel/SoftConsole/MSS1_MSS_CM3/MSS1_MSS_CM3_hw_platform/Debug/CMSIS/startup_gcc/newlib_stubs.o
+                0x00000078       0xa8 C:/ActelProjects/SchoolMIPSActel/SchoolMIPSActel/SoftConsole/MSS1_MSS_CM3/MSS1_MSS_CM3_hw_platform/Debug/CMSIS/startup_gcc/newlib_stubs.o
  .debug_aranges
-                0x00000128      0x1d0 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+                0x00000120      0x1d0 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
  .debug_aranges
-                0x000002f8       0xe0 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+                0x000002f0       0xe0 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
  .debug_aranges
-                0x000003d8       0x68 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
+                0x000003d0       0x68 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
  .debug_aranges
-                0x00000440       0x50 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+                0x00000438       0x50 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
 
 .debug_pubnames
-                0x00000000      0xa76
+                0x00000000      0xacb
  *(.debug_pubnames)
  .debug_pubnames
-                0x00000000       0xe6 ./main.o
+                0x00000000      0x13b ./main.o
  .debug_pubnames
-                0x000000e6       0xeb C:/ActelProjects/SchoolMIPSActel/SchoolMIPSActel/SoftConsole/MSS1_MSS_CM3/MSS1_MSS_CM3_hw_platform/Debug/CMSIS/startup_gcc/newlib_stubs.o
+                0x0000013b       0xeb C:/ActelProjects/SchoolMIPSActel/SchoolMIPSActel/SoftConsole/MSS1_MSS_CM3/MSS1_MSS_CM3_hw_platform/Debug/CMSIS/startup_gcc/newlib_stubs.o
  .debug_pubnames
-                0x000001d1      0x50f C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+                0x00000226      0x50f C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
  .debug_pubnames
-                0x000006e0      0x21a C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+                0x00000735      0x21a C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
  .debug_pubnames
-                0x000008fa       0xb1 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
+                0x0000094f       0xb1 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
  .debug_pubnames
-                0x000009ab       0xcb C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+                0x00000a00       0xcb C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
 
-.debug_info     0x00000000     0x756a
+.debug_info     0x00000000     0x6af3
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000     0x1b63 ./main.o
- .debug_info    0x00001b63      0x6ed C:/ActelProjects/SchoolMIPSActel/SchoolMIPSActel/SoftConsole/MSS1_MSS_CM3/MSS1_MSS_CM3_hw_platform/Debug/CMSIS/startup_gcc/newlib_stubs.o
- .debug_info    0x00002250     0x1ed4 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
- .debug_info    0x00004124     0x1723 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
- .debug_info    0x00005847     0x1164 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
- .debug_info    0x000069ab      0xbbf C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+ .debug_info    0x00000000     0x10ec ./main.o
+ .debug_info    0x000010ec      0x6ed C:/ActelProjects/SchoolMIPSActel/SchoolMIPSActel/SoftConsole/MSS1_MSS_CM3/MSS1_MSS_CM3_hw_platform/Debug/CMSIS/startup_gcc/newlib_stubs.o
+ .debug_info    0x000017d9     0x1ed4 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+ .debug_info    0x000036ad     0x1723 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+ .debug_info    0x00004dd0     0x1164 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
+ .debug_info    0x00005f34      0xbbf C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
 
-.debug_abbrev   0x00000000      0xb18
+.debug_abbrev   0x00000000      0xae4
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x285 ./main.o
- .debug_abbrev  0x00000285      0x170 C:/ActelProjects/SchoolMIPSActel/SchoolMIPSActel/SoftConsole/MSS1_MSS_CM3/MSS1_MSS_CM3_hw_platform/Debug/CMSIS/startup_gcc/newlib_stubs.o
- .debug_abbrev  0x000003f5      0x280 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
- .debug_abbrev  0x00000675      0x1ee C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
- .debug_abbrev  0x00000863      0x165 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
- .debug_abbrev  0x000009c8      0x150 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+ .debug_abbrev  0x00000000      0x251 ./main.o
+ .debug_abbrev  0x00000251      0x170 C:/ActelProjects/SchoolMIPSActel/SchoolMIPSActel/SoftConsole/MSS1_MSS_CM3/MSS1_MSS_CM3_hw_platform/Debug/CMSIS/startup_gcc/newlib_stubs.o
+ .debug_abbrev  0x000003c1      0x280 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+ .debug_abbrev  0x00000641      0x1ee C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+ .debug_abbrev  0x0000082f      0x165 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
+ .debug_abbrev  0x00000994      0x150 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
 
-.debug_line     0x00000000     0x23f9
+.debug_line     0x00000000     0x2431
  *(.debug_line)
- .debug_line    0x00000000      0x9c9 ./main.o
- .debug_line    0x000009c9      0x4b6 C:/ActelProjects/SchoolMIPSActel/SchoolMIPSActel/SoftConsole/MSS1_MSS_CM3/MSS1_MSS_CM3_hw_platform/Debug/CMSIS/startup_gcc/newlib_stubs.o
- .debug_line    0x00000e7f      0x8f8 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
- .debug_line    0x00001777      0x6d1 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
- .debug_line    0x00001e48      0x389 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
- .debug_line    0x000021d1      0x228 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+ .debug_line    0x00000000      0xa01 ./main.o
+ .debug_line    0x00000a01      0x4b6 C:/ActelProjects/SchoolMIPSActel/SchoolMIPSActel/SoftConsole/MSS1_MSS_CM3/MSS1_MSS_CM3_hw_platform/Debug/CMSIS/startup_gcc/newlib_stubs.o
+ .debug_line    0x00000eb7      0x8f8 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+ .debug_line    0x000017af      0x6d1 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+ .debug_line    0x00001e80      0x389 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
+ .debug_line    0x00002209      0x228 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
 
-.debug_frame    0x00000000      0xff8
+.debug_frame    0x00000000      0xff0
  *(.debug_frame)
- .debug_frame   0x00000000      0x18c ./main.o
- .debug_frame   0x0000018c      0x21c C:/ActelProjects/SchoolMIPSActel/SchoolMIPSActel/SoftConsole/MSS1_MSS_CM3/MSS1_MSS_CM3_hw_platform/Debug/CMSIS/startup_gcc/newlib_stubs.o
- .debug_frame   0x000003a8      0x6b4 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
- .debug_frame   0x00000a5c      0x320 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
- .debug_frame   0x00000d7c      0x130 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
- .debug_frame   0x00000eac       0xd8 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
- .debug_frame   0x00000f84       0x20 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-errno.o)
- .debug_frame   0x00000fa4       0x2c c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-init.o)
- .debug_frame   0x00000fd0       0x28 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-memset.o)
+ .debug_frame   0x00000000      0x184 ./main.o
+ .debug_frame   0x00000184      0x21c C:/ActelProjects/SchoolMIPSActel/SchoolMIPSActel/SoftConsole/MSS1_MSS_CM3/MSS1_MSS_CM3_hw_platform/Debug/CMSIS/startup_gcc/newlib_stubs.o
+ .debug_frame   0x000003a0      0x6b4 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+ .debug_frame   0x00000a54      0x320 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+ .debug_frame   0x00000d74      0x130 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
+ .debug_frame   0x00000ea4       0xd8 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+ .debug_frame   0x00000f7c       0x20 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-errno.o)
+ .debug_frame   0x00000f9c       0x2c c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-init.o)
+ .debug_frame   0x00000fc8       0x28 c:/program files (x86)/microsemi/softconsole v3.4/sourcery-g++/bin/../lib/gcc/arm-none-eabi/4.4.1/../../../../arm-none-eabi/lib/thumb2\libc.a(lib_a-memset.o)
 
-.debug_str      0x00000000     0x2b3e
+.debug_str      0x00000000     0x28cf
  *(.debug_str)
- .debug_str     0x00000000     0x1735 ./main.o
-                               0x1886 (size before relaxing)
- .debug_str     0x00001735      0x264 C:/ActelProjects/SchoolMIPSActel/SchoolMIPSActel/SoftConsole/MSS1_MSS_CM3/MSS1_MSS_CM3_hw_platform/Debug/CMSIS/startup_gcc/newlib_stubs.o
+ .debug_str     0x00000000      0xe95 ./main.o
+                                0xfea (size before relaxing)
+ .debug_str     0x00000e95      0x264 C:/ActelProjects/SchoolMIPSActel/SchoolMIPSActel/SoftConsole/MSS1_MSS_CM3/MSS1_MSS_CM3_hw_platform/Debug/CMSIS/startup_gcc/newlib_stubs.o
                                 0x33c (size before relaxing)
- .debug_str     0x00001999      0x98a C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+ .debug_str     0x000010f9     0x114b C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
                                0x19a2 (size before relaxing)
- .debug_str     0x00002323      0x351 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+ .debug_str     0x00002244      0x351 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
                                0x155b (size before relaxing)
- .debug_str     0x00002674      0x2ec C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
+ .debug_str     0x00002595      0x15c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
                                0x121c (size before relaxing)
- .debug_str     0x00002960      0x1de C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+ .debug_str     0x000026f1      0x1de C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
                                 0xa1c (size before relaxing)
 
-.debug_loc      0x00000000     0x1afe
+.debug_loc      0x00000000     0x1ad3
  *(.debug_loc)
- .debug_loc     0x00000000      0x2a7 ./main.o
- .debug_loc     0x000002a7      0x3c6 C:/ActelProjects/SchoolMIPSActel/SchoolMIPSActel/SoftConsole/MSS1_MSS_CM3/MSS1_MSS_CM3_hw_platform/Debug/CMSIS/startup_gcc/newlib_stubs.o
- .debug_loc     0x0000066d      0xbb9 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
- .debug_loc     0x00001226      0x549 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
- .debug_loc     0x0000176f      0x226 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
- .debug_loc     0x00001995      0x169 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+ .debug_loc     0x00000000      0x27c ./main.o
+ .debug_loc     0x0000027c      0x3c6 C:/ActelProjects/SchoolMIPSActel/SchoolMIPSActel/SoftConsole/MSS1_MSS_CM3/MSS1_MSS_CM3_hw_platform/Debug/CMSIS/startup_gcc/newlib_stubs.o
+ .debug_loc     0x00000642      0xbb9 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+ .debug_loc     0x000011fb      0x549 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+ .debug_loc     0x00001744      0x226 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
+ .debug_loc     0x0000196a      0x169 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
 
-.debug_macinfo  0x00000000    0x2ca89
+.debug_macinfo  0x00000000    0x2cbe9
  *(.debug_macinfo)
  .debug_macinfo
-                0x00000000     0x81ed ./main.o
+                0x00000000     0x834d ./main.o
  .debug_macinfo
-                0x000081ed     0x4bf0 C:/ActelProjects/SchoolMIPSActel/SchoolMIPSActel/SoftConsole/MSS1_MSS_CM3/MSS1_MSS_CM3_hw_platform/Debug/CMSIS/startup_gcc/newlib_stubs.o
+                0x0000834d     0x4bf0 C:/ActelProjects/SchoolMIPSActel/SchoolMIPSActel/SoftConsole/MSS1_MSS_CM3/MSS1_MSS_CM3_hw_platform/Debug/CMSIS/startup_gcc/newlib_stubs.o
  .debug_macinfo
-                0x0000cddd     0x8184 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+                0x0000cf3d     0x8184 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
  .debug_macinfo
-                0x00014f61     0x8fd8 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+                0x000150c1     0x8fd8 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
  .debug_macinfo
-                0x0001df39     0x777c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
+                0x0001e099     0x777c C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
  .debug_macinfo
-                0x000256b5     0x73d4 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+                0x00025815     0x73d4 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
 
 .debug_weaknames
  *(.debug_weaknames)
@@ -835,10 +820,10 @@ END GROUP
  *(.isr_vector)
 OUTPUT(MSS1_MSS_CM3_app elf32-littlearm)
 
-.debug_ranges   0x00000000      0x460
- .debug_ranges  0x00000000       0x78 ./main.o
- .debug_ranges  0x00000078       0xa0 C:/ActelProjects/SchoolMIPSActel/SchoolMIPSActel/SoftConsole/MSS1_MSS_CM3/MSS1_MSS_CM3_hw_platform/Debug/CMSIS/startup_gcc/newlib_stubs.o
- .debug_ranges  0x00000118      0x1c8 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
- .debug_ranges  0x000002e0       0xd8 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
- .debug_ranges  0x000003b8       0x60 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
- .debug_ranges  0x00000418       0x48 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)
+.debug_ranges   0x00000000      0x458
+ .debug_ranges  0x00000000       0x70 ./main.o
+ .debug_ranges  0x00000070       0xa0 C:/ActelProjects/SchoolMIPSActel/SchoolMIPSActel/SoftConsole/MSS1_MSS_CM3/MSS1_MSS_CM3_hw_platform/Debug/CMSIS/startup_gcc/newlib_stubs.o
+ .debug_ranges  0x00000110      0x1c8 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_uart.o)
+ .debug_ranges  0x000002d8       0xd8 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_spi.o)
+ .debug_ranges  0x000003b0       0x60 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(mss_gpio.o)
+ .debug_ranges  0x00000410       0x48 C:\ActelProjects\SchoolMIPSActel\SchoolMIPSActel\SoftConsole\MSS1_MSS_CM3\MSS1_MSS_CM3_hw_platform\Debug\libMSS1_MSS_CM3_hw_platform.a(system_m2sxxx.o)

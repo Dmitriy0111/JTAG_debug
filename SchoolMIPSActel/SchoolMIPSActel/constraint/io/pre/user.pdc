@@ -6,7 +6,7 @@
 
 # Family: SmartFusion2 , Die: M2S010 , Package: 144 TQ
 
-# Date generated: Wed Mar 21 10:25:47 2018 
+# Date generated: Fri Mar 30 11:42:38 2018 
 
 
 # 
@@ -41,6 +41,30 @@ set_io rst_n_0        \
     -pinname 13       \
     -fixed yes        \
     -DIRECTION INPUT
+
+
+set_io {state_out[0]}  \
+    -pinname 63        \
+    -fixed yes         \
+    -DIRECTION OUTPUT
+
+
+set_io {state_out[1]}  \
+    -pinname 64        \
+    -fixed yes         \
+    -DIRECTION OUTPUT
+
+
+set_io {state_out[2]}  \
+    -pinname 66        \
+    -fixed yes         \
+    -DIRECTION OUTPUT
+
+
+set_io {state_out[3]}  \
+    -pinname 67        \
+    -fixed yes         \
+    -DIRECTION OUTPUT
 
 
 
