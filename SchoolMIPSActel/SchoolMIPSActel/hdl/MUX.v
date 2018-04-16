@@ -1,23 +1,3 @@
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// Company: <Name>
-//
-// File: MUX.v
-// File history:
-//      <Revision number>: <Date>: <Comments>
-//      <Revision number>: <Date>: <Comments>
-//      <Revision number>: <Date>: <Comments>
-//
-// Description: 
-//
-// <Description here>
-//
-// Targeted device: <Family::SmartFusion2> <Die::M2S010> <Package::144 TQ>
-// Author: <Name>
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////// 
-
-//`timescale <time_units> / <precision>
-
 module MUX( 
     input [1:0] sel,
     output reg [7:0] dataout,

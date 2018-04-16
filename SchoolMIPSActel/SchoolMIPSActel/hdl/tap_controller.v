@@ -1,6 +1,6 @@
 module tap_controller(
 	input 					TMS,
-	input 					TCK,
+    input 					TCK,
     input                   TRST,
 	output					ICLK,
 	output 	reg				mode,
