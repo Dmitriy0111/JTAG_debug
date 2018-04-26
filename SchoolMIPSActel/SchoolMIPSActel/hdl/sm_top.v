@@ -78,7 +78,8 @@ module sm_top
         .shift_dr(shift_dr),
         .clock_dr(clock_dr),
         .update_dr(update_dr),
-        .mode_dr(mode_dr)
+        .mode_dr(mode_dr),
+        .state_out(state_out)
     );
 
     bsr #(.width(32)) bsr_regData

@@ -35,7 +35,19 @@ localparam 	TEST_LOGIC_RESET		=4'h0,
 			
 	always @(posedge TCK or negedge TRST)
 	begin
-        if(TRST)
+        if(TRST==1'b0)
+        begin
+                state<=TEST_LOGIC_RESET;
+                mode<=1'b0;
+                update_dr<=1'b0;
+                shift_dr<=1'b0;
+                clk_dr<=1'b0;
+                update_ir<=1'b0;
+                shift_ir<=1'b0;
+                clk_ir<=1'b0;
+                sel_tdo<=1'b0;
+        end 
+        else
 		case (state)
 			TEST_LOGIC_RESET:
 				begin
@@ -197,19 +209,7 @@ localparam 	TEST_LOGIC_RESET		=4'h0,
 					state<=RUN_TEST_IDLE;
 				end
 			end
-		endcase
-        else
-            begin
-                state<=TEST_LOGIC_RESET;
-                mode<=1'b0;
-                update_dr<=1'b0;
-                shift_dr<=1'b0;
-                clk_dr<=1'b0;
-                update_ir<=1'b0;
-                shift_ir<=1'b0;
-                clk_ir<=1'b0;
-                sel_tdo<=1'b0;
-            end 
+		endcase         
 	end
 initial begin
 	state=TEST_LOGIC_RESET;

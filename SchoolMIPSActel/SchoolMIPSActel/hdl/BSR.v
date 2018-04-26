@@ -22,8 +22,8 @@ generate
 		one_bsc_ (
 		.p_data_in(p_data_in[number_of_bsc]),
 		.p_data_out(p_data_out[number_of_bsc]),
-		.s_data_in(internal_connect[number_of_bsc]),
-		.s_data_out(internal_connect[number_of_bsc+1]),
+		.s_data_in(internal_connect[width-number_of_bsc-1]),
+		.s_data_out(internal_connect[width-number_of_bsc]),
 		.mode(mode),
 		.shift_dr(shift_dr),
 		.clk_dr(clk_dr),

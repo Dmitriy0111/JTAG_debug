@@ -7,7 +7,8 @@ module ir #(parameter width=8)
 	input 				shift_ir,
 	input 				clk_ir,
 	input 				update_ir,
-	input				ICLK
+	input				ICLK,
+    input               reset
 );
 wire	[width:0]   internal_connect;
 assign s_data_out=internal_connect[width];
@@ -21,12 +22,13 @@ generate
 		one_irc_ (
 		.p_data_in(p_data_in[number_of_irc]),
 		.p_data_out(p_data_out[number_of_irc]),
-		.s_data_in(internal_connect[number_of_irc]),
-		.s_data_out(internal_connect[number_of_irc+1]),
+		.s_data_in(internal_connect[width-number_of_irc-1]),
+		.s_data_out(internal_connect[width-number_of_irc]),
 		.shift_ir(shift_ir),
 		.clk_ir(clk_ir),
 		.update_ir(update_ir),
-		.ICLK(ICLK)
+		.ICLK(ICLK),
+        .reset(reset)
 		);
 	end
 endgenerate
