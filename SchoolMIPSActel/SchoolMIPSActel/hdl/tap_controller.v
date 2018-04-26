@@ -157,7 +157,7 @@ localparam 	TEST_LOGIC_RESET		=4'h0,
 					else
 					begin
 						state<=SHIFT_IR;
-                        clk_dr<=1'b1;
+                        clk_ir<=1'b1;
 						shift_ir<=1'b1;
 					end
 				end

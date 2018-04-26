@@ -121,7 +121,7 @@ module DAP #(parameter  BSR_NUMBER=1)
     );
     bsr #(.width(32)) reg_etap_addr
     (
-        .p_data_in(32'h0FF201000),
+        .p_data_in(32'h0FF200200),
         //.p_data_out(regData_out),
         .s_data_in(TDI),
         .s_data_out(s_data_out_reg[SEL_ETAP_ADDRESS]),
@@ -145,7 +145,7 @@ module DAP #(parameter  BSR_NUMBER=1)
     );
     bsr #(.width(32)) reg_etap_ejtagboot
     (
-        .p_data_in(32'h12345678),
+        .p_data_in(32'haa55aa55),
         //.p_data_out(regData_out),
         .s_data_in(TDI),
         .s_data_out(s_data_out_reg[SEL_ETAP_EJTAGBOOT]),

@@ -3,14 +3,14 @@ module ir_decoder #(parameter width=8)
     input 	   [width-1:0] p_data_in,
     output reg [3:0]       sel
 );
-localparam  ETAP_IDCODE=5'h1,
-            ETAP_IMPCODE=5'h3,
-            ETAP_ADDRESS=5'h8,
-            ETAP_DATA=5'h9,
-            ETAP_CONTROL=5'h10,
-            ETAP_EJTAGBOOT=5'h12,
-            SAMPLE_PRELOAD=5'h0,
-            BYPASS=5'h2,
+localparam  ETAP_IDCODE=5'd1,
+            ETAP_IMPCODE=5'd3,
+            ETAP_ADDRESS=5'd8,
+            ETAP_DATA=5'd9,
+            ETAP_CONTROL=5'd10,
+            ETAP_EJTAGBOOT=5'd12,
+            SAMPLE_PRELOAD=5'd0,
+            BYPASS=5'd2,
             ANY={width{1'b?}};
 
 localparam  SEL_ETAP_IDCODE     =4'b0000,
