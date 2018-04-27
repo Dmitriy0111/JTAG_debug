@@ -1,3 +1,4 @@
+`include "etap_constants.vh"
 module DAP #(parameter  BSR_NUMBER=1)
 ( 
     input   TDI,
@@ -29,24 +30,12 @@ module DAP #(parameter  BSR_NUMBER=1)
     wire    [7:0]           clk_reg;
     wire    [7:0]           update_reg;
 
-    localparam  SEL_ETAP_IDCODE     =4'b0000,
-                SEL_ETAP_IMPCODE    =4'b0001,
-                SEL_ETAP_ADDRESS    =4'b0010,
-                SEL_ETAP_DATA       =4'b0011,
-                SEL_ETAP_CONTROL    =4'b0100,
-                SEL_ETAP_EJTAGBOOT  =4'b0101,
-                SEL_SAMPLE_PRELOAD  =4'b0110,
-                SEL_BYPASS          =4'b0111,
-                SEL_ANY             =4'b1000;
-
-    assign s_data_out_reg[SEL_SAMPLE_PRELOAD]=s_data_out_dr;
-    assign shift_dr=shift_reg[SEL_SAMPLE_PRELOAD];
-    assign clock_dr=clk_reg[SEL_SAMPLE_PRELOAD];
-    assign update_dr=update_reg[SEL_SAMPLE_PRELOAD];
+    assign s_data_out_reg[`SEL_SAMPLE_PRELOAD]=s_data_out_dr;
+    assign shift_dr=shift_reg[`SEL_SAMPLE_PRELOAD];
+    assign clock_dr=clk_reg[`SEL_SAMPLE_PRELOAD];
+    assign update_dr=update_reg[`SEL_SAMPLE_PRELOAD];
     assign TDO=sel_tdo?s_data_out_ir:s_data_out;
     
-
-
     tap_controller tap_controller_0
     (
         .TMS(TMS),
@@ -88,11 +77,11 @@ module DAP #(parameter  BSR_NUMBER=1)
         .p_data_in({{4'h1},{17'h1},{10'h1},{1'h0}}),
         //.p_data_out(regData_out),
         .s_data_in(TDI),
-        .s_data_out(s_data_out_reg[SEL_ETAP_IDCODE]),
+        .s_data_out(s_data_out_reg[`SEL_ETAP_IDCODE]),
         .mode(mode),
-        .shift_dr(shift_reg[SEL_ETAP_IDCODE]),
-        .clk_dr(clk_reg[SEL_ETAP_IDCODE]),
-        .update_dr(update_reg[SEL_ETAP_IDCODE]),
+        .shift_dr(shift_reg[`SEL_ETAP_IDCODE]),
+        .clk_dr(clk_reg[`SEL_ETAP_IDCODE]),
+        .update_dr(update_reg[`SEL_ETAP_IDCODE]),
         .ICLK(ICLK)
     );
     bsr #(.width(32)) reg_etap_impcode
@@ -100,11 +89,11 @@ module DAP #(parameter  BSR_NUMBER=1)
         .p_data_in({{3'h1},{4'h0},{1'h0},{3'h0},{4'h0},{1'h0},{1'h0},{1'h1},{14'h0}}),
         //.p_data_out(regData_out),
         .s_data_in(TDI),
-        .s_data_out(s_data_out_reg[SEL_ETAP_IMPCODE]),
+        .s_data_out(s_data_out_reg[`SEL_ETAP_IMPCODE]),
         .mode(mode),
-        .shift_dr(shift_reg[SEL_ETAP_IMPCODE]),
-        .clk_dr(clk_reg[SEL_ETAP_IMPCODE]),
-        .update_dr(update_reg[SEL_ETAP_IMPCODE]),
+        .shift_dr(shift_reg[`SEL_ETAP_IMPCODE]),
+        .clk_dr(clk_reg[`SEL_ETAP_IMPCODE]),
+        .update_dr(update_reg[`SEL_ETAP_IMPCODE]),
         .ICLK(ICLK)
     );
     bsr #(.width(32)) reg_etap_data
@@ -112,11 +101,11 @@ module DAP #(parameter  BSR_NUMBER=1)
         .p_data_in(32'h55aa55aa),
         //.p_data_out(regData_out),
         .s_data_in(TDI),
-        .s_data_out(s_data_out_reg[SEL_ETAP_DATA]),
+        .s_data_out(s_data_out_reg[`SEL_ETAP_DATA]),
         .mode(mode),
-        .shift_dr(shift_reg[SEL_ETAP_DATA]),
-        .clk_dr(clk_reg[SEL_ETAP_DATA]),
-        .update_dr(update_reg[SEL_ETAP_DATA]),
+        .shift_dr(shift_reg[`SEL_ETAP_DATA]),
+        .clk_dr(clk_reg[`SEL_ETAP_DATA]),
+        .update_dr(update_reg[`SEL_ETAP_DATA]),
         .ICLK(ICLK)
     );
     bsr #(.width(32)) reg_etap_addr
@@ -124,11 +113,11 @@ module DAP #(parameter  BSR_NUMBER=1)
         .p_data_in(32'h0FF200200),
         //.p_data_out(regData_out),
         .s_data_in(TDI),
-        .s_data_out(s_data_out_reg[SEL_ETAP_ADDRESS]),
+        .s_data_out(s_data_out_reg[`SEL_ETAP_ADDRESS]),
         .mode(mode),
-        .shift_dr(shift_reg[SEL_ETAP_ADDRESS]),
-        .clk_dr(clk_reg[SEL_ETAP_ADDRESS]),
-        .update_dr(update_reg[SEL_ETAP_ADDRESS]),
+        .shift_dr(shift_reg[`SEL_ETAP_ADDRESS]),
+        .clk_dr(clk_reg[`SEL_ETAP_ADDRESS]),
+        .update_dr(update_reg[`SEL_ETAP_ADDRESS]),
         .ICLK(ICLK)
     );
     bsr #(.width(32)) reg_etap_control
@@ -136,11 +125,11 @@ module DAP #(parameter  BSR_NUMBER=1)
         .p_data_in(32'h12345678),
         //.p_data_out(regData_out),
         .s_data_in(TDI),
-        .s_data_out(s_data_out_reg[SEL_ETAP_CONTROL]),
+        .s_data_out(s_data_out_reg[`SEL_ETAP_CONTROL]),
         .mode(mode),
-        .shift_dr(shift_reg[SEL_ETAP_CONTROL]),
-        .clk_dr(clk_reg[SEL_ETAP_CONTROL]),
-        .update_dr(update_reg[SEL_ETAP_CONTROL]),
+        .shift_dr(shift_reg[`SEL_ETAP_CONTROL]),
+        .clk_dr(clk_reg[`SEL_ETAP_CONTROL]),
+        .update_dr(update_reg[`SEL_ETAP_CONTROL]),
         .ICLK(ICLK)
     );
     bsr #(.width(32)) reg_etap_ejtagboot
@@ -148,19 +137,19 @@ module DAP #(parameter  BSR_NUMBER=1)
         .p_data_in(32'haa55aa55),
         //.p_data_out(regData_out),
         .s_data_in(TDI),
-        .s_data_out(s_data_out_reg[SEL_ETAP_EJTAGBOOT]),
+        .s_data_out(s_data_out_reg[`SEL_ETAP_EJTAGBOOT]),
         .mode(mode),
-        .shift_dr(shift_reg[SEL_ETAP_EJTAGBOOT]),
-        .clk_dr(clk_reg[SEL_ETAP_EJTAGBOOT]),
-        .update_dr(update_reg[SEL_ETAP_EJTAGBOOT]),
+        .shift_dr(shift_reg[`SEL_ETAP_EJTAGBOOT]),
+        .clk_dr(clk_reg[`SEL_ETAP_EJTAGBOOT]),
+        .update_dr(update_reg[`SEL_ETAP_EJTAGBOOT]),
         .ICLK(ICLK)
     );
     bypass_register    bypass_register_0
     ( 
         .s_data_in(TDI),
-        .clock_dr(clk_reg[SEL_BYPASS]),
+        .clock_dr(clk_reg[`SEL_BYPASS]),
         .ICLK(ICLK),
-        .s_data_out(s_data_out_reg[SEL_BYPASS])
+        .s_data_out(s_data_out_reg[`SEL_BYPASS])
     );
 
     ir #(.width(5)) ir_reg
