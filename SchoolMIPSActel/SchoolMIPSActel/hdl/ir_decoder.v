@@ -3,7 +3,7 @@
 module ir_decoder #(
     parameter width = 8
 )( 
-    input 	   [width-1:0] p_data_in,
+    input      [width-1:0] p_data_in,
     output reg [3:0]       sel
 );
 

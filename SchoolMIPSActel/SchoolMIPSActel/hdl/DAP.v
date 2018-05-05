@@ -20,11 +20,11 @@ module DAP #(
     wire                    shift_tap;
     wire                    clk_tap;
     wire                    update_tap;
-	wire					shift_ir;
-	wire					clk_ir;
-	wire					update_ir;
-	wire					sel_tdo;
-    wire 					s_data_out_ir;
+    wire                    shift_ir;
+    wire                    clk_ir;
+    wire                    update_ir;
+    wire                    sel_tdo;
+    wire                    s_data_out_ir;
     wire    [4:0]           p_data_out_ir;
     wire                    s_data_out;
     wire    [3:0]           sel_dr;

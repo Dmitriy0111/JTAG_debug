@@ -2,14 +2,14 @@
 
 module mux_dr
 ( 
-	input       [7:0]		s_data_in,
-	input 	    			shift_dr,
-	input 	    			clk_dr,
-	input 	    			update_dr,
-    output 	reg				s_data_out,
-	output 	reg	[7:0]		shift_dr_out,
-	output 	reg	[7:0]		clk_dr_out,
-	output 	reg	[7:0]		update_dr_out,
+    input       [7:0]       s_data_in,
+    input                   shift_dr,
+    input                   clk_dr,
+    input                   update_dr,
+    output  reg             s_data_out,
+    output  reg [7:0]       shift_dr_out,
+    output  reg [7:0]       clk_dr_out,
+    output  reg [7:0]       update_dr_out,
     input       [3:0]       sel
 );
 
