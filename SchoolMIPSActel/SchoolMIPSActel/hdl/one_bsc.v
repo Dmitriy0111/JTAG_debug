@@ -13,8 +13,8 @@ module one_bsc
     input   update_dr
 );
     wire shift_dr_mux;
-    reg CAP;
-    reg UPD;
+    reg  CAP;
+    reg  UPD;
     
     assign shift_dr_mux = shift_dr ? s_data_in : p_data_in ;
     assign s_data_out   = CAP ;

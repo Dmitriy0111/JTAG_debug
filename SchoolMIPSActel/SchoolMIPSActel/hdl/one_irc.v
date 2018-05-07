@@ -13,12 +13,12 @@ module one_irc
     input   update_ir
 );
     wire shift_ir_mux;
-    reg CAP;
-    reg UPD;
+    reg  CAP;
+    reg  UPD;
 
     assign shift_ir_mux = shift_ir ? s_data_in : p_data_in ;
-    assign s_data_out = CAP ;
-    assign p_data_out = UPD ;
+    assign s_data_out   = CAP ;
+    assign p_data_out   = UPD ;
     
     always @(posedge ICLK)
         begin
@@ -42,5 +42,6 @@ module one_irc
             CAP = 1'b0 ;
             UPD = 1'b0 ;
         end
+        
 endmodule
     

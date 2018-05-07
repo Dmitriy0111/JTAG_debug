@@ -12,7 +12,7 @@ module tap_controller
     output  reg             shift_ir,
     output  reg             clk_ir,
     output  reg             update_ir,
-    output  [3:0]           state_out,
+    output      [3:0]       state_out,
     output  reg             sel_tdo
 );
 
@@ -57,7 +57,7 @@ localparam  TEST_LOGIC_RESET_S      = 4'h0 ,
                     TEST_LOGIC_RESET_S:
                         begin
                             mode <= 1'b0 ;
-                            if( ~TMS )
+                            if( ~ TMS )
                                 begin   
                                     state <= RUN_TEST_IDLE_S ;
                                     mode  <= 1'b1 ;
@@ -170,7 +170,7 @@ localparam  TEST_LOGIC_RESET_S      = 4'h0 ,
                         begin
                             clk_ir      <= 1'b1 ;
                             shift_ir    <= 1'b1 ;
-                            if(TMS)
+                            if( TMS )
                                 begin
                                     shift_ir <= 1'b0 ;
                                     clk_ir   <= 1'b0 ;
@@ -216,6 +216,7 @@ localparam  TEST_LOGIC_RESET_S      = 4'h0 ,
                     end
                 endcase         
         end
+        
     initial 
         begin
             state       = TEST_LOGIC_RESET_S ;
