@@ -10,6 +10,6 @@ module bypass_register
 
     always_ff @( posedge iclk )
         if( clock_dr == 1'b1 )
-            s_data_out <= s_data_in ;
+            s_data_out <= s_data_in;
             
 endmodule : bypass_register

@@ -42,4 +42,4 @@ module ir
         end
     endgenerate
 
-endmodule
+endmodule : ir
