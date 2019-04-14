@@ -1,6 +1,15 @@
-`include "etap_constants.vh"
+/*
+*  File            :   dp_ir_dec.sv
+*  Autor           :   Vlasov D.V.
+*  Data            :   2018.04.01
+*  Language        :   SystemVerilog
+*  Description     :   This is debug instruction decoder
+*  Copyright(c)    :   2018 - 2019 Vlasov D.V.
+*/
 
-module ir_decoder 
+`include "dp_constants.svh"
+
+module dp_ir_dec 
 #(
     parameter                       width = 8
 )( 
@@ -24,4 +33,4 @@ module ir_decoder
         endcase
     end
 
-endmodule : ir_decoder
+endmodule : dp_ir_dec

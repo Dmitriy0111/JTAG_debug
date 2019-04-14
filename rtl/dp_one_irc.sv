@@ -1,4 +1,13 @@
-module one_irc
+/*
+*  File            :   dp_one_irc.sv
+*  Autor           :   Vlasov D.V.
+*  Data            :   2018.04.01
+*  Language        :   SystemVerilog
+*  Description     :   This is debug instruction register cell
+*  Copyright(c)    :   2018 - 2019 Vlasov D.V.
+*/
+
+module dp_one_irc
 (
     input   logic   [0 : 0]     p_data_in,
     output  logic   [0 : 0]     p_data_out,
@@ -6,7 +15,7 @@ module one_irc
     output  logic   [0 : 0]     s_data_out,
 
     input   logic   [0 : 0]     iclk,
-    input   logic   [0 : 0]     reset,
+    input   logic   [0 : 0]     resetn,
     
     input   logic   [0 : 0]     shift_ir,
     input   logic   [0 : 0]     clk_ir,
@@ -37,5 +46,5 @@ module one_irc
         else if( update_ir == 1'b1 )
                 UPD <= CAP;
     
-endmodule : one_irc
+endmodule : dp_one_irc
     

@@ -1,6 +1,15 @@
-`include "etap_constants.vh"
+/*
+*  File            :   dp_mux_dr.sv
+*  Autor           :   Vlasov D.V.
+*  Data            :   2018.04.01
+*  Language        :   SystemVerilog
+*  Description     :   This is debug mux for data register
+*  Copyright(c)    :   2018 - 2019 Vlasov D.V.
+*/
 
-module mux_dr
+`include "dp_constants.svh"
+
+module dp_mux_dr
 ( 
     input   logic   [7 : 0]     s_data_in,
     input   logic   [0 : 0]     shift_dr,
@@ -86,4 +95,4 @@ module mux_dr
         endcase
     end
 
-endmodule : mux_dr
+endmodule : dp_mux_dr

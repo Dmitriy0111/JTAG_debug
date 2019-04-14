@@ -1,4 +1,13 @@
-module one_bsc
+/*
+*  File            :   dp_one_bsc.sv
+*  Autor           :   Vlasov D.V.
+*  Data            :   2018.03.26
+*  Language        :   SystemVerilog
+*  Description     :   This is debug boundary scan cell
+*  Copyright(c)    :   2018 - 2019 Vlasov D.V.
+*/
+
+module dp_one_bsc
 (
     input   logic   [0 : 0]     p_data_in,
     output  logic   [0 : 0]     p_data_out,
@@ -31,5 +40,5 @@ module one_bsc
                 UPD <= CAP;
         end
     
-endmodule : one_bsc
+endmodule : dp_one_bsc
     

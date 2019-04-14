@@ -1,4 +1,13 @@
-module bsr 
+/*
+*  File            :   dp_bsr.sv
+*  Autor           :   Vlasov D.V.
+*  Data            :   2018.03.26
+*  Language        :   SystemVerilog
+*  Description     :   This is debug boundary scan register
+*  Copyright(c)    :   2018 - 2019 Vlasov D.V.
+*/
+
+module dp_bsr 
 #(
     parameter                       width = 32
 )(
@@ -26,8 +35,8 @@ module bsr
     generate
         for( number_of_bsc = 0 ; number_of_bsc < width ; number_of_bsc = number_of_bsc + 1 )
         begin: generate_bsr
-            one_bsc
-            one_bsc_ (
+            dp_one_bsc
+            dp_one_bsc_ (
                 .p_data_in      ( p_data_in[number_of_bsc]                  ),
                 .p_data_out     ( p_data_out[number_of_bsc]                 ),
                 .s_data_in      ( internal_connect[width-number_of_bsc-1]   ),
@@ -43,4 +52,4 @@ module bsr
         end
     endgenerate
 
-endmodule : bsr
+endmodule : dp_bsr

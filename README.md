@@ -1,2 +1,2 @@
-# SchoolMIPS00Debug
-This is my sandbox for adding debugging functionality to SchoolMIPS.
+# **JTAG_Debug**
+    This is my sandbox for working with JTAG-debug module.

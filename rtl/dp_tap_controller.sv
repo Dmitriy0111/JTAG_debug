@@ -1,4 +1,13 @@
-module tap_controller
+/*
+*  File            :   dp_tap_controller.sv
+*  Autor           :   Vlasov D.V.
+*  Data            :   2018.04.01
+*  Language        :   SystemVerilog
+*  Description     :   This is debug test access port
+*  Copyright(c)    :   2018 - 2019 Vlasov D.V.
+*/
+
+module dp_tap_controller
 (
     // jtag side
     input   logic   [0 : 0]     tms,        // test mode select
@@ -271,4 +280,4 @@ module tap_controller
             endcase
         end
 
-endmodule : tap_controller
+endmodule : dp_tap_controller

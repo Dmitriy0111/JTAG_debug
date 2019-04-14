@@ -1,3 +1,12 @@
+/*
+*  File            :   etap_constants.svh
+*  Autor           :   Vlasov D.V.
+*  Data            :   2018.04.27
+*  Language        :   SystemVerilog
+*  Description     :   This constants
+*  Copyright(c)    :   2018 - 2019 Vlasov D.V.
+*/
+
 //  etap instruction codes
 `define     ETAP_IDCODE         5'd1
 `define     ETAP_IMPCODE        5'd3

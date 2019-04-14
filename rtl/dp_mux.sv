@@ -1,4 +1,13 @@
-module mux
+/*
+*  File            :   dp_mux.sv
+*  Autor           :   Vlasov D.V.
+*  Data            :   2018.03.26
+*  Language        :   SystemVerilog
+*  Description     :   This is debug multiplexor
+*  Copyright(c)    :   2018 - 2019 Vlasov D.V.
+*/
+
+module dp_mux
 ( 
     input   logic   [1  : 0]    sel,
     output  logic   [7  : 0]    dataout,
@@ -15,4 +24,4 @@ module mux
         endcase
     end
 
-endmodule : mux
+endmodule : dp_mux

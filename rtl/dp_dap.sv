@@ -1,6 +1,15 @@
-`include "etap_constants.vh"
+/*
+*  File            :   dp_dap.sv
+*  Autor           :   Vlasov D.V.
+*  Data            :   2018.04.16
+*  Language        :   SystemVerilog
+*  Description     :   This is debug access port
+*  Copyright(c)    :   2018 - 2019 Vlasov D.V.
+*/
 
-module dap 
+`include "dp_constants.svh"
+
+module dp_dap 
 #(
     parameter                       BSR_C = 1
 )( 
@@ -40,8 +49,8 @@ module dap
     assign update_dr                            = update_reg[`SEL_SAMPLE_PRELOAD] ;
     assign TDO                                  = sel_tdo ? s_data_out_ir : s_data_out ;
     
-    tap_controller
-    tap_controller_0
+    dp_tap_controller
+    dp_tap_controller_0
     (
         .tms            ( tms                                   ),
         .tck            ( tck                                   ),
@@ -59,8 +68,8 @@ module dap
         .sel_tdo        ( sel_tdo                               )
     );
   
-    mux_dr  
-    mux_dr_0
+    dp_mux_dr  
+    dp_mux_dr_0
     ( 
         .s_data_in      ( s_data_out_reg                        ),
         .shift_dr       ( shift_tap                             ),
@@ -73,21 +82,21 @@ module dap
         .sel            ( sel_dr                                )
     );
 
-    ir_decoder 
+    dp_ir_dec 
     #(
         .width          ( 5                                     )
     ) 
-    ir_decoder_0 
+    dp_ir_dec_0 
     ( 
         .p_data_in      ( p_data_out_ir                         ),
         .sel            ( sel_dr                                )
     );
 
-    bsr 
+    dp_bsr 
     #(
         .width          ( 32                                    )
     ) 
-    reg_etap_idcode
+    dp_reg_etap_idcode
     (
         .p_data_in      ( {{4'h1},{17'h1},{10'h1},{1'h0}}       ),
         //.p_data_out   ( regData_out                           ),
@@ -101,11 +110,11 @@ module dap
 
         .iclk           ( iclk                                  )
     );
-    bsr 
+    dp_bsr 
     #(
         .width          ( 32                                                                    )
     ) 
-    reg_etap_impcode 
+    dp_reg_etap_impcode 
     (
         .p_data_in      ( {{3'h1},{4'h0},{1'h0},{3'h0},{4'h0},{1'h0},{1'h0},{1'h1},{14'h0}}     ),
         //.p_data_out   ( regData_out                                                           ),
@@ -119,11 +128,11 @@ module dap
 
         .ICLK           ( iclk                                                                  )
     );
-    bsr
+    dp_bsr
     #(
         .width          ( 32                                    )
     ) 
-    reg_etap_data 
+    dp_reg_etap_data 
     (
         .p_data_in      ( 32'h55aa55aa                          ),
         //.p_data_out   ( regData_out                           ),
@@ -137,11 +146,11 @@ module dap
 
         .iclk           ( iclk                                  )
     );
-    bsr 
+    dp_bsr 
     #(
         .width          ( 32                                    )
     ) 
-    reg_etap_addr 
+    dp_reg_etap_addr 
     (
         .p_data_in      ( 32'h0FF200200                         ),
         //.p_data_out   ( regData_out                           ),
@@ -155,11 +164,11 @@ module dap
 
         .iclk           ( iclk                                  )
     );
-    bsr 
+    dp_bsr 
     #(
         .width          ( 32                                    )
     ) 
-    reg_etap_control 
+    dp_reg_etap_control 
     (
         .p_data_in      ( 32'h12345678                          ),
         //.p_data_out   ( regData_out                           ),
@@ -173,11 +182,11 @@ module dap
     
         .iclk           ( iclk                                  )
     );
-    bsr 
+    dp_bsr 
     #(
         .width          ( 32                                    )
     ) 
-    reg_etap_ejtagboot 
+    dp_reg_etap_ejtagboot 
     (
         .p_data_in      ( 32'haa55aa55                          ),
         //.p_data_out   ( regData_out                           ),
@@ -191,8 +200,8 @@ module dap
 
         .iclk           ( iclk                                  )
     );
-    bypass_register
-    bypass_register_0 
+    dp_br
+    dp_br_0 
     ( 
         .s_data_in      ( tdi                                   ),
         .clock_dr       ( clk_reg[`SEL_BYPASS]                  ),
@@ -200,11 +209,11 @@ module dap
         .s_data_out     ( s_data_out_reg[`SEL_BYPASS]           )
     );
 
-    ir 
+    dp_ir 
     #(
         .width          ( 5                                     )
     ) 
-    ir_reg 
+    dp_ir_reg 
     (
         .p_data_in      ( 5'h1                                  ),
         .p_data_out     ( p_data_out_ir                         ),
@@ -219,4 +228,4 @@ module dap
         .reset          ( trst                                  )
     );
 
-endmodule : dap
+endmodule : dp_dap
