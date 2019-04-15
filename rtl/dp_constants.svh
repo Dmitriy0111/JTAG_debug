@@ -7,24 +7,25 @@
 *  Copyright(c)    :   2018 - 2019 Vlasov D.V.
 */
 
-//  etap instruction codes
-`define     ETAP_IDCODE         5'd1
-`define     ETAP_IMPCODE        5'd3
-`define     ETAP_ADDRESS        5'd8
-`define     ETAP_DATA           5'd9
-`define     ETAP_CONTROL        5'd10
-`define     ETAP_EJTAGBOOT      5'd12
-`define     SAMPLE_PRELOAD      5'd0
-`define     BYPASS              5'd2
-`define     ANY                 5'b?????
-
-//  ir_decoder constants
-`define     SEL_ETAP_IDCODE     4'b0000
-`define     SEL_ETAP_IMPCODE    4'b0001
-`define     SEL_ETAP_ADDRESS    4'b0010
-`define     SEL_ETAP_DATA       4'b0011
-`define     SEL_ETAP_CONTROL    4'b0100
-`define     SEL_ETAP_EJTAGBOOT  4'b0101
-`define     SEL_SAMPLE_PRELOAD  4'b0110
-`define     SEL_BYPASS          4'b0111
-`define     SEL_ANY             4'b1000
+// instruction register lenght
+`define     INSTR_REG_LEN   5
+`define     INSTR_REG_RST_V 5'h01
+// instruction decoder selections
+`define     SEL_IDCODE      4'h0
+`define     SEL_DTMCS       4'h1
+`define     SEL_DMI         4'h2
+`define     SEL_BYPASS      4'h3
+`define     SEL_ANY         4'b????
+// risv-v JTAG DTM registers
+`define     BYPASS_0        5'h00
+`define     IDCODE          5'h01
+`define     DTMCS           5'h10   // debug control and status
+`define     DMI             5'h11   // debug module interface access
+`define     RSV_BYPASS_0    5'h12
+`define     RSV_BYPASS_1    5'h13
+`define     RSV_BYPASS_2    5'h14
+`define     RSV_BYPASS_3    5'h15
+`define     RSV_BYPASS_4    5'h16
+`define     RSV_BYPASS_5    5'h17
+`define     BYPASS_1        5'h1f
+`define     ANY             5'b?????

@@ -9,27 +9,28 @@
 
 `include "dp_constants.svh"
 
-module dp_ir_dec 
-#(
-    parameter                       width = 8
-)( 
-    input   logic   [width-1 : 0]   p_data_in,
-    output  logic   [3       : 0]   sel
+module dp_ir_dec
+( 
+    input   logic   [4 : 0]     pdi,  // parallel data input
+    output  logic   [3 : 0]     bsr_sel     // boundary scan register select
 );
 
     always_comb
     begin
-        sel = `SEL_ETAP_IDCODE;
-        casex( p_data_in )
-            `ETAP_IDCODE:        sel = `SEL_ETAP_IDCODE;
-            `ETAP_IMPCODE:       sel = `SEL_ETAP_IMPCODE;
-            `ETAP_ADDRESS:       sel = `SEL_ETAP_ADDRESS;
-            `ETAP_DATA:          sel = `SEL_ETAP_DATA;
-            `ETAP_CONTROL:       sel = `SEL_ETAP_CONTROL;
-            `ETAP_EJTAGBOOT:     sel = `SEL_ETAP_EJTAGBOOT;
-            `BYPASS:             sel = `SEL_BYPASS;
-            `SAMPLE_PRELOAD:     sel = `SEL_SAMPLE_PRELOAD;
-            `ANY:                sel = `SEL_ANY;
+        bsr_sel = `SEL_IDCODE;
+        casex( pdi )
+            `IDCODE         :   bsr_sel = `SEL_IDCODE;
+            `DTMCS          :   bsr_sel = `SEL_DTMCS;
+            `DMI            :   bsr_sel = `SEL_DMI;
+            `BYPASS_0       :   bsr_sel = `SEL_BYPASS;
+            `BYPASS_1       :   bsr_sel = `SEL_BYPASS;
+            `RSV_BYPASS_0   :   bsr_sel = `SEL_BYPASS;
+            `RSV_BYPASS_1   :   bsr_sel = `SEL_BYPASS;
+            `RSV_BYPASS_2   :   bsr_sel = `SEL_BYPASS;
+            `RSV_BYPASS_3   :   bsr_sel = `SEL_BYPASS;
+            `RSV_BYPASS_4   :   bsr_sel = `SEL_BYPASS;
+            `RSV_BYPASS_5   :   bsr_sel = `SEL_BYPASS;
+            `ANY            :   bsr_sel = `SEL_IDCODE;
         endcase
     end
 

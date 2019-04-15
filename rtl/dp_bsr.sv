@@ -9,45 +9,52 @@
 
 module dp_bsr 
 #(
-    parameter                       width = 32
+    parameter                       width = 8
 )(
-    input   logic   [width-1 : 0]   p_data_in,
-    output  logic   [width-1 : 0]   p_data_out,
-
-    input   logic   [0       : 0]   s_data_in,
-    output  logic   [0       : 0]   s_data_out,
-
-    input   logic   [0       : 0]   mode,
-    input   logic   [0       : 0]   shift_dr,
-    input   logic   [0       : 0]   clk_dr,
-    input   logic   [0       : 0]   update_dr,
-
-    input   logic   [0       : 0]   iclk
+    // clock and reset
+    input   logic   [0       : 0]   iclk,       // internal clock
+    input   logic   [0       : 0]   iresetn,    // internal reset
+    // parallel data
+    input   logic   [width-1 : 0]   pdi,        // parallel data input
+    output  logic   [width-1 : 0]   pdo,        // parallel data output
+    // serial data
+    input   logic   [0       : 0]   sdi,        // serial data input
+    output  logic   [0       : 0]   sdo,        // serial data output
+    // from tap controller
+    input   logic   [0       : 0]   mode,       // mode
+    input   logic   [0       : 0]   shift_dr,   // shift data register
+    input   logic   [0       : 0]   clk_dr,     // clock data register
+    input   logic   [0       : 0]   update_dr   // update data register
 );
 
-    logic   [width : 0]     internal_connect;
+    logic   [width : 0]     i_con;  // internal connect
 
-    assign s_data_out           = internal_connect[width];
-    assign internal_connect[0]  = s_data_in;
+    assign sdo = i_con[width];
+    assign i_con[0]   = sdi;
 
-    genvar number_of_bsc;
+    genvar bsc_n;   // number of boundary scan cells 
 
     generate
-        for( number_of_bsc = 0 ; number_of_bsc < width ; number_of_bsc = number_of_bsc + 1 )
+        for( bsc_n = 0 ; bsc_n < width ; bsc_n = bsc_n + 1 )
         begin: generate_bsr
             dp_one_bsc
-            dp_one_bsc_ (
-                .p_data_in      ( p_data_in[number_of_bsc]                  ),
-                .p_data_out     ( p_data_out[number_of_bsc]                 ),
-                .s_data_in      ( internal_connect[width-number_of_bsc-1]   ),
-                .s_data_out     ( internal_connect[width-number_of_bsc]     ),
-
-                .mode           ( mode                                      ),
-                .shift_dr       ( shift_dr                                  ),
-                .clk_dr         ( clk_dr                                    ),
-                .update_dr      ( update_dr                                 ),
+            dp_one_bsc_ 
+            (
+                // clock and reset
+                .iclk       ( iclk                  ),  // internal clock
+                .iresetn    ( iresetn               ),  // internal reset
+                // parallel data
+                .pdi        ( pdi   [bsc_n        ] ),  // parallel data input
+                .pdo        ( pdo   [bsc_n        ] ),  // parallel data output
+                // serial data
+                .sdi        ( i_con [width-bsc_n-1] ),  // serial data input
+                .sdo        ( i_con [width-bsc_n-0] ),  // serial data output
+                // from tap controller
+                .mode       ( mode                  ),  // mode
+                .shift_dr   ( shift_dr              ),  // shift data register
+                .clk_dr     ( clk_dr                ),  // clock data register
+                .update_dr  ( update_dr             )   // update data register
                 
-                .iclk           ( iclk                                      )
             );
         end
     endgenerate

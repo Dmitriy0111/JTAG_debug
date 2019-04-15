@@ -9,44 +9,54 @@
 
 module dp_ir 
 #(
-    parameter                       width = 8
+    parameter                       width = 8,
+                                    UPD_r = 8'h55
 )(
-    input   logic   [width-1 : 0]   p_data_in,
-    output  logic   [width-1 : 0]   p_data_out,
-    input   logic   [0       : 0]   s_data_in,
-    output  logic   [0       : 0]   s_data_out,
-
-    input   logic   [0       : 0]   shift_ir,
-    input   logic   [0       : 0]   clk_ir,
-    input   logic   [0       : 0]   update_ir,
-
-    input   logic   [0       : 0]   iclk,
-    input   logic   [0       : 0]   resetn
+    // clock and reset
+    input   logic   [0       : 0]   iclk,       // internal clock
+    input   logic   [0       : 0]   iresetn,    // internal reset
+    // parallel data
+    input   logic   [width-1 : 0]   pdi,        // parallel data input
+    output  logic   [width-1 : 0]   pdo,        // parallel data output
+    // serial data
+    input   logic   [0       : 0]   sdi,        // serial data input
+    output  logic   [0       : 0]   sdo,        // serial data output
+    // from tap controller
+    input   logic   [0       : 0]   shift_ir,   // shift instruction register
+    input   logic   [0       : 0]   clk_ir,     // clock instruction register
+    input   logic   [0       : 0]   update_ir   // update instruction register
 );
 
-    logic   [width : 0]     internal_connect;
+    logic   [width : 0]     i_con;      // internal connect
 
-    assign s_data_out           = internal_connect[width] ;
-    assign internal_connect[0]  = s_data_in ;
+    assign sdo = i_con[width] ;
+    assign i_con[0]   = sdi ;
 
-    genvar number_of_irc;
+    genvar irc_n;   // number of instruction register cells
 
     generate
-        for( number_of_irc = 0 ; number_of_irc < width ; number_of_irc = number_of_irc + 1 )
-        begin:generate_irc
+        for( irc_n = 0 ; irc_n < width ; irc_n = irc_n + 1 )
+        begin : generate_irc
             dp_one_irc
-            dp_one_irc_ (
-                .p_data_in          ( p_data_in[number_of_irc]                  ),
-                .p_data_out         ( p_data_out[number_of_irc]                 ),
-                .s_data_in          ( internal_connect[width-number_of_irc-1]   ),
-                .s_data_out         ( internal_connect[width-number_of_irc]     ),
+            #(
+                .UPD_r      ( UPD_r [irc_n]         )
+            )
+            dp_one_irc_ 
+            (
+                // clock and reset
+                .iclk       ( iclk                  ),  // internal clock
+                .iresetn    ( iresetn               ),  // internal reset
+                // parallel data
+                .pdi        ( pdi   [irc_n        ] ),  // parallel data input
+                .pdo        ( pdo   [irc_n        ] ),  // parallel data output
+                // serial data
+                .sdi        ( i_con [width-irc_n-1] ),  // serial data input
+                .sdo        ( i_con [width-irc_n-0] ),  // serial data output
+                // from tap controller
+                .shift_ir   ( shift_ir              ),  // shift instruction register
+                .clk_ir     ( clk_ir                ),  // clock instruction register
+                .update_ir  ( update_ir             )   // update instruction register
 
-                .shift_ir           ( shift_ir                                  ),
-                .clk_ir             ( clk_ir                                    ),
-                .update_ir          ( update_ir                                 ),
-
-                .iclk               ( iclk                                      ),
-                .resetn             ( resetn                                    )
             );
         end
     endgenerate

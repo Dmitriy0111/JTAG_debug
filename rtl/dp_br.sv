@@ -9,16 +9,20 @@
 
 module dp_br
 ( 
-    input   logic   [0 : 0]     s_data_in,
-    input   logic   [0 : 0]     clock_dr,
-
-    input   logic   [0 : 0]     iclk,
-
-    output  logic   [0 : 0]     s_data_out
+    // clock and reset
+    input   logic   [0 : 0]     iclk,       // internal clock
+    input   logic   [0 : 0]     iresetn,    // internal reset
+    // serial data
+    input   logic   [0 : 0]     sdi,        // serial data input
+    output  logic   [0 : 0]     sdo,        // serial data output
+    // from tap controller
+    input   logic   [0 : 0]     clock_dr    // clock data register
 );
 
-    always_ff @( posedge iclk )
-        if( clock_dr == 1'b1 )
-            s_data_out <= s_data_in;
+    always_ff @(posedge iclk, negedge iresetn)
+        if( !iresetn )
+            sdo <= '0;
+        else
+            sdo <= clock_dr ? sdi : sdo;
             
 endmodule : dp_br
