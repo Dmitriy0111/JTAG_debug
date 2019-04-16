@@ -9,7 +9,8 @@
 
 module dp_one_irc
 #(
-    parameter                   UPD_r = '0
+    parameter                   UPD_r = '0,
+                                CAP_r = '0
 )(
     // clock and reset
     input   logic   [0 : 0]     iclk,       // internal clock
@@ -36,7 +37,7 @@ module dp_one_irc
     
     always_ff @(posedge iclk, negedge iresetn)
         if( !iresetn )
-            CAP <= '0;
+            CAP <= CAP_r;
         else
             CAP <= clk_ir ? shift_ir_mux : CAP;
 

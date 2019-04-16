@@ -8,7 +8,10 @@
 */
 
 module dp_one_bsc
-(
+#(
+    parameter                   UPD_r = '0,
+                                CAP_r = '0
+)(
     // clock and reset
     input   logic   [0 : 0]     iclk,       // internal clock
     input   logic   [0 : 0]     iresetn,    // internal reset
@@ -31,17 +34,17 @@ module dp_one_bsc
     
     assign shift_dr_mux = shift_dr ? sdi : pdi;
     assign sdo   = CAP;
-    assign pdo   = mode ? UPD :pdi;
+    assign pdo   = mode ? UPD : pdi;
     
     always_ff @(posedge iclk, negedge iresetn)
         if( !iresetn )
-            CAP <= '0;
+            CAP <= CAP_r;
         else
             CAP <= clk_dr ? shift_dr_mux : CAP;
 
     always_ff @(posedge iclk, negedge iresetn)
         if( !iresetn )
-            UPD <= '0;
+            UPD <= UPD_r;
         else
             UPD <= update_dr ? CAP : UPD;
     

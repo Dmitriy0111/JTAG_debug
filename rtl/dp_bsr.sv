@@ -9,7 +9,9 @@
 
 module dp_bsr 
 #(
-    parameter                       width = 8
+    parameter                       width = 8,
+                                    UPD_r = 8'h55,
+                                    CAP_r = 8'haa
 )(
     // clock and reset
     input   logic   [0       : 0]   iclk,       // internal clock
@@ -29,8 +31,8 @@ module dp_bsr
 
     logic   [width : 0]     i_con;  // internal connect
 
-    assign sdo = i_con[width];
-    assign i_con[0]   = sdi;
+    assign sdo      = i_con[width];
+    assign i_con[0] = sdi;
 
     genvar bsc_n;   // number of boundary scan cells 
 
@@ -38,6 +40,10 @@ module dp_bsr
         for( bsc_n = 0 ; bsc_n < width ; bsc_n = bsc_n + 1 )
         begin: generate_bsr
             dp_one_bsc
+            #(
+                .UPD_r      ( UPD_r [bsc_n]         ),
+                .CAP_r      ( CAP_r [bsc_n]         )
+            )
             dp_one_bsc_ 
             (
                 // clock and reset

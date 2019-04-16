@@ -11,17 +11,18 @@
 
 module dp_dap 
 ( 
-    input   logic   [0  : 0]    tdi,
-    input   logic   [0  : 0]    tms,
-    input   logic   [0  : 0]    tck,
-    input   logic   [0  : 0]    trst,
-    output  logic   [0  : 0]    tdo
+    // jtag side
+    input   logic   [0  : 0]    tdi,    // test data input
+    input   logic   [0  : 0]    tms,    // test mode select
+    input   logic   [0  : 0]    tck,    // test clock
+    input   logic   [0  : 0]    trst,   // test reset
+    output  logic   [0  : 0]    tdo     // test data output
 );
 
     localparam          IDCODE_V =  {
                                         4'b0001,                    // Version      [28 : 31]
-                                        16'b0000_0000_0000_0000,    // PartNumber   [12 : 27]
-                                        11'b000_0000_0000,          // ManufId      [1  : 11]
+                                        16'b0000_0000_0000_0111,    // PartNumber   [12 : 27]
+                                        11'b000_0000_0111,          // ManufId      [1  : 11]
                                         1'b1                        // 1            [0  :  0]  
                                     };
     localparam          DTMCS = 32'h01234567;
@@ -53,12 +54,12 @@ module dp_dap
     logic   [0 : 0]         clk_ir;         // clock instruction register
     logic   [0 : 0]         update_ir;      // update instruction register
     // dmi register
-    logic   [33 : 0]        pdo_dmi;
-    logic   [31 : 0]        dmi_data;
-    logic   [1  : 0]        op;
+    logic   [33 : 0]        pdo_dmi;        // parallel data output dmi 
+    logic   [31 : 0]        dmi_data;       // dmi data
+    logic   [1  : 0]        dmi_op;         // dmi opcode
     // dtmcs register
 
-    assign { dmi_data , op } = pdo_dmi;
+    assign { dmi_data , dmi_op } = pdo_dmi;
     assign mode_bsr = mode_tap;
     assign tdo  = sel_tdo ? sdo_ir : sdo_dr;
     
