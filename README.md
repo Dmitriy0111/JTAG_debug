@@ -5,7 +5,7 @@
 For loading project with git program:
 
     $ git clone https://github.com/Dmitriy0111/JTAG_debug.git 
-    $ cd nanoFOX 
+    $ cd JTAG_debug 
     $ git checkout JTAG_debug
 
 Or download project from GitHub site <a href="https://github.com/Dmitriy0111/JTAG_debug">JTAG_debug</a>

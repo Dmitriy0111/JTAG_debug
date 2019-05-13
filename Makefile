@@ -102,20 +102,5 @@ synth_gui_q:
 synth_load_q:
 	quartus_pgm -c $(CABLE_NAME) -m JTAG -o "p;synth_$(BOARD)/$(BOARD).sof"
 
-########################################################
-# synthesis - all the supported boards
-
-BOARD_NAME         = $@
-BOARD_TEMPLATE_DIR = $(BRD_DIR)/$(BOARD_NAME)
-BOARD_BUILD_DIR    = $(PWD)/synth_$(BOARD_NAME)
-
-$(BOARDS_SUPPORTED):
-	rm -rfd $(BOARD_BUILD_DIR)
-	cp -r  $(BOARD_TEMPLATE_DIR) $(BOARD_BUILD_DIR)
-	make -C $(BOARD_BUILD_DIR) create
-	make -C $(BOARD_BUILD_DIR) build
-
-board_all: $(BOARDS_SUPPORTED)
-
 board_clean:
 	rm -rfd $(PWD)/synth_*
