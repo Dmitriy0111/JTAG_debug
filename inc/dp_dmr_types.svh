@@ -7,40 +7,46 @@
 *  Copyright(c)    :   2018 - 2019 Vlasov D.V.
 */
 
-    // |  Name                                  | Address   | Line  |
-    // | -------------------------------------- | --------- | ----- |
-    // |  Abstract Data 0                       | ( 0x04 )  |    39 |
-    // |  Debug Module Control                  | ( 0x10 )  |    44 |
-    // |  Debug Module Status                   | ( 0x11 )  |    61 |
-    // |  Hart Info                             | ( 0x12 )  |    85 |
-    // |  Halt Summary 1                        | ( 0x13 )  |    95 |
-    // |  Hart Array Window Select              | ( 0x14 )  |   100 |
-    // |  Hart Array Window                     | ( 0x15 )  |   106 |
-    // |  Abstract Control and Status           | ( 0x16 )  |   111 |
-    // |  Abstract Command                      | ( 0x17 )  |   123 |
-    // |  Abstract Command Autoexec             | ( 0x18 )  |   129 |
-    // |  Configuration String Pointer 0        | ( 0x19 )  |   136 |
-    // |  Next Debug Module                     | ( 0x1d )  |   141 |
-    // |  Program Buffer 0                      | ( 0x20 )  |   146 |
-    // |  Authentication Data                   | ( 0x30 )  |   151 |
-    // |  Halt Summary 2                        | ( 0x34 )  |   156 |
-    // |  Halt Summary 3                        | ( 0x35 )  |   161 |
-    // |  System Bus Address 127:96             | ( 0x37 )  |   166 |
-    // |  System Bus Access Control and Status  | ( 0x38 )  |   171 |
-    // |  System Bus Address 31:0               | ( 0x39 )  |   190 |
-    // |  System Bus Address 63:32              | ( 0x3a )  |   195 |
-    // |  System Bus Address 95:64              | ( 0x3b )  |   200 |
-    // |  System Bus Data 31:0                  | ( 0x3c )  |   205 |
-    // |  System Bus Data 63:32                 | ( 0x3d )  |   210 |
-    // |  System Bus Data 95:64                 | ( 0x3e )  |   215 |
-    // |  System Bus Data 127:96                | ( 0x3f )  |   220 |
-    // |  Halt Summary 0                        | ( 0x40 )  |   225 |
+    // |  Name                                  | Address   | Line  | Used  |
+    // | -------------------------------------- | --------- | ----- | ----- |
+    // |  Abstract Data 0                       | ( 0x04 )  |    40 |   +   |
+    // |  Abstract Data 1                       | ( 0x05 )  |    45 |   +   |
+    // |  Debug Module Control                  | ( 0x10 )  |    50 |   +   |
+    // |  Debug Module Status                   | ( 0x11 )  |    67 |   +   |
+    // |  Hart Info                             | ( 0x12 )  |    91 |   +   |
+    // |  Halt Summary 1                        | ( 0x13 )  |   101 |       |
+    // |  Hart Array Window Select              | ( 0x14 )  |   106 |       |
+    // |  Hart Array Window                     | ( 0x15 )  |   112 |       |
+    // |  Abstract Control and Status           | ( 0x16 )  |   117 |   +   |
+    // |  Abstract Command                      | ( 0x17 )  |   129 |   +   |
+    // |  Abstract Command Autoexec             | ( 0x18 )  |   135 |   +   |
+    // |  Configuration String Pointer 0        | ( 0x19 )  |   141 |       |
+    // |  Next Debug Module                     | ( 0x1d )  |   146 |       |
+    // |  Program Buffer 0                      | ( 0x20 )  |   151 |   +   |
+    // |  Authentication Data                   | ( 0x30 )  |   157 |       |
+    // |  Halt Summary 2                        | ( 0x34 )  |   162 |       |
+    // |  Halt Summary 3                        | ( 0x35 )  |   167 |       |
+    // |  System Bus Address 127:96             | ( 0x37 )  |   172 |       |
+    // |  System Bus Access Control and Status  | ( 0x38 )  |   177 |       |
+    // |  System Bus Address 31:0               | ( 0x39 )  |   196 |       |
+    // |  System Bus Address 63:32              | ( 0x3a )  |   201 |       |
+    // |  System Bus Address 95:64              | ( 0x3b )  |   206 |       |
+    // |  System Bus Data 31:0                  | ( 0x3c )  |   211 |       |
+    // |  System Bus Data 63:32                 | ( 0x3d )  |   216 |       |
+    // |  System Bus Data 95:64                 | ( 0x3e )  |   221 |       |
+    // |  System Bus Data 127:96                | ( 0x3f )  |   226 |       |
+    // |  Halt Summary 0                        | ( 0x40 )  |   231 |   +   |
 
     // Abstract Data 0 ( 0x04 )
     typedef struct packed
     {
         logic   [31 : 0]    data;               // 31 .. 0
     } data0;
+    // Abstract Data 1 ( 0x05 )
+    typedef struct packed
+    {
+        logic   [31 : 0]    data;               // 31 .. 0
+    } data1;
     // Debug Module Control ( 0x10 )
     typedef struct packed
     {
@@ -227,3 +233,14 @@
     {
         logic   [31 : 0]    haltsum0_i;         // 31 .. 0
     } haltsum0;
+
+    parameter   DATA0_A         = 7'h04;
+    parameter   DATA1_A         = 7'h05;
+    parameter   DMCONTROL_A     = 7'h10;
+    parameter   DMSTATUS_A      = 7'h11;
+    parameter   HARTINFO_A      = 7'h12;
+    parameter   ABSTRACTCS_A    = 7'h16;
+    parameter   COMMAND_A       = 7'h17;
+    parameter   ABSTRACTAUTO_A  = 7'h18;
+    parameter   PROGBUF0_A      = 7'h20;
+    parameter   HALTSUM0_A      = 7'h40;

@@ -26,46 +26,47 @@ module dp_mux_dr
 
     always_comb
     begin
-        sdo      = 1'b0;
-        shift_dr_out    = 4'h0;
+        sdo             = 1'b0;
         clk_dr_out      = 4'h0;
+        shift_dr_out    = 4'h0;
         update_dr_out   = 4'h0;
         casex( bsr_sel )
-            `SEL_IDCODE:
+            SEL_IDCODE:
                 begin 
-                    sdo                         = sdi[`SEL_IDCODE];
-                    update_dr_out[`SEL_IDCODE]  = update_dr; 
-                    clk_dr_out[`SEL_IDCODE]     = clk_dr; 
-                    shift_dr_out[`SEL_IDCODE]   = shift_dr;
+                    sdo                             = sdi[SEL_IDCODE];
+                    update_dr_out   [SEL_IDCODE]    = update_dr; 
+                    clk_dr_out      [SEL_IDCODE]    = clk_dr; 
+                    shift_dr_out    [SEL_IDCODE]    = shift_dr;
                 end
-            `SEL_DTMCS:
+            SEL_DTMCS:
                 begin 
-                    sdo                         = sdi[`SEL_DTMCS];
-                    update_dr_out[`SEL_DTMCS]   = update_dr; 
-                    clk_dr_out[`SEL_DTMCS]      = clk_dr; 
-                    shift_dr_out[`SEL_DTMCS]    = shift_dr;
+                    sdo                             = sdi[SEL_DTMCS];
+                    update_dr_out   [SEL_DTMCS]     = update_dr; 
+                    clk_dr_out      [SEL_DTMCS]     = clk_dr; 
+                    shift_dr_out    [SEL_DTMCS]     = shift_dr;
                 end
-            `SEL_DMI:
+            SEL_DMI:
                 begin 
-                    sdo                         = sdi[`SEL_DMI];
-                    update_dr_out[`SEL_DMI]     = update_dr; 
-                    clk_dr_out[`SEL_DMI]        = clk_dr; 
-                    shift_dr_out[`SEL_DMI]      = shift_dr;
+                    sdo                             = sdi[SEL_DMI];
+                    update_dr_out   [SEL_DMI]       = update_dr; 
+                    clk_dr_out      [SEL_DMI]       = clk_dr; 
+                    shift_dr_out    [SEL_DMI]       = shift_dr;
                 end
-            `SEL_BYPASS:
+            SEL_BYPASS:
                 begin 
-                    sdo                         = sdi[`SEL_BYPASS];
-                    update_dr_out[`SEL_BYPASS]  = update_dr; 
-                    clk_dr_out[`SEL_BYPASS]     = clk_dr; 
-                    shift_dr_out[`SEL_BYPASS]   = shift_dr;
+                    sdo                             = sdi[SEL_BYPASS];
+                    update_dr_out   [SEL_BYPASS]    = update_dr; 
+                    clk_dr_out      [SEL_BYPASS]    = clk_dr; 
+                    shift_dr_out    [SEL_BYPASS]    = shift_dr;
                 end
-            `SEL_ANY:
+            SEL_ANY:
                 begin 
-                    sdo                         = sdi[`SEL_IDCODE];
-                    update_dr_out[`SEL_IDCODE]  = update_dr; 
-                    clk_dr_out[`SEL_IDCODE]     = clk_dr; 
-                    shift_dr_out[`SEL_IDCODE]   = shift_dr;
+                    sdo                             = sdi[SEL_IDCODE];
+                    update_dr_out   [SEL_IDCODE]    = update_dr; 
+                    clk_dr_out      [SEL_IDCODE]    = clk_dr; 
+                    shift_dr_out    [SEL_IDCODE]    = shift_dr;
                 end
+            default:;
         endcase
     end
 
