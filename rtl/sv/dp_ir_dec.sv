@@ -7,7 +7,7 @@
 *  Copyright(c)    :   2018 - 2019 Vlasov D.V.
 */
 
-`include "../inc/dp_constants.svh"
+`include "../../inc/sv/dp_constants.svh"
 
 module dp_ir_dec
 ( 

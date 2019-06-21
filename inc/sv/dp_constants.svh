@@ -1,5 +1,5 @@
 /*
-*  File            :   etap_constants.svh
+*  File            :   dp_constants.svh
 *  Autor           :   Vlasov D.V.
 *  Data            :   2018.04.27
 *  Language        :   SystemVerilog

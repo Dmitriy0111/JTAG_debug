@@ -7,7 +7,7 @@
 *  Copyright(c)    :   2018 - 2019 Vlasov D.V.
 */
 
-`include "../inc/dp_constants.svh"
+`include "../../inc/sv/dp_constants.svh"
 
 module dp_dtm 
 ( 
@@ -219,7 +219,8 @@ module dp_dtm
     dp_ir 
     #(
         .width          ( `INSTR_REG_LEN                ),
-        .UPD_r          ( `INSTR_REG_RST_V              )
+        .UPD_r          ( `INSTR_REG_RST_V              ),
+        .CAP_r          ( `INSTR_REG_RST_V              )
     ) 
     dp_ir_reg 
     (

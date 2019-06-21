@@ -7,7 +7,7 @@
 *  Copyright(c)    :   2018 - 2019 Vlasov D.V.
 */
 
-`include "../inc/dp_dmr_types.svh"
+`include "../../inc/sv/dp_dmr_types.svh"
 
 module dp_dm
 ( 

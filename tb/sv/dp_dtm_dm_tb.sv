@@ -1,5 +1,5 @@
 /*
-*  File            :   dp_dtm_tb.sv
+*  File            :   dp_dtm_dm_tb.sv
 *  Autor           :   Vlasov D.V.
 *  Data            :   2018.04.01
 *  Language        :   SystemVerilog
@@ -7,9 +7,9 @@
 *  Copyright(c)    :   2018 - 2019 Vlasov D.V.
 */
 
-`include "../inc/dp_constants.svh"
+`include "../../inc/sv/dp_constants.svh"
 
-module dp_dtm_tb();
+module dp_dtm_dm_tb();
 
     timeprecision   1ns;
     timeunit        1ns;
@@ -30,8 +30,6 @@ module dp_dtm_tb();
     logic   [31 : 0]    dmi_wdata;      // dmi write data
     logic   [1  : 0]    dmi_op;         // dmi operation
 
-    assign dmi_rdata = dmi_wdata;
-
     // creating one debug access port
     dp_dtm 
     dp_dtm_0 
@@ -47,6 +45,17 @@ module dp_dtm_tb();
         .dmi_rdata      ( dmi_rdata     ),  // dmi read data
         .dmi_wdata      ( dmi_wdata     ),  // dmi write data
         .dmi_op         ( dmi_op        )   // dmi operation
+    );
+
+    dp_dm 
+    dp_dm_0
+    ( 
+        // dmi
+        .dmi_address    ( dmi_address   ),  // dmi address
+        .dmi_wdata      ( dmi_wdata     ),  // dmi write data
+        .dmi_rdata      ( dmi_rdata     ),  // dmi read data
+        .dmi_op         ( dmi_op        )   // dmi operation
+
     );
 
     task make_tck();        // make test clock
@@ -223,4 +232,4 @@ module dp_dtm_tb();
         $stop;
     end
 
-endmodule : dp_dtm_tb
+endmodule : dp_dtm_dm_tb
